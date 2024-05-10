@@ -1,0 +1,41 @@
+import { cn } from '@/lib/utils';
+
+type CloudIconProps = React.SVGProps<SVGSVGElement>;
+
+export const CloudIcon = ({ className }: CloudIconProps) => (
+  <svg
+    className={cn('w-6 h-6 stroke-[1.5] stroke-current fill-none', className)}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M17.11 20C18.45 20.01 19.74 19.51 20.73 18.61C24 15.75 22.25 10.01 17.94 9.47001C16.4 0.13001 2.92998 3.67001 6.11998 12.56"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.78011 12.97C7.25011 12.7 6.66011 12.56 6.07011 12.57C1.41011 12.9 1.42011 19.68 6.07011 20.01"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M16.3201 9.88998C16.8401 9.62998 17.4001 9.48998 17.9801 9.47998"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M13.47 20H9.46997"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M11.47 22V18"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
