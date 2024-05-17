@@ -18,6 +18,12 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        'auto-fit': 'repeat(auto-fit, minmax(min-content, 1fr))',
+      },
+      aria: {
+        'current-page': 'current="page"',
+      },
       fontFamily: { satoshi: 'var(--satoshi)' },
 
       colors: {

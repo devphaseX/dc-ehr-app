@@ -7,5 +7,10 @@ export default function ResourceTypeLayout({
   head,
   children,
 }: ResourceTypeLayoutProps) {
-  return <div>{head}</div>;
+  return (
+    <div>
+      {head}
+      {children}
+    </div>
+  );
 }

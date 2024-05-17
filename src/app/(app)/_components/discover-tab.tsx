@@ -41,7 +41,7 @@ export const DiscoverTab = ({
         ))}
         <Button
           className={cn(
-            'flex-1 px-6 py-3 rounded-[44px] bg-white !shadow-none border border-neutral-100 text-neutral-400 text-sm font-bold',
+            'flex-1 px-6 py-[14px]  h-fit w-fit rounded-[44px] bg-white !shadow-none border border-neutral-100 text-neutral-400 text-sm font-bold',
             'hover:text-white  hover:bg-neutral-900 hover:border-neutral-900'
           )}
         >

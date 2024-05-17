@@ -8,14 +8,12 @@ import { Bell, ChevronDown } from 'lucide-react';
 import { DropdownMenu, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { cn } from '@/lib/utils';
-import {
-  usePathname,
-  useSelectedLayoutSegment,
-  useSelectedLayoutSegments,
-} from 'next/navigation';
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
 import { FileIcon } from './icons/file-icon';
 import { BookSavedIcon } from './icons/book-saved';
 import { CloudIcon } from './icons/cloud';
+import { useEffect, useRef, useState } from 'react';
+import { useResizeObserver } from 'usehooks-ts';
 
 type NavRoute = {
   label: string;
@@ -45,8 +43,32 @@ export function Nav() {
   const session = useSession();
   const pathname = usePathname();
   const activeRoute = useSelectedLayoutSegment();
+
+  const navRef = useRef<HTMLElement | null>(null);
+
+  const [isFixed, setIsFixed] = useState(false);
+  const { height } = useResizeObserver({ ref: navRef });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (typeof height === 'undefined') return;
+      const scrollTop = window.scrollY;
+      setIsFixed(scrollTop > height); // Adjust threshold as needed
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [height]);
+
   return (
-    <nav className="absolute top-0 inset-x-0 z-50 py-[22px] border-b border-neutral-100 h-[88px]">
+    <nav
+      ref={navRef}
+      className={cn(
+        'absolute top-0 inset-x-0 z-50 py-[22px] border-b border-neutral-100 h-[88px] bg-white',
+        isFixed && 'fixed'
+      )}
+    >
       <Container outerClassName="px-[48px]" className="max-w-[100%] w-full">
         <div className="flex items-center justify-between">
           <Logo className="w-[165px] h-10" />
@@ -72,7 +94,7 @@ export function Nav() {
                         {label}
                         <div
                           className={cn(
-                            ' absolute inset-x-0 h-[3px] bg-primary-500 -bottom-[1.875rem] invisible transition-all delay-100',
+                            ' absolute inset-x-0 h-[3px] bg-primary-500 -bottom-[2.05rem] invisible transition-all delay-100',
                             routeActive && 'visible',
                             'group-hover:visible'
                           )}

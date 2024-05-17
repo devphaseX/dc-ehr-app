@@ -9,7 +9,7 @@ export default function Home() {
     <div className="pt-[88px]">
       <Heroes />
       <Resources />
-      <HowItWorks />
+      {/* <HowItWorks /> */}
       <DiscoverBooks />
       <Footer copyRightYear={new Date().getFullYear()} />
     </div>

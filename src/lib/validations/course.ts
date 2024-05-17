@@ -1,9 +1,13 @@
-import { boolean, date, number, object, string, TypeOf } from 'zod';
+import { array, boolean, date, number, object, string, TypeOf } from 'zod';
 
 export const courseItemSchema = object({
   id: string().uuid(),
   title: string().min(3).max(150),
   bannerImgUrl: string().url(),
+  tags: string()
+    .array()
+    .default(() => [])
+    .optional(),
   authorName: string().min(3).max(50),
   createdAt: date({ coerce: true }),
   releasedVersions: number().int().positive(),

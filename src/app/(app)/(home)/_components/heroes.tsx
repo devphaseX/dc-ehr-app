@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 export const Heroes = () => {
   const router = useRouter();
   return (
-    <section className="min-h-screen w-full pb-[164px]">
+    <section className="w-full">
       <Container>
         <div className="flex gap-x-[144px] items-start">
           <div className="flex-1">
