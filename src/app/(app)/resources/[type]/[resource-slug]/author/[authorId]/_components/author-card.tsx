@@ -80,22 +80,60 @@ export const AuthorCard = ({
     (handle): handle is [string, string] => typeof handle[1] !== 'undefined'
   );
 
-  console.log({ skills });
   return (
-    <Card className="p-0 rounded-[16px]  border-none shadow-none">
-      <CardHeader className="p-0 space-y-6">
-        <div className="flex flex-row items-center gap-x-6">
-          <Avatar className="size-20">
-            <AvatarImage src={avatarImg ?? undefined} alt="avatar" />
-            <AvatarFallback>
-              {fullName.replace(/(?:(\w)\w*?)\s+(?:(\w)\w*)/, '$1$2')}
-            </AvatarFallback>
-          </Avatar>
-          <div className="space-y-[2px] text-center">
-            <h4 className="font-medium text-black text-lg">{fullName}</h4>
-            <p className="text-base text-neutral-800 font-medium">{email}</p>
+    <Card className="p-8 rounded-[16px] border-neutral-200 shadow-none">
+      <div className="space-y-8">
+        <CardHeader className="p-0">
+          {bio && (
+            <div className="space-y-4">
+              <h6 className="font-bold text-black text-base">Biography</h6>
+              <CardDescription className="text-ellipsis h-[60px] overflow-hidden text-sm">
+                {bio}
+              </CardDescription>
+            </div>
+          )}
+        </CardHeader>
+        <CardContent className="p-0 space-y-8">
+          <div className="space-y-4">
+            <h5 className="font-bold text-black text-lg mb-2">Skills</h5>
+            <div className="flex items-center gap-2 flex-wrap">
+              {skills?.map((skill) => (
+                <div
+                  className="inline-flex items-center justify-center
+               rounded-[32px] bg-neutral-50 text-neutral-600 py-2 px-4 font-bold capitalize"
+                >
+                  {skill}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </CardContent>
+
+        <CardFooter className="p-0 space-y-4 flex-col items-start">
+          <h4 className="text-black font-bold text-base">Social media</h4>
+          <div className="flex flex-col gap-y-4">
+            {socialHandles
+              .filter((s) => Boolean(s[1][0]))
+              .map(([name, [url, icon]]) => (
+                <Link
+                  href={url}
+                  className="flex gap-x-2 items-center justify-center"
+                >
+                  <div className="flex items-center justify-center relative border border-100 rounded-[4px] size-8">
+                    <div className="relative size-4">{icon}</div>
+                  </div>
+                  <p className="font-bold text-neutral-900 text-xs">{url}</p>
+                </Link>
+              ))}
+          </div>
+        </CardFooter>
+      </div>
+    </Card>
+  );
+};
+
+/* 
+ <CardHeader className="p-0 space-y-6">
         <div className="space-y-6">
           <div className="flex items-center gap-x-">
             <p className="text-sm text-neutral-400 flex items-center gap-x-2">
@@ -125,37 +163,16 @@ export const AuthorCard = ({
           </div>
         </div>
       </CardHeader>
-
-      <CardContent className="p-0 space-y-8 mt-8">
-        {bio && (
-          <div className="space-y-4">
-            <h6 className="font-bold text-black text-base">Biography</h6>
-            <CardDescription className="text-ellipsis h-[60px] overflow-hidden text-sm">
-              {bio}
-            </CardDescription>
-          </div>
-        )}
-        <div className="space-y-4">
-          <h5 className="font-bold text-black text-lg mb-2">Skills</h5>
-          <div className="flex items-center gap-2 flex-wrap">
-            {skills?.map((skill) => (
-              <div
-                className="inline-flex items-center justify-center
-               rounded-[32px] bg-neutral-50 text-neutral-600 py-2 px-4 font-bold capitalize"
-              >
-                {skill}
-              </div>
-            ))}
+ <div className="flex flex-row items-center gap-x-6">
+          <Avatar className="size-20">
+            <AvatarImage src={avatarImg ?? undefined} alt="avatar" />
+            <AvatarFallback>
+              {fullName.replace(/(?:(\w)\w*?)\s+(?:(\w)\w*)/, '$1$2')}
+            </AvatarFallback>
+          </Avatar> 
+          <div className="space-y-[2px] text-center">
+            <h4 className="font-medium text-black text-lg">{fullName}</h4>
+            <p className="text-base text-neutral-800 font-medium">{email}</p>
           </div>
         </div>
-
-        <Button
-          variant="link"
-          className="text-primary-500 font-bold h-fit w-fit p-0 items-center border-b-[2px] rounded-none border-primary-500  "
-        >
-          View additional information
-        </Button>
-      </CardContent>
-    </Card>
-  );
-};
+*/

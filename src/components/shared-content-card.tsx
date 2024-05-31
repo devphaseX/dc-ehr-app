@@ -5,7 +5,8 @@ import { SharedContent } from '@/lib/validations/shared-content';
 import { format } from 'date-fns';
 import { Button } from './ui/button';
 import Image from 'next/image';
-import { Dot } from 'lucide-react';
+import { Dot, MoreVertical } from 'lucide-react';
+import { DropdownMenu, DropdownMenuTrigger } from './ui/dropdown-menu';
 
 type Props = {
   content: SharedContent;
@@ -30,32 +31,42 @@ export const SharedContentCard = ({
             </div>
 
             <Dot className="stroke-[3px] size-4 text-[#D9D9D9]" />
-
-            <div
-              className="inline-flex items-center 
-          justify-center
-            text-neutral-300 text-[10px] font-medium"
-            >
-              {role}
-            </div>
+            <p className="text-xs text-neutral-500">
+              Uploaded on, {format(uploadedAt, 'dd MMM, yyyy')}
+            </p>
           </div>
-          <p className="text-xs text-neutral-500">
-            Uploaded: {format(uploadedAt, 'dd MMM, yyyy')}
-          </p>
+
+          <div
+            className="inline-flex items-center 
+          justify-center
+            text-neutral-300 text-xs font-medium capitalize"
+          >
+            {role === 'owner' ? 'Creator' : 'Contributor'}
+          </div>
         </div>
-        <Button className="font-bold text-sm text-white px-5 py-2.5 w-fit h-fit rounded-[4px]">
-          Download
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button
+              variant="ghost"
+              className="p-0 bg-transparent w-fit h-fit border-none"
+            >
+              <MoreVertical />
+            </Button>
+          </DropdownMenuTrigger>
+        </DropdownMenu>
       </CardHeader>
 
-      <CardFooter className="p-4 border-[1px] col-start-2 col-end-[-1] border-none bg-neutral-50 rounded-[4px] w-full flex items-center justify-between">
+      <CardFooter
+        className="px-6 py-[1.375rem]  col-start-2 col-end-[-1] border-none bg-neutral-50
+       rounded-[52px] w-full flex items-center justify-between h-fit"
+      >
         <div className="inline-flex items-center font-medium text-neutral-500 gap-x-2">
           <Image src="/icons/pdf.svg" alt="icon" width={16} height={16} />
           {fileName}
         </div>
-        <p className="text-xs font-bold text-neutral-300 uppercase">
-          File size: {fileSize}
-        </p>
+        <Button className="font-bold text-sm text-white px-5 py-2.5 w-fit h-fit rounded-[40px]">
+          Download
+        </Button>
       </CardFooter>
     </Card>
   );

@@ -13,7 +13,9 @@ export const Resources = () => {
           <AccessSteps />
         </div>
         <div className="bg-primary-500 rounded-[16px] p-16 space-y-12">
-          <h4 className="text-white text-5xl font-bold">Browse resources</h4>
+          <h4 className="text-white text-5xl font-bold">
+            Choose in categories
+          </h4>
           <div className="flex items-center gap-x-12">
             <div className="flex-1">
               <ResourceCard item={primaryResource} />

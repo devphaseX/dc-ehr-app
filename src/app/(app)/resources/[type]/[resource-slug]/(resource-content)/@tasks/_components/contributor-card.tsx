@@ -32,42 +32,30 @@ export const ContributorCard = ({
       </CardHeader>
       <CardContent className="flex-1 p-0 flex items-center justify-between">
         <div className="space-y-1">
-          <div className="flex justify-between items-center gap-x-1.5">
-            <div>
-              <h6 className="font-bold text-black text-sm">{fullName}</h6>
-            </div>
-
-            <div
-              className="inline-flex items-center 
-          justify-center px-1.5 py-0.5 rounded-[5px]
-           bg-neutral-50 text-neutral-300 text-[10px] font-medium"
-            >
-              {role}
-            </div>
+          <div>
+            <h6 className="font-bold text-black text-sm">{fullName}</h6>
           </div>
           <p className="text-xs text-neutral-500">{email}</p>
         </div>
 
-        <div className="flex items-center gap-x-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild disabled={role === 'owner'}>
-              <Button
-                variant="ghost"
-                className="p-0 flex items-center gap-x-2 text-primary-500 font-medium"
-              >
-                {role === 'owner' ? 'Owner' : 'Can edit'}
-                <ChevronDown className="size-5" />
-              </Button>
-            </DropdownMenuTrigger>
-          </DropdownMenu>
+        <div className="flex items-center gap-x-4">
+          {role !== 'owner' && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="px-4 py-2.5 w-fit h-fit flex items-center gap-x-2 text-neutral-800 font-medium border-neutral-200 rounded-[40px]"
+                >
+                  Can edit
+                  <ChevronDown className="size-5" />
+                </Button>
+              </DropdownMenuTrigger>
+            </DropdownMenu>
+          )}
 
-          <div className="self-stretch flex items-center">
-            <Separator className="h-[80%]" orientation="vertical" />
-          </div>
           <Button
-            variant="outline"
-            className="w-fit h-fit py-2.5 px-5
-             border-neutral-200 rounded-[4px] text-primary-500 font-bold"
+            className="w-fit h-fit py-2.5 px-5 border-none
+              rounded-[40px] text-white bg-primary-500 font-bold"
           >
             View Profile
           </Button>

@@ -19,11 +19,14 @@ type ResourceCardProps = {
 export const ResourceCard = ({ item }: ResourceCardProps) => {
   const router = useRouter();
   return (
-    <Card className="flex flex-row-reverse shadow-none items-center rounded-[8px] border-none overflow-hidden justify-between p-6 bg-white">
+    <Card
+      className="flex flex-row shadow-none items-center rounded-[128px]
+     border-none overflow-hidden p-6 bg-white gap-x-4"
+    >
       <CardHeader className="p-0 inline-block">
         <div
           className="inline-flex flex-col items-center
-         justify-center w-20 h-20 rounded-[8px] bg-primary-50
+         justify-center w-20 h-20 rounded-full bg-primary-50
           text-primary-500 font-satoshi font-bold text-base "
         >
           <span>{item.education.grade}</span>
@@ -31,8 +34,8 @@ export const ResourceCard = ({ item }: ResourceCardProps) => {
         </div>
       </CardHeader>
 
-      <div className="">
-        <CardContent className="p-0 flex flex-row">
+      <div className="flex-1">
+        <CardContent className="p-0 flex flex-row w-full">
           <div className="space-y-2 flex-1 self-stretch flex flex-col justify-between">
             <h5 className="font-satoshi text-2xl font-bold text-neutral-800">
               {item.title}

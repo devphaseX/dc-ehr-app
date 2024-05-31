@@ -16,9 +16,7 @@ export default function DiscoverBooks() {
       <Container>
         <div>
           <div className="space-y-12 mb-24">
-            <h3 className="text-black font-bold text-5xl">
-              Discover Trending Topics
-            </h3>
+            <h3 className="text-black font-bold text-5xl">Popular topics</h3>
             <div>
               <DiscoverTab
                 selectedCategory={selectedCategory}

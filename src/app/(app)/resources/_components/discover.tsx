@@ -12,7 +12,7 @@ import { DiscoverTab } from '../../_components/discover-tab';
 export default function DiscoverBooks() {
   const [selectedCategory, setSelectCategory] = useState<'_' | string>('_');
   return (
-    <section className="w-full pt-[100px] pb-[96px]">
+    <section className="w-full pb-[96px]">
       <Container>
         <div>
           <div className="space-y-12 mb-24">

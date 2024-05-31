@@ -13,38 +13,24 @@ export const Footer = ({ copyRightYear }: { copyRightYear: number }) => {
       {(pathname === '/' || !pathname) && (
         <section className="bg-primary-500 py-24">
           <Container>
-            <div className="w-full flex justify-between items-center">
-              <div className="space-y-10 max-w-[586px] w-full">
+            <div className="w-full flex flex-col items-center text-center max-w-[893px] mx-auto">
+              <div className="w-full mb-6">
                 <h5 className="font-bold text-white text-[56px] leading-[64px]">
-                  Register now using your email address
+                  Become a creator today
                 </h5>
-                <p className="text-neutral-200 text-xl">
-                  Lorem ipsum dolor sit amet consectetur. Pretium amet tellus
-                  sed feugiat pharetra. Habitant ornare a tempor dolor in enim
-                  pharetra ut pharetra ipsum dolor
-                </p>
               </div>
-              <div className="max-w-[482px] w-full">
-                <div className="space-y-[24px]">
-                  <div className="space-y-3">
-                    <Label className="font-bold text-white text-base">
-                      Email address
-                    </Label>
-                    <Input
-                      className="w-full h-[56px] bg-neutral-50 border-none rounded-[8px] 
-                        px-6 py-4 placeholder:text-neutral-300 text-base"
-                      placeholder="felixwestley@gmail.com"
-                    />
-                  </div>
+              <p className="text-neutral-200 text-xl max-w-[893px] w-full">
+                Lorem ipsum dolor sit amet consectetur. Pretium amet tellus sed
+                feugiat pharetra. Habitant ornare a tempor dolor in enim
+                pharetra ut pharetra ipsum dolor
+              </p>
 
-                  <Button
-                    className="w-full font-bold text-base  py-4 text-white h-fit bg-neutral-900 rounded-[8px]"
-                    variant="link"
-                  >
-                    Register now
-                  </Button>
-                </div>
-              </div>
+              <Button
+                className="px-8 py-4 rounded-[56px] text-primary-500 
+            font-bold text-base w-fit h-fit bg-white mt-12"
+              >
+                Show all resources
+              </Button>
             </div>
           </Container>
         </section>
@@ -52,18 +38,13 @@ export const Footer = ({ copyRightYear }: { copyRightYear: number }) => {
       <div className="bg-neutral-900 py-10">
         <Container>
           <div className="flex items-start justify-between">
-            <div className="max-w-[584px] space-y-4 text-neutral-500">
-              <h6 className="text-lg text-neutral-50">
-                💕 Made with love by DC EHR
+            <div className="max-w-[584px] text-neutral-500">
+              <h6 className="text-lg text-neutral-400 font-medium uppercase">
+                💕 Made with love by <span className="text-white">DC EHR</span>
               </h6>
-              <p className="text-base text-neutral-500">
-                Lorem ipsum dolor sit amet consectetur. Pretium amet tellus sed
-                feugiat pharetra. Habitant ornare a tempor dolor in enim
-                pharetra ut pharetra ipsum dolor
-              </p>
             </div>
 
-            <div className="text-neutral-500 text-lg">
+            <div className="text-neutral-500 text-lg uppercase">
               Copyright {copyRightYear}
             </div>
           </div>
