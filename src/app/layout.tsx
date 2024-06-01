@@ -4,10 +4,11 @@ import { DataQueryProvider } from '@/providers/query';
 import { baseMetadata } from '@/lib/seo';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
+import { cn } from '@/lib/utils';
 
-const satoshi = localFont({
-  src: '../../public/fonts/Satoshi-Variable.ttf',
-  variable: '--satoshi',
+const josefin = localFont({
+  src: '../../public/fonts/josefin-san-variable-font.ttf',
+  variable: '--josefin',
 });
 
 export const metadata = baseMetadata;
@@ -20,7 +21,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <body className={satoshi.className}>
+      <body className={cn(josefin.className, josefin.variable)}>
         <SessionProvider session={session}>
           <DataQueryProvider>{children}</DataQueryProvider>
         </SessionProvider>

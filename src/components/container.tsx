@@ -11,7 +11,7 @@ export const Container = ({
 }) => {
   return (
     <div className={cn('px-[120px]', outerClassName)}>
-      <div className={cn('mx-auto max-w-screen-xl w-full', className)}>
+      <div className={cn('mx-auto max-w-[1206px] w-full', className)}>
         {children}
       </div>
     </div>

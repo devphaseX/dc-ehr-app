@@ -122,3 +122,52 @@ export const courseSamples: CourseItem[] = [
     lastModifiedAt: new Date('2024-03-25T12:30:00Z'),
   },
 ];
+
+export const getPrimaryCourse = async () => {
+  await new Promise<void>((res) => {
+    setTimeout(res, 2000);
+  });
+
+  const primaryCourse = {
+    id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+    title: 'Introduction to Web Development',
+    releasedVersions: 12,
+    description: `Learn the fundamentals of web development, including HTML, CSS, and JavaScript, to build modern and responsive websites.
+      Habitant ornaLorem ipsum dolor sit amet consectetur. Pretium amet tellus sed feugiat pharetra. Habitant ornare a tempor dolor in enimut  pharetra ipsum dolor sit ame iat pharetra. Habitant orna`,
+    bannerImgUrl: '/imgs/bg/13.jpeg',
+    authorName: 'Jane Doe',
+    createdAt: new Date('2023-03-15T10:30:00Z'),
+    bookmarked: true,
+    lastModifiedAt: new Date('2023-05-01T14:20:00Z'),
+    ownerId: 'b9d7f6e8-f1d7-4e95-9e97-d14e6c5c63e3',
+    tags: ['technology', 'seconday', 'machine learning', 'computer science'],
+    auditor: getAuthor(),
+  };
+
+  return primaryCourse;
+};
+
+export const getAuthor = () => {
+  return {
+    id: 'c6e7f8a9-1b7c-4a33-9b35-1d2c1e6d8e3a',
+    fullName: 'Emily Wilkinson',
+    email: 'emily.wilkson@gmail.com',
+    bookPublishedCounts: 20,
+    contributeCounts: 30,
+    bgCoverImg: '/imgs/bg-cover.png',
+    role: 'owner' as const,
+    bio: "Emily Wilkinson is a renowned author and storyteller whose captivating narratives have transported readers to realms of imagination and wonder. With a profound understanding of the human condition and a gift for crafting intricate plots, she weaves tales that resonate deeply with her audience. Emily's writing journey began at a young age, fueled by an insatiable curiosity and a love for the written word. Her unique perspective and ability to capture the nuances of life have earned her critical acclaim and a dedicated following. Whether exploring themes of love, loss, or self-discovery, Emily's works are a testament to her exceptional talent and her unwavering commitment to her craft.",
+    avatarImg: '/imgs/avatar-1.png',
+    facebookUrl: 'https://www.facebook.com/emilywilkinsonauthor',
+    portfolioUrl: 'https://www.emilywilkinsonbooks.com',
+    instagramUrl: 'https://www.instagram.com/emilywilkinsonauthor',
+    skills: ['technology', 'seconday', 'machine learning', 'computer science'],
+
+    interests: [
+      'Fiction Writing',
+      'Character Development',
+      'World-Building',
+      'Book Clubs',
+    ],
+  };
+};

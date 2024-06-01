@@ -18,7 +18,13 @@ const config = {
       },
     },
     extend: {
-      fontFamily: { satoshi: 'var(--satoshi)' },
+      gridTemplateColumns: {
+        'auto-fit': 'repeat(auto-fit, minmax(min-content, 1fr))',
+      },
+      aria: {
+        'current-page': 'current="page"',
+      },
+      fontFamily: { josefin: 'var(--josefin)' },
 
       colors: {
         border: 'hsl(var(--border))',
@@ -43,7 +49,7 @@ const config = {
           400: '#889190',
           500: '#6A7372',
           600: '#565D5C',
-          800: '#000000',
+          800: '#2A2D2D',
           900: '#161818',
         },
         secondary: {

@@ -55,7 +55,6 @@ export const CourseCard = ({
               </span>
               {` | ${version} version${version > 1 ? 's' : ''}`}
             </p>
-            <Button className="" variant="ghost"></Button>
           </div>
         </CardFooter>
       </div>
