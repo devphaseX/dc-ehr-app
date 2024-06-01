@@ -1,10 +1,10 @@
 import { FormLabel } from '@/components/form/label';
 import { FormControl, FormItem } from '@/components/ui/form';
 import { UseFormRegister, UseFormReturn, useWatch } from 'react-hook-form';
-import { SignUpForm } from '../schema';
 import { Input } from '@/components/ui/input';
+import { SecurityQuestionForm } from './schema';
 
-type QuestionItem = SignUpForm['securityQuestions'][number] & { id?: string };
+type QuestionItem = SecurityQuestionForm['questions'][number];
 
 export const QuestionItemForm = ({
   index,
@@ -14,14 +14,14 @@ export const QuestionItemForm = ({
   form,
 }: {
   item: QuestionItem;
-  form: UseFormReturn<SignUpForm>;
-  register: UseFormRegister<SignUpForm>;
+  form: UseFormReturn<SecurityQuestionForm>;
+  register: UseFormRegister<SecurityQuestionForm>;
   index: number;
   update: (index: number, fields: QuestionItem) => void;
 }) => {
   const value = useWatch({
     control: form.control,
-    name: 'securityQuestions',
+    name: 'questions',
   });
 
   return (
@@ -38,7 +38,7 @@ export const QuestionItemForm = ({
       </div>
       <FormControl>
         <Input
-          {...register(`securityQuestions.${index}.answer`)}
+          {...register(`questions.${index}.answer`)}
           className="border-0 text-base !ring-0 !ring-offset-0 !ring-transparent
           text-neutral-800 placeholder:text-neutral-400  rounded-none
           py-4 px-0 w-full h-fit border-b border-neutral-100"
