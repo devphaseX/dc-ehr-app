@@ -37,7 +37,7 @@ const SecurityQuestions = () => {
   }, []);
 
   return (
-    <div className="max-w-[580px] w-full mx-auto pt-[124px] pb-[256px]">
+    <div className="max-w-[580px] w-full mx-auto py-[124px]">
       <div className="space-y-10">
         <div className="space-y-3">
           <h3 className="text-[28px] text-neutral-800 font-bold">
