@@ -24,7 +24,7 @@ const config = {
       aria: {
         'current-page': 'current="page"',
       },
-      fontFamily: { satoshi: 'var(--satoshi)' },
+      fontFamily: { josefin: 'var(--josefin)' },
 
       colors: {
         border: 'hsl(var(--border))',
@@ -49,7 +49,7 @@ const config = {
           400: '#889190',
           500: '#6A7372',
           600: '#565D5C',
-          800: '#000000',
+          800: '#2A2D2D',
           900: '#161818',
         },
         secondary: {
