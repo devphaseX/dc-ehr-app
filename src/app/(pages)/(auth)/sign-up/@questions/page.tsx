@@ -1,9 +1,8 @@
 'use client';
 
-import { RefObject, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Stage, useSignUpContext } from '../provider';
 import { useFieldArray } from 'react-hook-form';
-import { FormLabel } from '@/components/form/label';
 import {
   DropdownMenu,
   DropdownMenuContent,

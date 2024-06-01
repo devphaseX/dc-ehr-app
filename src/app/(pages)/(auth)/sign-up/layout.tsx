@@ -7,24 +7,27 @@ type SignUpProps = {
   info: React.ReactNode;
   password: React.ReactNode;
   questions: React.ReactNode;
+  accountCreated: React.ReactNode;
 };
 
-const SignUp = ({ info, password, questions }: SignUpProps) => {
+const SignUp = ({ info, password, accountCreated, questions }: SignUpProps) => {
   function SelectRenderPage() {
     const { stage } = useSignUpContext();
+    console.log({ stage, info, password, accountCreated, questions });
     return (
       <>
         {stage === 'info' && info}
         {stage === 'password' && password}
         {stage === 'security-questions' && questions}
+        {stage === 'account-created' && accountCreated}
       </>
     );
   }
 
   return (
-    <div className="max-w-[580px] w-full mx-auto pt-14">
+    <div className="flex-1 max-w-[580px] w-full mx-auto h-full relative">
       <SignUpProvider>
-        <div className="space-y-16">
+        <div className="space-y-16 pt-14">
           <StageProgressBar />
           <SelectRenderPage />
         </div>

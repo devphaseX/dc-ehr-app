@@ -8,14 +8,15 @@ import { SignUpForm } from './schema';
 import { parseAsStringEnum, useQueryState } from 'nuqs';
 import { Form } from '@/components/ui/form';
 
-export type Stage = (typeof formStages)[number];
+export type Stage = (typeof formStages)[number] | 'account-created';
 type SignUpContext = {
   form?: UseFormReturn<SignUpForm>;
   stage?: Stage;
   next?: () => void;
-  stageMeta: StageMeta;
+  stageMeta: Omit<StageMeta, 'account-created'>;
   setStage?: (stage: Stage) => void;
   currentStageValid?: boolean;
+  accountCreated?: boolean;
   syncStageData?: (data: unknown) => Promise<void> | void;
 };
 
@@ -26,7 +27,7 @@ type StageMeta = {
   };
 };
 
-export const stageMeta: StageMeta = {
+export const stageMeta: Omit<StageMeta, 'account-created'> = {
   info: {
     index: 1,
     fields: ['fullName', 'username', 'email', 'industry', 'categories'],
@@ -60,12 +61,13 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [stage, setStage] = useQueryState(
     'stage',
-    parseAsStringEnum([...formStages])
+    parseAsStringEnum([...formStages, 'account-created'])
       .withDefault('info')
       .withOptions({ throttleMs: 500 })
   );
 
   async function next() {
+    if (stage === 'account-created') return;
     const { fields, index } = stageMeta[stage] ?? {};
 
     if (!(fields && typeof index === 'number')) {
@@ -95,11 +97,22 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <SignUpContext.Provider
-        value={{ form, stage, next, stageMeta, setStage }}
+        value={{
+          form,
+          stage,
+          next,
+          stageMeta,
+          accountCreated: true,
+          setStage,
+        }}
       >
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(() => {})}>{children}</form>
-        </Form>
+        {stage !== 'account-created' ? (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(() => {})}>{children}</form>
+          </Form>
+        ) : (
+          children
+        )}
       </SignUpContext.Provider>
     </>
   );
