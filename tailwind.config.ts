@@ -15,6 +15,7 @@ const config = {
       padding: '2rem',
       screens: {
         '2xl': '1400px',
+        // max: '1360px',
       },
     },
     extend: {
@@ -43,7 +44,8 @@ const config = {
           950: '#020D0D',
         },
         neutral: {
-          50: '#F7F8F8',
+          50: '#FAFBFB',
+          100: '#EFF1F1',
           200: '#D2D7D6',
           300: '#A5ACAB',
           400: '#889190',

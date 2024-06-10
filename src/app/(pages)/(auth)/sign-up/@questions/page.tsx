@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Stage, useSignUpContext } from '../provider';
 import { useFieldArray } from 'react-hook-form';
 import {
@@ -11,13 +11,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Check, ChevronDown } from 'lucide-react';
-import { useResizeObserver } from 'usehooks-ts';
+import { useOnClickOutside, useResizeObserver } from 'usehooks-ts';
 import { QuestionItemForm } from './question-form';
 import { FormField, FormItem } from '@/components/ui/form';
+import { useRouter } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { useUpdate } from '@/hooks/useUpdate';
 
 const stageTag: Stage = 'security-questions';
 const questions = [
   'What is your favorite food?',
+  'Which city do you live in?',
   'What is your pet name?',
   'Which city were you born?',
 ];
@@ -26,12 +30,8 @@ const SELECT_QUESTION_SIZE = 3;
 const SecurityQuestions = () => {
   const { form, stageMeta, stage } = useSignUpContext();
   const [stageFields] = useState(stageMeta[stageTag]?.fields);
-
-  if (stageTag !== stage) {
-    throw new Error(
-      `Mismatch current internal stage "${stage}" to url stage "${stage}"`
-    );
-  }
+  const router = useRouter();
+  const [questionModalOpen, setQuestionModalOpen] = useState(false);
 
   if (!form) {
     throw new Error('Sign up form context not set');
@@ -48,7 +48,15 @@ const SecurityQuestions = () => {
 
   const selectQuestionDropDownRef = useRef<HTMLDivElement | null>(null);
 
-  const { width } = useResizeObserver({ ref: selectQuestionDropDownRef });
+  useOnClickOutside(selectQuestionDropDownRef, () => {
+    setQuestionModalOpen(false);
+  });
+  useLayoutEffect(() => {
+    if (stageTag !== stage) {
+      router.push('/sign-up');
+    }
+  }, []);
+
   return (
     <div className="space-y-10">
       <div className="space-y-4">
@@ -72,53 +80,64 @@ const SecurityQuestions = () => {
             name="securityQuestions"
             render={() => (
               <FormItem>
-                <div ref={selectQuestionDropDownRef} className="space-y-10">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        className="py-4 px-6 bg-neutral-50 hover:bg-neutral-100 border-none rounded-[8px] w-full
-                 text-neutral-300 text-base h-fit flex items-center justify-between"
-                      >
-                        Select your security question
-                        <ChevronDown className="size-6" />
-                      </Button>
-                    </DropdownMenuTrigger>
+                <div className="space-y-10">
+                  <div className="space-y-4" ref={selectQuestionDropDownRef}>
+                    <Button
+                      onClick={() => setQuestionModalOpen((open) => !open)}
+                      className={cn(
+                        `py-4 px-6 bg-neutral-50 hover:bg-neutral-100 
+                        rounded-[8px] w-full text-neutral-300 text-base
+                         h-fit flex items-center justify-between border border-neutral-50`,
+                        questionModalOpen && 'border-neutral-900'
+                      )}
+                    >
+                      Select your security question
+                      <ChevronDown className="size-6" />
+                    </Button>
 
-                    <DropdownMenuContent style={{ width: `${width}px` }}>
-                      <div className="flex flex-col gap-y-4 w-full">
-                        {questions.map((question) => {
-                          const questionIndex = fields.findIndex(
-                            (field) => field.question === question
-                          );
-                          const selected = questionIndex !== -1;
-                          const selectedQuestionNo = fields.length;
-                          return (
-                            <DropdownMenuItem
-                              key={question}
-                              className="flex justify-between items-center"
-                              onClick={() => {
-                                if (!selected) {
-                                  if (
-                                    selectedQuestionNo >= SELECT_QUESTION_SIZE
-                                  ) {
-                                    return;
+                    {questionModalOpen && (
+                      <div className="p-6 bg-neutral-50 shadow-none rounded-[12px] space-y-6">
+                        <p className="text-xs text-neutral-500 font-josefin">{`${fields.length} / ${SELECT_QUESTION_SIZE} Questions`}</p>
+                        <div className="flex flex-col gap-y-6 w-full">
+                          {questions.map((question) => {
+                            const questionIndex = fields.findIndex(
+                              (field) => field.question === question
+                            );
+                            const selected = questionIndex !== -1;
+                            const selectedQuestionNo = fields.length;
+                            return (
+                              <div
+                                key={question}
+                                className={cn(
+                                  `flex justify-between items-center
+                             p-0 text-base font-josefin text-neutral-900 !bg-transparent`,
+                                  selected && 'text-neutral-400'
+                                )}
+                                onClick={() => {
+                                  if (!selected) {
+                                    if (
+                                      selectedQuestionNo >= SELECT_QUESTION_SIZE
+                                    ) {
+                                      return;
+                                    }
+                                    append({ question, answer: '' });
+                                    setQuestionModalOpen(false);
+                                  } else {
+                                    remove(questionIndex);
                                   }
-                                  append({ question, answer: '' });
-                                } else {
-                                  remove(questionIndex);
-                                }
-                              }}
-                            >
-                              {question}
-                              {selected && (
-                                <Check className="size-4 text-neutral-400" />
-                              )}
-                            </DropdownMenuItem>
-                          );
-                        })}
+                                }}
+                              >
+                                {question}
+                                {selected && (
+                                  <Check className="size-6 text-primary-500" />
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    )}
+                  </div>
 
                   <div className="space-y-8">
                     {fields.map((field, index) => (
@@ -136,7 +155,7 @@ const SecurityQuestions = () => {
                   <Button
                     type="submit"
                     className="w-full h-fit p-4 text-base text-white font-semibold 
-        rounded-[56px] bg-primary-500 !mt-10"
+        rounded-[56px] bg-primary-500 !mt-8"
                   >
                     Continue
                   </Button>

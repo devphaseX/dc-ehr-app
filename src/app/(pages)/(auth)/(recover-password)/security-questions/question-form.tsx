@@ -29,8 +29,8 @@ export const QuestionItemForm = ({
       <div className="flex items-center gap-x-2">
         <div
           className="size-6 rounded-full 
-      flex items-center text-white text-sm
-       justify-center bg-primary-500"
+      flex items-center text-white text-sm font-semibold
+       justify-center bg-neutral-900"
         >
           {index + 1}
         </div>
@@ -44,7 +44,6 @@ export const QuestionItemForm = ({
           py-4 px-0 w-full h-fit border-b border-neutral-100"
           placeholder="Type your answer"
           onChange={(ev) => {
-            console.log({ v: ev.target.value });
             update(index, { ...item, answer: ev.target.value });
           }}
           value={value[index]?.answer ?? ''}
