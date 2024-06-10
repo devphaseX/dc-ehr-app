@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Stage, stageMeta, useSignUpContext } from '../provider';
 import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { FormLabel } from '@/components/form/label';
@@ -21,12 +21,12 @@ const GetUserInfo = () => {
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8 w-full">
       <div className="space-y-4">
         <h3 className="text-[28px] text-neutral-800 font-bold">
-          Create an account
+          Register Your Account
         </h3>
-        <p className="text-lg text-neutral-400">
+        <p className="text-lg text-neutral-500">
           Enter your correct detail to continue with app
         </p>
       </div>
@@ -96,7 +96,7 @@ const GetUserInfo = () => {
           type="button"
           onClick={() => next?.()}
           className="w-full h-fit p-4 text-base text-white font-semibold 
-        rounded-[56px] bg-primary-500 !mt-10"
+        rounded-[56px] bg-primary-500 !mt-8"
         >
           Continue
         </Button>

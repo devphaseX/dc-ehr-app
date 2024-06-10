@@ -44,7 +44,6 @@ export const QuestionItemForm = ({
           py-4 px-0 w-full h-fit border-b border-neutral-100"
           placeholder="Type your answer"
           onChange={(ev) => {
-            console.log({ v: ev.target.value });
             update(index, { ...item, answer: ev.target.value });
           }}
           value={value[index]?.answer ?? ''}

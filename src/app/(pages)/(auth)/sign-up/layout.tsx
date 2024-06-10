@@ -13,7 +13,6 @@ type SignUpProps = {
 const SignUp = ({ info, password, accountCreated, questions }: SignUpProps) => {
   function SelectRenderPage() {
     const { stage } = useSignUpContext();
-    console.log({ stage, info, password, accountCreated, questions });
     return (
       <>
         {stage === 'info' && info}
@@ -25,10 +24,12 @@ const SignUp = ({ info, password, accountCreated, questions }: SignUpProps) => {
   }
 
   return (
-    <div className="flex-1 max-w-[580px] w-full mx-auto h-full relative">
+    <div className="max-w-[580px] w-full mx-auto h-full relative pt-[96px] flex justify-center">
       <SignUpProvider>
-        <div className="space-y-16 pt-14">
-          <StageProgressBar />
+        <div className="space-y-16">
+          <div className="px-[50px]">
+            <StageProgressBar />
+          </div>
           <SelectRenderPage />
         </div>
       </SignUpProvider>

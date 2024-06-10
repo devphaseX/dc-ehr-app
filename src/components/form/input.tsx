@@ -13,12 +13,12 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
       <Input
         className={cn(
           `py-4 px-6 w-full h-fit  text-base text-neutral-900
-          placeholder:text-neutral-300 bg-neutral-50 rounded-[8px] border-none !ring-0 !ring-offset-0 !ring-transparent`,
+          placeholder:text-neutral-300 bg-[#FAFBFB] rounded-[8px] border-none !ring-0 !ring-offset-0 !ring-transparent`,
           className
         )}
         ref={ref}
         {...props}
-        disabled={disabled}
+        disabled={disabled || pending}
       />
     );
   }

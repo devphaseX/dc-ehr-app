@@ -8,7 +8,18 @@ import { SignUpForm } from './schema';
 import { parseAsStringEnum, useQueryState } from 'nuqs';
 import { Form } from '@/components/ui/form';
 
+export const formStages = ['info', 'password', 'security-questions'] as const;
+
 export type Stage = (typeof formStages)[number] | 'account-created';
+type SignUpStages = { [Task in Stage]: Exclude<Stage, Task> | null };
+
+const signUpStages: SignUpStages = {
+  info: 'password',
+  password: 'security-questions',
+  'security-questions': 'account-created',
+  'account-created': null,
+};
+
 type SignUpContext = {
   form?: UseFormReturn<SignUpForm>;
   stage?: Stage;
@@ -39,7 +50,6 @@ export const stageMeta: Omit<StageMeta, 'account-created'> = {
 const SignUpContext = React.createContext<SignUpContext>({
   stageMeta: stageMeta,
 });
-export const formStages = ['info', 'password', 'security-questions'] as const;
 
 export const useSignUpContext = () => useContext(SignUpContext);
 
@@ -82,16 +92,11 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const stageEntries = Object.entries(stageMeta);
+    const nextStage = signUpStages[stage];
 
-    const nextForm = stageEntries.find(([_, meta]) => index + 1 === meta.index);
+    if (!nextStage) return;
 
-    if (
-      typeof nextForm?.[0] !== 'undefined' &&
-      nextForm[1].index < stageEntries.length
-    ) {
-      setStage(nextForm[0] as keyof StageMeta);
-    }
+    setStage(nextStage);
   }
 
   return (
@@ -108,7 +113,9 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
       >
         {stage !== 'account-created' ? (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(() => {})}>{children}</form>
+            <form onSubmit={form.handleSubmit(() => {})} className="w-full">
+              {children}
+            </form>
           </Form>
         ) : (
           children
