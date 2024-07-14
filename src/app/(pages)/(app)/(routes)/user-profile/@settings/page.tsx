@@ -1,13 +1,17 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { z } from "zod";
-import { ProfileForm } from "./profile-form";
 import { ChangePassword } from "./change-password";
 import { DeleteUserAccount } from "./delete-account";
+import { ProfileForm } from "../profile-form";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SettingPage = () => {
+  const router = useRouter();
   return (
     <div className="max-w-[855px] w-full bg-white rounded-[24px]">
       <div className="p-8 h-full">
@@ -44,7 +48,14 @@ const SettingPage = () => {
               <Button className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm">
                 Change cover photo
               </Button>
-              <Button className="rounded-[48px] px-6 py-3 w-fit h-fit bg-primary-500 text-white font-semibold text-sm">
+              <Button
+                onClick={() => {
+                  const url = new URL(window.location.href);
+                  url.searchParams.set("tab", "edit-profile");
+                  router.push(url.toString());
+                }}
+                className="rounded-[48px] px-6 py-3 w-fit h-fit bg-primary-500 text-white font-semibold text-sm"
+              >
                 Edit profile
               </Button>
             </div>

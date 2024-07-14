@@ -9,11 +9,12 @@ type Props = {
   info: React.ReactNode;
   children: React.ReactNode;
   settings: React.ReactNode;
+  editProfile: React.ReactNode;
 };
 
-const Layout = ({ info, children, settings }: Props) => {
+const Layout = ({ info, children, settings, editProfile }: Props) => {
   const { tab } = Object.fromEntries(useSearchParams()) as {
-    tab: "string" | "settings";
+    tab: "string" | "settings" | "edit-profile";
   };
 
   return (
@@ -32,7 +33,11 @@ const Layout = ({ info, children, settings }: Props) => {
         <div className="flex gap-x-6">
           {info}
           <div className="flex-1 relative">
-            {tab === "settings" ? settings : children}
+            {tab === "settings"
+              ? settings
+              : tab === "edit-profile"
+                ? editProfile
+                : children}
           </div>
         </div>
       </Container>

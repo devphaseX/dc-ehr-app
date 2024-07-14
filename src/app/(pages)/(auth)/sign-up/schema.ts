@@ -1,19 +1,19 @@
-import { TypeOf, z } from 'zod';
+import { TypeOf, z } from "zod";
 
 export const signUpFormSchema = z
   .object({
     fullName: z
-      .string({ required_error: 'fullName is required' })
-      .min(3, 'fullName must contain at least 3 characters'),
+      .string({ required_error: "fullName is required" })
+      .min(3, "fullName must contain at least 3 characters"),
     username: z
-      .string({ required_error: 'username is required' })
-      .min(1, 'username must contain at least 1 character'),
+      .string({ required_error: "username is required" })
+      .min(1, "username must contain at least 1 character"),
     email: z
-      .string({ required_error: 'email is equired' })
-      .email('email is not valid'),
-    industry: z.string({ required_error: 'select an industry' }),
-    categories: z.string({ required_error: 'select a category' }),
-    password: z.string().min(8, 'minimum of 8 character is required'),
+      .string({ required_error: "email is equired" })
+      .email("email is not valid"),
+    industry: z.string({ required_error: "select an industry" }),
+    categories: z.string({ required_error: "select a category" }),
+    password: z.string().min(8, "minimum of 8 character is required"),
     confirmPassword: z.string(),
     securityQuestions: z
       .object({
@@ -23,23 +23,25 @@ export const signUpFormSchema = z
       .array(),
   })
   .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    message: 'confirm password not a match',
+    message: "confirm password not a match",
   });
 
 export const updateProfileSchema = z.object({
   fullName: z
-    .string({ required_error: 'fullName is required' })
-    .min(3, 'fullName must contain at least 3 characters'),
+    .string({ required_error: "fullName is required" })
+    .min(3, "fullName must contain at least 3 characters"),
   username: z
-    .string({ required_error: 'username is required' })
-    .min(1, 'username must contain at least 1 character'),
+    .string({ required_error: "username is required" })
+    .min(1, "username must contain at least 1 character"),
   email: z
-    .string({ required_error: 'email is equired' })
-    .email('email is not valid'),
+    .string({ required_error: "email is equired" })
+    .email("email is not valid"),
 
   dateOfBirth: z.string().optional(),
-  industry: z.string({ required_error: 'select an industry' }),
-  categories: z.string({ required_error: 'select a category' }),
+  industry: z.string({ required_error: "select an industry" }),
+  categories: z.string({ required_error: "select a category" }),
+  country: z.string().optional(),
+  state: z.string().optional(),
 });
 
 export const changePasswordSchema = z.object({
