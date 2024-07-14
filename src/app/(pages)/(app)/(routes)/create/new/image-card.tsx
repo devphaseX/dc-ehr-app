@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import Image from "next/image";
 
 type Props = {
+  id: string;
   file: File;
+  drop?: (id: string) => void;
+  fileUrl?: string;
+  setFileUrl: (base64File: string) => void;
 };
 
-export const ImageCard = ({ file }: Props) => {
+export const ImageCard = ({ file, id, drop, fileUrl, setFileUrl }: Props) => {
   const [activeFile, setActiveFile] = useState<File | null>(null);
-  const [fileBase64, setFileBase64] = useState<string | null>(null);
   const [encoding, setEncoding] = useState(false);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export const ImageCard = ({ file }: Props) => {
         reader.readAsDataURL(file);
         reader.onload = () => {
           setTimeout(() => {
-            setFileBase64(reader.result as string);
+            setFileUrl(reader.result as string);
             setEncoding(false);
           }, 1000);
         };
@@ -35,19 +38,29 @@ export const ImageCard = ({ file }: Props) => {
   return (
     <div className="size-16 bg-neutral-100 rounded-[8px] relative">
       <div className="absolute inset-0 z-[10]">
-        <div className="h-full w-full flex items-center justify-center">
+        <div className="group relative h-full w-full flex items-center justify-center">
           {encoding && (
             <Loader2 className="text-primary-500 animate-spin size-7" />
           )}
 
-          {fileBase64 && (
+          {fileUrl && (
             <Image
-              src={fileBase64}
+              src={fileUrl}
               alt="uploaded-image"
               fill
               className="object-fill"
             />
           )}
+
+          <span
+            className="group-hover:visible invisible absolute top-1/2 left-1/2
+            -translate-x-1/2 -translate-y-1/2 text-white/60"
+            onClick={() => {
+              drop?.(id);
+            }}
+          >
+            <Trash className="size-5" />
+          </span>
         </div>
       </div>
     </div>

@@ -11,9 +11,9 @@ type Props = {};
 
 const fileTypes = ["png", "jpg", "jpeg", "gif"];
 export const ImageTray = (props: Props) => {
-  const [selectedFile, setSelectFile] = useState<{ id: string; file: File }[]>(
-    [],
-  );
+  const [selectedFile, setSelectFile] = useState<
+    { id: string; file: File; fileUrl?: string }[]
+  >([]);
 
   const handleChange = (files: FileList) => {
     setSelectFile((currentFiles) =>
@@ -80,8 +80,27 @@ export const ImageTray = (props: Props) => {
             Files Uploaded
           </p>
           <div className="flex items-center gap-[10px]">
-            {selectedFile.map(({ id, file }) => (
-              <ImageCard key={id} file={file} />
+            {selectedFile.map(({ id, file, fileUrl }) => (
+              <ImageCard
+                key={id}
+                file={file}
+                id={id}
+                fileUrl={fileUrl}
+                drop={() => {
+                  setSelectFile((files) =>
+                    files.filter((file) => file.id !== id),
+                  );
+                }}
+                setFileUrl={(base64File) =>
+                  setSelectFile((files) =>
+                    files.map((fileItem) =>
+                      fileItem.id === id
+                        ? { ...fileItem, fileUrl: base64File }
+                        : fileItem,
+                    ),
+                  )
+                }
+              />
             ))}
           </div>
         </div>
