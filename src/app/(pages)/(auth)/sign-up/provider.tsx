@@ -8,23 +8,28 @@ import { SignUpForm } from './schema';
 import { parseAsStringEnum, useQueryState } from 'nuqs';
 import { Form } from '@/components/ui/form';
 
-export const formStages = ['info', 'password', 'security-questions'] as const;
+export const formStages = [
+  'info',
+  'password',
+  'security-questions',
+  'verify-account',
+] as const;
 
-export type Stage = (typeof formStages)[number] | 'account-created';
+export type Stage = (typeof formStages)[number];
 type SignUpStages = { [Task in Stage]: Exclude<Stage, Task> | null };
 
 const signUpStages: SignUpStages = {
   info: 'password',
   password: 'security-questions',
-  'security-questions': 'account-created',
-  'account-created': null,
+  'security-questions': 'verify-account',
+  'verify-account': null,
 };
 
 type SignUpContext = {
   form?: UseFormReturn<SignUpForm>;
   stage?: Stage;
   next?: () => void;
-  stageMeta: Omit<StageMeta, 'account-created'>;
+  stageMeta: StageMeta;
   setStage?: (stage: Stage) => void;
   currentStageValid?: boolean;
   accountCreated?: boolean;
@@ -38,13 +43,14 @@ type StageMeta = {
   };
 };
 
-export const stageMeta: Omit<StageMeta, 'account-created'> = {
+export const stageMeta: StageMeta = {
   info: {
     index: 1,
     fields: ['fullName', 'username', 'email', 'industry', 'categories'],
   },
   password: { index: 2, fields: ['password', 'confirmPassword'] },
   'security-questions': { index: 3, fields: [] },
+  'verify-account': { index: 4, fields: [] },
 };
 
 const SignUpContext = React.createContext<SignUpContext>({
@@ -71,13 +77,12 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [stage, setStage] = useQueryState(
     'stage',
-    parseAsStringEnum([...formStages, 'account-created'])
+    parseAsStringEnum([...formStages])
       .withDefault('info')
       .withOptions({ throttleMs: 500 })
   );
 
   async function next() {
-    if (stage === 'account-created') return;
     const { fields, index } = stageMeta[stage] ?? {};
 
     if (!(fields && typeof index === 'number')) {
@@ -111,7 +116,7 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
           setStage,
         }}
       >
-        {stage !== 'account-created' ? (
+        {/* {stage !== 'account-created' ? (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(() => {})} className="w-full">
               {children}
@@ -119,7 +124,17 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
           </Form>
         ) : (
           children
-        )}
+        )} */}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(() => {
+              alert('submitted');
+            })}
+            className="w-full"
+          >
+            {children}
+          </form>
+        </Form>
       </SignUpContext.Provider>
     </>
   );

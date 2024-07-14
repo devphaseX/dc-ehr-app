@@ -3,20 +3,14 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Stage, useSignUpContext } from '../provider';
 import { useFieldArray } from 'react-hook-form';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import { Button } from '@/components/ui/button';
 import { Check, ChevronDown } from 'lucide-react';
-import { useOnClickOutside, useResizeObserver } from 'usehooks-ts';
+import { useOnClickOutside } from 'usehooks-ts';
 import { QuestionItemForm } from './question-form';
 import { FormField, FormItem } from '@/components/ui/form';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { useUpdate } from '@/hooks/useUpdate';
 
 const stageTag: Stage = 'security-questions';
 const questions = [
@@ -28,7 +22,7 @@ const questions = [
 
 const SELECT_QUESTION_SIZE = 3;
 const SecurityQuestions = () => {
-  const { form, stageMeta, stage } = useSignUpContext();
+  const { form, stageMeta, stage, next } = useSignUpContext();
   const [stageFields] = useState(stageMeta[stageTag]?.fields);
   const router = useRouter();
   const [questionModalOpen, setQuestionModalOpen] = useState(false);
@@ -51,10 +45,12 @@ const SecurityQuestions = () => {
   useOnClickOutside(selectQuestionDropDownRef, () => {
     setQuestionModalOpen(false);
   });
+
+  console.log({ stageTag });
   useLayoutEffect(() => {
-    if (stageTag !== stage) {
-      router.push('/sign-up');
-    }
+    // if (stageTag !== stage) {
+    //   router.push('/sign-up');
+    // }
   }, []);
 
   return (
@@ -83,6 +79,7 @@ const SecurityQuestions = () => {
                 <div className="space-y-10">
                   <div className="space-y-4" ref={selectQuestionDropDownRef}>
                     <Button
+                      type="button"
                       onClick={() => setQuestionModalOpen((open) => !open)}
                       className={cn(
                         `py-4 px-6 bg-neutral-50 hover:bg-neutral-100 
@@ -156,6 +153,7 @@ const SecurityQuestions = () => {
                     type="submit"
                     className="w-full h-fit p-4 text-base text-white font-semibold 
         rounded-[56px] bg-primary-500 !mt-8"
+                    onClick={() => next?.()}
                   >
                     Continue
                   </Button>

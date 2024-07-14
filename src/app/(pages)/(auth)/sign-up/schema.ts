@@ -26,4 +26,27 @@ export const signUpFormSchema = z
     message: 'confirm password not a match',
   });
 
+export const updateProfileSchema = z.object({
+  fullName: z
+    .string({ required_error: 'fullName is required' })
+    .min(3, 'fullName must contain at least 3 characters'),
+  username: z
+    .string({ required_error: 'username is required' })
+    .min(1, 'username must contain at least 1 character'),
+  email: z
+    .string({ required_error: 'email is equired' })
+    .email('email is not valid'),
+
+  dateOfBirth: z.string().optional(),
+  industry: z.string({ required_error: 'select an industry' }),
+  categories: z.string({ required_error: 'select a category' }),
+});
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(8),
+});
+
 export type SignUpForm = TypeOf<typeof signUpFormSchema>;
+export type ChangePasswordForm = TypeOf<typeof changePasswordSchema>;
+export type UpdateProfileForm = TypeOf<typeof updateProfileSchema>;

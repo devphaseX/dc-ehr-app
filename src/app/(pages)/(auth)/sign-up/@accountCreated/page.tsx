@@ -5,21 +5,10 @@ import { Stage, useSignUpContext } from '../provider';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 
-const stageTag: Stage = 'account-created';
-
 const CompleteAccountPage = () => {
   const { accountCreated, stage, setStage } = useSignUpContext();
   const [showPage, setShowPage] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    if (!(accountCreated && stageTag === stage)) {
-      setStage?.('info');
-      return;
-    }
-
-    setShowPage(true);
-  }, []);
 
   if (!showPage) return null;
 
@@ -43,7 +32,7 @@ const CompleteAccountPage = () => {
             className="w-full h-fit p-4 text-base text-white font-semibold 
         rounded-[56px] bg-primary-500 !mt-10"
           >
-            Sign in back
+            Return to sign in
           </Button>
         </div>
       </div>

@@ -19,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      dropShadow: {
+        'content-card': '0px 5px 32px #AEAEAE40',
+      },
       gridTemplateColumns: {
         'auto-fit': 'repeat(auto-fit, minmax(min-content, 1fr))',
       },

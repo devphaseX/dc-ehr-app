@@ -56,7 +56,7 @@ const NewResource = () => {
 
                       <FormControl>
                         <div className="space-y-4">
-                          <div className="h-[296px] bg-[#FAFBFB] rounded-[12px] border-[2px] border-dotted  border-neutral-200">
+                          <div className="h-[296px] bg-[#FAFBFB] rounded-[12px]  border-dotted border-[1px] border-neutral-200">
                             <div className="w-full h-full flex items-center justify-center">
                               <div className="w-[249px] font-josefin text-center">
                                 <div className="space-y-2 mb-6">

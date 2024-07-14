@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 
 export const StageProgressBar = () => {
   const { stage, stageMeta } = useSignUpContext();
-  if (!(stageMeta && stage && stage !== 'account-created')) return null;
+  if (!(stageMeta && stage && stage !== 'verify-account')) return null;
 
   return (
     <div className="flex items-center gap-x-2">
