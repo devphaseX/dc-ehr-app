@@ -93,24 +93,27 @@ export const ImageTray = ({ selectedFiles, setSelectFiles }: Props) => {
                 }}
                 setFileUrl={(base64FilePromise) =>
                   setSelectFiles((files) =>
-                    files.map((fileItem) =>
-                      fileItem.id === id
-                        ? {
-                            id,
-                            fileUrl: base64FilePromise.then((base64) => {
-                              const resolvedFileItem = { id, fileUrl: base64 };
-                              setSelectFiles((files) =>
-                                files.map((file) =>
-                                  file.id === resolvedFileItem.id
-                                    ? resolvedFileItem
-                                    : file,
-                                ),
-                              );
-                              return base64;
-                            }),
-                          }
-                        : fileItem,
-                    ),
+                    files.map((fileItem) => {
+                      if (fileItem.id === id) {
+                        fileItem = {
+                          id,
+                          fileUrl: base64FilePromise.then((base64) => {
+                            const resolvedFileItem = { id, fileUrl: base64 };
+
+                            setSelectFiles((files) =>
+                              files.map((file) => {
+                                return file.id === resolvedFileItem.id &&
+                                  fileItem.fileUrl === file.fileUrl
+                                  ? resolvedFileItem
+                                  : file;
+                              }),
+                            );
+                            return base64;
+                          }),
+                        };
+                      }
+                      return fileItem;
+                    }),
                   )
                 }
               />
