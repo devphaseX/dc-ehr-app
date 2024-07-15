@@ -70,17 +70,25 @@ const NewResource = () => {
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit((formValues) => {
-                      const images = selectedFiles.map(
-                        (files) => files.fileUrl,
+                      const images = formValues.images.map(
+                        (file) => file.fileUrl,
                       );
 
-                      // if (!images.length) {
-                      //   toast.error(
-                      //   );
-                      //   return;
-                      // }
+                      const imageNotFullyResolved = images.some(
+                        (value) => value instanceof Promise,
+                      );
 
-                      // setPost({ ...formValues, images: })
+                      if (imageNotFullyResolved) {
+                        toast.error("Images still uploading");
+                        return;
+                      }
+
+                      if (!images.length) {
+                        toast.error("Atleast one image needs to be selected.");
+                        return;
+                      }
+
+                      setPost({ ...formValues });
                     })}
                   >
                     <div className="space-y-14">
