@@ -1,6 +1,13 @@
-import { TypeOf, z } from 'zod';
+import { TypeOf, z } from "zod";
 
 export const createNewResourceSchema = z.object({
+  images: z
+    .object({
+      id: z.string(),
+      fileUrl: z.union([z.string(), z.promise(z.string())]).optional(),
+      file: z.unknown().optional(),
+    })
+    .array(),
   fileName: z.string().min(1),
   category: z.string().min(1),
   subject: z.string().min(1),
@@ -10,3 +17,6 @@ export const createNewResourceSchema = z.object({
 });
 
 export type CreateNewResource = TypeOf<typeof createNewResourceSchema>;
+export type FileItem = Omit<CreateNewResource["images"][number], "file"> & {
+  file?: File;
+};

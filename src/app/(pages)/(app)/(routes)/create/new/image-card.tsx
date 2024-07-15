@@ -1,38 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Loader2, Trash } from "lucide-react";
 import Image from "next/image";
+import { FileItem } from "./schema";
 
-type Props = {
-  id: string;
-  file: File;
+type Props = FileItem & {
   drop?: (id: string) => void;
-  fileUrl?: string;
-  setFileUrl: (base64File: string) => void;
+  setFileUrl: (p: Promise<string>) => void;
 };
 
 export const ImageCard = ({ file, id, drop, fileUrl, setFileUrl }: Props) => {
-  const [activeFile, setActiveFile] = useState<File | null>(null);
   const [encoding, setEncoding] = useState(false);
 
   useEffect(() => {
-    if (file != activeFile) {
-      if (file === null) return;
-      (async () => {
-        const reader = new FileReader();
-        reader.onloadstart = () => {
-          setEncoding(true);
-          setActiveFile(file);
-        };
+    (async () => {
+      if (file == null) return;
 
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          setTimeout(() => {
-            setFileUrl(reader.result as string);
-            setEncoding(false);
-          }, 1000);
-        };
-      })();
-    }
+      setFileUrl(
+        new Promise<string>((res) => {
+          const reader = new FileReader();
+          reader.onloadstart = () => {
+            setEncoding(true);
+          };
+
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            setTimeout(() => {
+              res(reader.result as string);
+              setEncoding(false);
+            }, 500);
+          };
+        }),
+      );
+    })();
   }, [file]);
 
   return (
@@ -43,7 +42,7 @@ export const ImageCard = ({ file, id, drop, fileUrl, setFileUrl }: Props) => {
             <Loader2 className="text-primary-500 animate-spin size-7" />
           )}
 
-          {fileUrl && (
+          {typeof fileUrl == "string" && (
             <Image
               src={fileUrl}
               alt="uploaded-image"

@@ -2,21 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { LucideBatteryWarning } from "lucide-react";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { ulid } from "ulid";
 import { ImageCard } from "./image-card";
+import { FileItem } from "./schema";
 
-type Props = {};
+type Props = {
+  selectedFiles: Array<FileItem>;
+  setSelectFiles: Dispatch<SetStateAction<FileItem[]>>;
+};
 
 const fileTypes = ["png", "jpg", "jpeg", "gif"];
-export const ImageTray = (props: Props) => {
-  const [selectedFile, setSelectFile] = useState<
-    { id: string; file: File; fileUrl?: string }[]
-  >([]);
-
+export const ImageTray = ({ selectedFiles, setSelectFiles }: Props) => {
   const handleChange = (files: FileList) => {
-    setSelectFile((currentFiles) =>
+    setSelectFiles((currentFiles) =>
       currentFiles.concat(Array.from(files, (file) => ({ id: ulid(), file }))),
     );
   };
@@ -74,28 +74,41 @@ export const ImageTray = (props: Props) => {
         </div>
       </div>
 
-      {!!selectedFile?.length && (
+      {!!selectedFiles?.length && (
         <div className="space-y-4 mt-8">
           <p className="font-medium text-neutral-800 text-base">
             Files Uploaded
           </p>
           <div className="flex items-center gap-[10px]">
-            {selectedFile.map(({ id, file, fileUrl }) => (
+            {selectedFiles.map(({ id, file, fileUrl }) => (
               <ImageCard
                 key={id}
                 file={file}
                 id={id}
                 fileUrl={fileUrl}
                 drop={() => {
-                  setSelectFile((files) =>
+                  setSelectFiles((files) =>
                     files.filter((file) => file.id !== id),
                   );
                 }}
-                setFileUrl={(base64File) =>
-                  setSelectFile((files) =>
+                setFileUrl={(base64FilePromise) =>
+                  setSelectFiles((files) =>
                     files.map((fileItem) =>
                       fileItem.id === id
-                        ? { ...fileItem, fileUrl: base64File }
+                        ? {
+                            id,
+                            fileUrl: base64FilePromise.then((base64) => {
+                              const resolvedFileItem = { id, fileUrl: base64 };
+                              setSelectFiles((files) =>
+                                files.map((file) =>
+                                  file.id === resolvedFileItem.id
+                                    ? resolvedFileItem
+                                    : file,
+                                ),
+                              );
+                              return base64;
+                            }),
+                          }
                         : fileItem,
                     ),
                   )

@@ -1,5 +1,5 @@
 "use client";
-
+import { useState, Dispatch, SetStateAction } from "react";
 import { Container } from "@/components/container";
 import {
   Form,
@@ -14,17 +14,35 @@ import { FormLabel } from "@/components/form/label";
 import { ChevronLeft, LucideBatteryWarning } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { CreateNewResource, createNewResourceSchema } from "./schema";
+import { CreateNewResource, createNewResourceSchema, FileItem } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { FormTextarea } from "@/components/form/text-area";
 import { ImageTray } from "./image-tray";
+import { useNewResourceStore } from "../form-state";
+import { toast } from "sonner";
 
 const NewResource = () => {
   const form = useForm<CreateNewResource>({
     resolver: zodResolver(createNewResourceSchema),
+    defaultValues: { images: [] },
   });
+
+  const selectedFiles = (form.watch("images") ?? []) as FileItem[];
+
+  const setSelectFiles: Dispatch<SetStateAction<FileItem[]>> = (value) => {
+    let nextState: FileItem[];
+    if (typeof value === "function") {
+      nextState = value((form.getValues("images") as FileItem[]) ?? []);
+    } else {
+      nextState = value;
+    }
+
+    form.setValue("images", nextState);
+  };
+
+  const { setPost } = useNewResourceStore();
   return (
     <div className="bg-neutral-50 min-h-full pt-14 pb-[445px]">
       <Container>
@@ -43,11 +61,28 @@ const NewResource = () => {
                 <h4 className="text-[40px] leading-[54px] text-neutral-800">
                   Upload File
                 </h4>
-                <ImageTray />
+                <ImageTray
+                  selectedFiles={selectedFiles}
+                  setSelectFiles={setSelectFiles}
+                />
               </div>
               <div>
                 <Form {...form}>
-                  <form>
+                  <form
+                    onSubmit={form.handleSubmit((formValues) => {
+                      const images = selectedFiles.map(
+                        (files) => files.fileUrl,
+                      );
+
+                      // if (!images.length) {
+                      //   toast.error(
+                      //   );
+                      //   return;
+                      // }
+
+                      // setPost({ ...formValues, images: })
+                    })}
+                  >
                     <div className="space-y-14">
                       <div className="space-y-8">
                         <div className="space-y-6">
@@ -168,6 +203,7 @@ const NewResource = () => {
                             Save to draft
                           </Button>
                           <Button
+                            type="submit"
                             className="flex items-center justify-center px-8 py-4
                 rounded-[48px] bg-primary-500 text-white font-semibold text-base font-josefin w-fit h-fit"
                           >
