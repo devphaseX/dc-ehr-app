@@ -30,10 +30,16 @@ const SettingPage = () => {
 
                 <AvatarFallback />
               </Avatar>
-              <div
+              <label
+                htmlFor="profile-setting-img-picker"
                 className="absolute flex items-center justify-center size-9
             bg-primary-500 rounded-full bottom-0 right-[4px] border-[2px] border-white"
               >
+                <input
+                  type="file"
+                  id="profile-setting-img-picker"
+                  className="hidden"
+                />
                 <Image
                   src="/icons/camera-r.svg"
                   alt="icon"
@@ -41,7 +47,7 @@ const SettingPage = () => {
                   height={16}
                   className="object-fill"
                 />
-              </div>
+              </label>
             </div>
 
             <div className="flex items-center gap-x-6">

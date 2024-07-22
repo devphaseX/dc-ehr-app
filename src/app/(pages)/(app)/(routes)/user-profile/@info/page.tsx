@@ -1,5 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+"use client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,15 +9,19 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import Image from 'next/image';
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { useBase64Encoder } from "@/hooks/use-base64";
+import Image from "next/image";
+import { toast } from "sonner";
 
 const Info = () => {
+  const { pick, base64, encoding } = useBase64Encoder();
+  console.log({ base64, encoding });
   return (
     <div className="flex flex-col gap-y-6 max-w-[320px]">
       <Card
-        className="rounded-[24px] border border-neutral-100 p-0 
+        className="rounded-[24px] border border-neutral-100 p-0
       overflow-hidden shadow-none border-none drop-shadow-none"
       >
         <CardHeader className="h-[140px] p-0 relative isolate">
@@ -52,14 +58,27 @@ const Info = () => {
               className="size-[88px] border-[4px]
            border-white"
             >
-              <AvatarImage src="/imgs/avatar-2.png" alt="" />
+              <AvatarImage src={base64 ?? "/imgs/avatar-2.png"} alt="" />
 
               <AvatarFallback />
             </Avatar>
-            <div
-              className="absolute flex items-center justify-center size-6 
+            <label
+              htmlFor="small-image-picker"
+              className="absolute flex items-center justify-center size-6
             bg-primary-500 rounded-full bottom-0 right-[4px] border-[2px] border-white"
             >
+              <input
+                className="hidden"
+                id="small-image-picker"
+                type="file"
+                onChange={(ev) => {
+                  const files = ev.target.files;
+                  if (files) {
+                    const [file] = files;
+                    pick(file);
+                  }
+                }}
+              />
               <Image
                 src="/icons/camera-r.svg"
                 alt="icon"
@@ -67,7 +86,7 @@ const Info = () => {
                 height={12}
                 className="object-fill"
               />
-            </div>
+            </label>
           </div>
 
           <div className="space-y-[2px] flex flex-col mx-auto w-full items-center">

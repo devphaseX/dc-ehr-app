@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Stage, stageMeta, useSignUpContext } from '../provider';
-import { FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { FormLabel } from '@/components/form/label';
-import { FormInput } from '@/components/form/input';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Stage, stageMeta, useSignUpContext } from "../provider";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { FormLabel } from "@/components/form/label";
+import { FormInput } from "@/components/form/input";
+import { Button } from "@/components/ui/button";
 
-export const stage: Stage = 'info';
+export const stage: Stage = "info";
 const GetUserInfo = () => {
   const { form, next } = useSignUpContext();
   const [fields] = useState(stageMeta[stage]?.fields);
 
   if (!form) {
-    throw new Error('Sign up form context not set');
+    throw new Error("Sign up form context not set");
   }
 
   if (!fields) {
@@ -33,12 +33,23 @@ const GetUserInfo = () => {
 
       <div className="space-y-6">
         <FormField
-          name="fullName"
+          name="firstName"
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel text="Full name" />
-              <FormInput {...field} placeholder="Type your full name" />
+              <FormLabel text="First name" />
+              <FormInput {...field} placeholder="Type your firstName" />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="lastName"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel text="Last name" />
+              <FormInput {...field} placeholder="Type your lastName" />
               <FormMessage />
             </FormItem>
           )}
@@ -70,7 +81,7 @@ const GetUserInfo = () => {
           )}
         />
 
-        <FormItem className="space-x-6 flex items-center space-y-0 w-full [&>*]:flex-1">
+        {/* <FormItem className="space-x-6 flex items-center space-y-0 w-full [&>*]:flex-1">
           <FormField
             name="industry"
             control={form.control}
@@ -91,11 +102,11 @@ const GetUserInfo = () => {
               </FormItem>
             )}
           />
-        </FormItem>
+        </FormItem> */}
         <Button
           type="button"
           onClick={() => next?.()}
-          className="w-full h-fit p-4 text-base text-white font-semibold 
+          className="w-full h-fit p-4 text-base text-white font-semibold
         rounded-[56px] bg-primary-500 !mt-8"
         >
           Continue

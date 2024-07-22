@@ -3,10 +3,18 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'example.com',
+        protocol: "https",
+        hostname: "example.com",
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/v1/:path*",
+        destination: `${process.env.BACKEND_URL}/:path*`,
+      },
+    ];
   },
 };
 

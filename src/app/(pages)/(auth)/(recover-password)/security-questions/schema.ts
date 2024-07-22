@@ -1,4 +1,4 @@
-import { TypeOf, z } from 'zod';
+import { TypeOf, z } from "zod";
 
 export const securityQuestionSchema = z.object({
   questions: z

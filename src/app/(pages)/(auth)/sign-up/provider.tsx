@@ -1,28 +1,31 @@
-'use client';
+"use client";
 
-import React, { useContext } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpFormSchema } from './schema';
-import { SignUpForm } from './schema';
-import { parseAsStringEnum, useQueryState } from 'nuqs';
-import { Form } from '@/components/ui/form';
+import React, { useContext } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpFormSchema } from "./schema";
+import { SignUpForm } from "./schema";
+import { parseAsStringEnum, useQueryState } from "nuqs";
+import { Form } from "@/components/ui/form";
+import { registerAction } from "@/actions/sign-up/handler";
+import { useAction } from "next-safe-action/hooks";
+import { toast } from "sonner";
 
 export const formStages = [
-  'info',
-  'password',
-  'security-questions',
-  'verify-account',
+  "info",
+  "password",
+  "security-questions",
+  "verify-account",
 ] as const;
 
 export type Stage = (typeof formStages)[number];
 type SignUpStages = { [Task in Stage]: Exclude<Stage, Task> | null };
 
 const signUpStages: SignUpStages = {
-  info: 'password',
-  password: 'security-questions',
-  'security-questions': 'verify-account',
-  'verify-account': null,
+  info: "password",
+  password: "security-questions",
+  "security-questions": "verify-account",
+  "verify-account": null,
 };
 
 type SignUpContext = {
@@ -46,11 +49,11 @@ type StageMeta = {
 export const stageMeta: StageMeta = {
   info: {
     index: 1,
-    fields: ['fullName', 'username', 'email', 'industry', 'categories'],
+    fields: ["firstName", "lastName", "username", "email"],
   },
-  password: { index: 2, fields: ['password', 'confirmPassword'] },
-  'security-questions': { index: 3, fields: [] },
-  'verify-account': { index: 4, fields: [] },
+  password: { index: 2, fields: ["password", "confirmPassword"] },
+  "security-questions": { index: 3, fields: [] },
+  "verify-account": { index: 4, fields: [] },
 };
 
 const SignUpContext = React.createContext<SignUpContext>({
@@ -60,32 +63,42 @@ const SignUpContext = React.createContext<SignUpContext>({
 export const useSignUpContext = () => useContext(SignUpContext);
 
 export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
-  const form = useForm<SignUpForm>({
-    resolver: zodResolver(signUpFormSchema),
-    mode: 'onChange',
-    defaultValues: {
-      fullName: '',
-      username: '',
-      email: '',
-      industry: '',
-      password: '',
-      confirmPassword: '',
-      categories: '',
-      securityQuestions: [],
+  const { execute: registerUser, status } = useAction(registerAction, {
+    onSettled: (_, { message, error }) => {
+      if (message) {
+        next();
+      } else {
+        toast.error(error);
+      }
     },
   });
 
+  const form = useForm<SignUpForm>({
+    resolver: zodResolver(signUpFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      securityQuestions: [],
+    },
+    disabled: status === "executing",
+  });
+
   const [stage, setStage] = useQueryState(
-    'stage',
+    "stage",
     parseAsStringEnum([...formStages])
-      .withDefault('info')
-      .withOptions({ throttleMs: 500 })
+      .withDefault("info")
+      .withOptions({ throttleMs: 500 }),
   );
 
   async function next() {
     const { fields, index } = stageMeta[stage] ?? {};
 
-    if (!(fields && typeof index === 'number')) {
+    if (!(fields && typeof index === "number")) {
       return;
     }
 
@@ -116,19 +129,12 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
           setStage,
         }}
       >
-        {/* {stage !== 'account-created' ? (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(() => {})} className="w-full">
-              {children}
-            </form>
-          </Form>
-        ) : (
-          children
-        )} */}
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(() => {
-              alert('submitted');
+            {...(stage === "security-questions" && {
+              onSubmit: form.handleSubmit((data) => {
+                registerUser(data);
+              }),
             })}
             className="w-full"
           >
