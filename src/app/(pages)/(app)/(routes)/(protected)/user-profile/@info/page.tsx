@@ -11,13 +11,23 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
 import { useBase64Encoder } from "@/hooks/use-base64";
+import { useAuth } from "@/providers/auth";
 import Image from "next/image";
 import { toast } from "sonner";
 
 const Info = () => {
-  const { pick, base64, encoding } = useBase64Encoder();
-  console.log({ base64, encoding });
+  const {
+    mutation: { mutate, status },
+  } = useUploadProfileImg();
+
+  const { user } = useAuth();
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col gap-y-6 max-w-[320px]">
       <Card
@@ -58,7 +68,7 @@ const Info = () => {
               className="size-[88px] border-[4px]
            border-white"
             >
-              <AvatarImage src={base64 ?? "/imgs/avatar-2.png"} alt="" />
+              <AvatarImage src={"/imgs/avatar-2.png"} alt="" />
 
               <AvatarFallback />
             </Avatar>
@@ -75,7 +85,7 @@ const Info = () => {
                   const files = ev.target.files;
                   if (files) {
                     const [file] = files;
-                    pick(file);
+                    mutate({ file });
                   }
                 }}
               />
@@ -90,8 +100,8 @@ const Info = () => {
           </div>
 
           <div className="space-y-[2px] flex flex-col mx-auto w-full items-center">
-            <h4 className="font-bold text-base text-black">Adam James</h4>
-            <p className="text-sm text-neutral-500">@admajames</p>
+            <h4 className="font-bold text-base text-black">{`${user.firstName} ${user.lastName}`}</h4>
+            <p className="text-sm text-neutral-500">{`@${user.userName}`}</p>
           </div>
 
           <div className="border border-neutral-100 rounded-[12px] p-6">

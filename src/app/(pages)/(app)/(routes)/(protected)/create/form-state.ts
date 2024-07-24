@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { CreateNewResource } from "./new/schema";
 
-type Resource = CreateNewResource;
+type Resource = Omit<CreateNewResource, "images"> & { images: Array<string> };
 
 type CreateNewResourceStore = {
   post?: Resource | null;

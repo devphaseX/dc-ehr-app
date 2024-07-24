@@ -9,20 +9,29 @@ import { FormLabel } from "@/components/form/label";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
+import { User } from "@/lib/response";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
+  user: User;
   preview?: boolean;
   withExtra?: boolean;
 };
 
 export const ProfileForm = (props: Props) => {
+  const user = props.user;
   const form = useForm<UpdateProfileForm>({
     resolver: zodResolver(updateProfileSchema),
     disabled: props.preview,
+    defaultValues: {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.userName,
+      email: user.email,
+    },
   });
 
   const router = useRouter();
@@ -37,12 +46,23 @@ export const ProfileForm = (props: Props) => {
         <form className="space-y-16">
           <div className="grid grid-cols-2 gap-x-6 gap-y-8">
             <FormField
-              name="fullName"
+              name="firstName"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel text="Full name" />
-                  <FormInput {...field} placeholder="Type your full name" />
+                  <FormLabel text="First name" />
+                  <FormInput {...field} placeholder="Type your first name" />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              name="lastName"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel text="Last name" />
+                  <FormInput {...field} placeholder="Type your last name" />
                   <FormMessage />
                 </FormItem>
               )}

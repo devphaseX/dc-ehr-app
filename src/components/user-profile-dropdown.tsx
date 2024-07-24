@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,24 +9,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuSubContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Image from 'next/image';
-import { Button } from './ui/button';
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
+import { Button } from "./ui/button";
+import { User } from "@/lib/response";
+import { logout } from "@/auth";
 
 type Props = {
-  user: {
-    id: string;
-    name: string;
-    avatarUrl?: string;
-    username: string;
-  };
-
+  user: User;
   offset?: number;
 };
 
 export const UserProfileDropDown = ({
-  user: { id, name, avatarUrl, username },
+  user: { id, firstName, lastName, userName, profilePicture },
   offset,
 }: Props) => {
   const [profileDropDownOpen, setProfileDropDownOpen] = useState(false);
@@ -38,8 +34,10 @@ export const UserProfileDropDown = ({
     >
       <DropdownMenuTrigger>
         <Avatar className="size-12">
-          <AvatarImage src={avatarUrl} alt="avatar" />
-          <AvatarFallback className="uppercase">A</AvatarFallback>
+          <AvatarImage src={profilePicture ?? undefined} alt="avatar" />
+          <AvatarFallback className="uppercase">
+            {firstName.slice(0, 1)}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
 
@@ -53,9 +51,9 @@ export const UserProfileDropDown = ({
         <div className="w-full space-y-5">
           <div className="space-y-1 w-full">
             <h3 className="font-medium text-base text-black font-josefin">
-              {name}
+              {`${firstName} ${lastName}`}
             </h3>
-            <p className="text-neutral-500 text-xs font-josefin">@{username}</p>
+            <p className="text-neutral-500 text-xs font-josefin">@{userName}</p>
           </div>
           <DropdownMenuSeparator />
           <DropdownMenuGroup className="p-0 space-y-6">
@@ -107,7 +105,12 @@ export const UserProfileDropDown = ({
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Button className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]">
+              <Button
+                className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]"
+                onClick={() => {
+                  logout();
+                }}
+              >
                 Logout
               </Button>
             </DropdownMenuItem>

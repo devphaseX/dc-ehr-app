@@ -53,7 +53,7 @@ const SecurityQuestionsSetForm = ({ questions: prepQuestions }: Props) => {
 
   const { fields, append, update, remove } = useFieldArray({
     control: form.control,
-    name: "securityQuestions",
+    name: "userSecurityQuestions",
   });
 
   const selectQuestionDropDownRef = useRef<HTMLDivElement | null>(null);
@@ -68,7 +68,6 @@ const SecurityQuestionsSetForm = ({ questions: prepQuestions }: Props) => {
     }
   }, []);
 
-  console.log({ data: form.getValues(), error: form.formState.errors });
   return (
     <div className="space-y-10">
       <div className="space-y-4">
@@ -89,7 +88,7 @@ const SecurityQuestionsSetForm = ({ questions: prepQuestions }: Props) => {
 
           <FormField
             control={form.control}
-            name="securityQuestions"
+            name="userSecurityQuestions"
             render={() => (
               <FormItem>
                 <div className="space-y-10">
@@ -160,7 +159,7 @@ const SecurityQuestionsSetForm = ({ questions: prepQuestions }: Props) => {
                       return (
                         <FormField
                           control={form.control}
-                          name={`securityQuestions.${index}.answer`}
+                          name={`userSecurityQuestions.${index}.answer`}
                           render={({ field: innerField }) => (
                             <FormItem className="space-y-6">
                               <div className="flex items-center gap-x-2">

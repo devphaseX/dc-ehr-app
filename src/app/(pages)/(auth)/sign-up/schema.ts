@@ -16,10 +16,13 @@ export const signUpFormSchema = z
       .email("email is not valid"),
     password: z.string().min(8, "minimum of 8 character is required"),
     confirmPassword: z.string(),
-    securityQuestions: z
+    userSecurityQuestions: z
       .object({
         questionId: z.string().min(3).max(255),
-        answer: z.string().min(3).max(255),
+        answer: z
+          .string()
+          .min(3, { message: "answer must be a min of 3 characters" })
+          .max(255),
       })
       .array(),
   })
@@ -28,9 +31,12 @@ export const signUpFormSchema = z
   });
 
 export const updateProfileSchema = z.object({
-  fullName: z
-    .string({ required_error: "fullName is required" })
-    .min(3, "fullName must contain at least 3 characters"),
+  firstName: z
+    .string({ required_error: "firstName is required" })
+    .min(1, "firstName must contain at least 3 characters"),
+  lastName: z
+    .string({ required_error: "lastName is required" })
+    .min(1, "lastName must contain at least 3 characters"),
   username: z
     .string({ required_error: "username is required" })
     .min(1, "username must contain at least 1 character"),

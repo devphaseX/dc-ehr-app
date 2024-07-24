@@ -8,10 +8,23 @@ import { z } from "zod";
 import { ChangePassword } from "./change-password";
 import { DeleteUserAccount } from "./delete-account";
 import { ProfileForm } from "../profile-form";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useBase64Encoder } from "@/hooks/use-base64";
+import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
+import { useAuth } from "@/providers/auth";
 
 const SettingPage = () => {
-  const router = useRouter();
+  const {
+    mutation: { mutate, status },
+  } = useUploadProfileImg();
+  // const router = useRouter();
+
+  const { user } = useAuth();
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="max-w-[855px] w-full bg-white rounded-[24px]">
       <div className="p-8 h-full">
@@ -26,7 +39,7 @@ const SettingPage = () => {
                 className="size-[120px] border-[4px]
            border-white"
               >
-                <AvatarImage src="/imgs/avatar-2.png" alt="" />
+                <AvatarImage src={"/imgs/avatar-2.png"} alt="" />
 
                 <AvatarFallback />
               </Avatar>
@@ -39,6 +52,13 @@ const SettingPage = () => {
                   type="file"
                   id="profile-setting-img-picker"
                   className="hidden"
+                  onChange={(ev) => {
+                    const files = ev.target.files;
+                    if (files) {
+                      const [file] = files;
+                      mutate({ file });
+                    }
+                  }}
                 />
                 <Image
                   src="/icons/camera-r.svg"

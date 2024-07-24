@@ -70,13 +70,12 @@ const NewResource = () => {
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit((formValues) => {
-                      const images = formValues.images.map(
-                        (file) => file.fileUrl,
-                      );
+                      let images: Array<string> = formValues.images
+                        .map((file) => file.fileUrl)
+                        .filter((url): url is string => url != null);
 
-                      const imageNotFullyResolved = images.some(
-                        (value) => value instanceof Promise,
-                      );
+                      const imageNotFullyResolved =
+                        formValues.images.length != images.length;
 
                       if (imageNotFullyResolved) {
                         toast.error("Images still uploading");
@@ -88,7 +87,9 @@ const NewResource = () => {
                         return;
                       }
 
-                      setPost({ ...formValues });
+                      delete (formValues as { images?: Array<any> }).images;
+
+                      setPost({ ...formValues, images });
                     })}
                   >
                     <div className="space-y-14">

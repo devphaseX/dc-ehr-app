@@ -4,7 +4,7 @@ export const createNewResourceSchema = z.object({
   images: z
     .object({
       id: z.string(),
-      fileUrl: z.union([z.string(), z.promise(z.string())]).optional(),
+      fileUrl: z.string().optional(),
       file: z.unknown().optional(),
     })
     .array(),

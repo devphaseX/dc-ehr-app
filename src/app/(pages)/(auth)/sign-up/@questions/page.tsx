@@ -3,10 +3,11 @@ import { SecurityQuestionsSetForm } from "./_page";
 import { getSecurityQuestionRespSchema } from "@/lib/response";
 
 export default async function SecurityPage() {
-  const payload = await fetch(`${env.BACKEND_URL}/Utility/GetQuestions`).then(
-    (res) => res.json(),
-  );
+  const payload = await fetch(`${env.BACKEND_URL}/Utility/GetQuestions`, {
+    headers: { "content-type": "application/json" },
+  }).then((res) => res.json());
 
+  console.log(payload);
   const result = getSecurityQuestionRespSchema.parse(payload);
   return <SecurityQuestionsSetForm questions={result.responseData ?? []} />;
 }

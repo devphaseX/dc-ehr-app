@@ -1,31 +1,12 @@
-import { SignInSchema } from '@/lib/validations/sign-in';
-import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import { cache } from 'react';
+"use server";
 
-const {
-  signIn,
-  signOut,
-  auth: uncached_auth,
-  handlers,
-  // unstable_update: updateSession,
-} = NextAuth({
-  providers: [
-    Credentials({
-      credentials: {
-        email: { label: 'email', type: 'text' },
-        password: { label: 'password', type: 'password' },
-      },
-      authorize: async (cred) => {
-        const { email, password } = SignInSchema.parse(cred);
+import { cookies } from "next/headers";
+const JWT_NAME = "jwt";
 
-        return {};
-      },
-    }),
-  ],
-  session: { strategy: 'jwt' },
-  pages: { signIn: '/sign-in', signOut: '/sign-out', error: '/', newUser: '/' },
-});
+export const getJwt = () => {
+  return cookies().get(JWT_NAME)?.value ?? null;
+};
 
-export const auth = cache(uncached_auth);
-export { signIn, signOut, handlers };
+export const logout = () => {
+  return cookies().delete(JWT_NAME);
+};

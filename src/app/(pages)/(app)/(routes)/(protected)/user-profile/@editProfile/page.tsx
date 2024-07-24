@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { ProfileForm } from "../profile-form";
 import { ChevronLeft } from "lucide-react";
+import { useAuth } from "@/providers/auth";
 
 export default function EditProfile() {
+  const { user } = useAuth();
+  if (!user) return null;
   return (
     <div className="max-w-[855px] w-full bg-white rounded-[24px]">
       <div className="p-8 pb-[108px] space-y-16">
@@ -17,7 +20,7 @@ export default function EditProfile() {
 
           <p className="text-lg text-neutral-800 font-semibold">Edit Profile</p>
         </div>
-        <ProfileForm withExtra />
+        <ProfileForm withExtra user={user} />
       </div>
     </div>
   );

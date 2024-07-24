@@ -1,9 +1,11 @@
-import Link from 'next/link';
-import { AuthNav } from './auth-nav';
+"use client";
+import Link from "next/link";
+import { AuthNav } from "./auth-nav";
+import { useAuth } from "@/providers/auth";
 
-let authed = true;
 const MainNavbar = () => {
-  if (!authed) {
+  const { user } = useAuth();
+  if (!user) {
     return (
       <div className="px-10 py-6 w-full">
         <div className="max-w-[1360px] mx-auto">
@@ -20,7 +22,7 @@ const MainNavbar = () => {
               </Link>
               <Link
                 href="/sign-up"
-                className="flex items-center justify-center px-6 py-[14px] 
+                className="flex items-center justify-center px-6 py-[14px]
                 rounded-[48px] bg-primary-500 text-white
                  font-semibold text-sm font-josefin w-fit h-fit"
               >
@@ -33,7 +35,7 @@ const MainNavbar = () => {
     );
   }
 
-  return <AuthNav />;
+  return <AuthNav user={user} />;
 };
 
 export default MainNavbar;

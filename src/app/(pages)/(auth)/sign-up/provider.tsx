@@ -63,12 +63,19 @@ const SignUpContext = React.createContext<SignUpContext>({
 export const useSignUpContext = () => useContext(SignUpContext);
 
 export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
-  const { execute: registerUser, status } = useAction(registerAction, {
-    onSettled: (_, { message, error }) => {
-      if (message) {
+  const {
+    execute: registerUser,
+    status,
+    result,
+  } = useAction(registerAction, {
+    onSettled: ({ data }) => {
+      if (data?.message) {
+        toast.error(data.message);
         next();
-      } else {
-        toast.error(error);
+      }
+
+      if (data?.error) {
+        toast.error(data.error);
       }
     },
   });
@@ -83,7 +90,7 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
       email: "",
       password: "",
       confirmPassword: "",
-      securityQuestions: [],
+      userSecurityQuestions: [],
     },
     disabled: status === "executing",
   });

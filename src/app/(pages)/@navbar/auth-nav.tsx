@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import { SearchInput } from '@/components/search';
-import { TempLogo } from '@/components/temp-logo';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { UserProfileDropDown } from '@/components/user-profile-dropdown';
-import { Plus } from 'lucide-react';
-import React from 'react';
+import { SearchInput } from "@/components/search";
+import { TempLogo } from "@/components/temp-logo";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { UserProfileDropDown } from "@/components/user-profile-dropdown";
+import { User } from "@/lib/response";
+import { Plus } from "lucide-react";
+import React from "react";
 
-type Props = {};
+type Props = {
+  user: User;
+};
 
-export const AuthNav = (props: Props) => {
+export const AuthNav = ({ user }: Props) => {
   return (
     <div className="px-10 py-6 w-full">
       <div className="max-w-[1360px] mx-auto">
@@ -23,7 +26,7 @@ export const AuthNav = (props: Props) => {
               <Separator orientation="vertical" />
             </div>
             <div
-              className="text-sm text-neutral-900 
+              className="text-sm text-neutral-900
             font-josefin min-w-fit py-[14px]"
             >
               All Categories
@@ -42,15 +45,7 @@ export const AuthNav = (props: Props) => {
               New Upload
             </Button>
 
-            <UserProfileDropDown
-              user={{
-                id: '1',
-                name: 'Ayomide Lawal',
-                username: 'Buildthings',
-                avatarUrl: '',
-              }}
-              offset={28}
-            />
+            <UserProfileDropDown user={user} offset={28} />
           </div>
         </div>
       </div>

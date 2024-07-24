@@ -24,11 +24,11 @@ const SignIn = () => {
   });
 
   const { execute: signIn } = useAction(signInAction, {
-    onSettled: (_, { message, error }) => {
-      if (message) {
-        toast.success(message);
+    onSettled: ({ data }) => {
+      if (data?.message) {
+        toast.success(data?.message);
       } else {
-        toast.error(error);
+        toast.error(data?.error ?? "failed to sign user in.");
       }
     },
   });

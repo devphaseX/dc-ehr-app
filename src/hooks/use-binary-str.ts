@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { ulid } from "ulid";
 
-export const useBase64Encoder = () => {
+export const useBinaryStrEncoder = () => {
   const [file, setFile] = useState<{ id: string; file: File } | null>(null);
   const fileId = useRef<string | null>(file?.id ?? null);
-  const [base64, setBase64] = useState<string | null>(null);
+  const [binaryUrl, setBinaryUrl] = useState<string | null>(null);
   const [encoding, setEncoding] = useState<boolean>(false);
   const resolveRef = useRef<((value: string) => void) | null>(null);
 
@@ -19,7 +19,7 @@ export const useBase64Encoder = () => {
         if (fileId.current && fileId.current === file.id) {
           setEncoding(false);
           const result = reader.result as string;
-          setBase64(result);
+          setBinaryUrl(result);
           setFile(null);
           fileId.current = null;
           if (resolveRef.current) {
@@ -33,7 +33,7 @@ export const useBase64Encoder = () => {
   }, [file]);
 
   const reset = useCallback(() => {
-    setBase64(null);
+    setBinaryUrl(null);
     setEncoding(false);
     fileId.current = null;
     setFile(null);
@@ -51,7 +51,7 @@ export const useBase64Encoder = () => {
 
   return {
     encoding,
-    base64,
+    binaryUrl,
     pick,
     reset,
   };
