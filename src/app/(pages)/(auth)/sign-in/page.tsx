@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useAction } from "next-safe-action/hooks";
 import { signInAction } from "@/actions/sign-in/handler";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const form = useForm<SignInForm>({
@@ -23,10 +24,13 @@ const SignIn = () => {
     },
   });
 
+  const router = useRouter();
+
   const { execute: signIn } = useAction(signInAction, {
     onSettled: ({ data }) => {
       if (data?.message) {
         toast.success(data?.message);
+        router.push("/");
       } else {
         toast.error(data?.error ?? "failed to sign user in.");
       }
