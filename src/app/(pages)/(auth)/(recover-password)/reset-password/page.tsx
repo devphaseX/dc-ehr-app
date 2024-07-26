@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
-import { Form, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { FormLabel } from '@/components/form/label';
-import { Button } from '@/components/ui/button';
-import { FormPasswordInput } from '@/components/form/form-password-input';
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { FormLabel } from "@/components/form/label";
+import { Button } from "@/components/ui/button";
+import { FormPasswordInput } from "@/components/form/form-password-input";
 
-import { ChangePasswordForm, changePasswordSchema } from './schema';
-import { useResetPasswordState } from '../state';
-import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
+import { ChangePasswordForm, changePasswordSchema } from "./schema";
+import { useResetPasswordState } from "../state";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 const ChangePassword = () => {
   const stage = useResetPasswordState(({ stage }) => stage);
@@ -20,8 +20,8 @@ const ChangePassword = () => {
   const form = useForm<ChangePasswordForm>({
     resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      password: '',
-      confirmPassword: '',
+      oldPassword: "",
+      newPassword: "",
     },
   });
 
@@ -50,8 +50,8 @@ const ChangePassword = () => {
           </div>
           <Button
             type="button"
-            onClick={() => router.push('/sign-in')}
-            className="h-fit px-8 py-4 text-base text-white font-semibold 
+            onClick={() => router.push("/sign-in")}
+            className="h-fit px-8 py-4 text-base text-white font-semibold
       rounded-[56px] bg-primary-500"
           >
             Sign in back
@@ -69,7 +69,7 @@ const ChangePassword = () => {
             <Link
               href="/security-questions"
               onClick={() => {
-                setStage('security-questions');
+                setStage("security-questions");
               }}
               className="text-primary-500 text-sm flex items-center gap-x-2"
             >
@@ -91,7 +91,7 @@ const ChangePassword = () => {
             <form>
               <div className="space-y-6">
                 <FormField
-                  name="password"
+                  name="oldPassword"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem className="space-y-2">
@@ -105,7 +105,7 @@ const ChangePassword = () => {
                   )}
                 />
                 <FormField
-                  name="confirmPassword"
+                  name="newPassword"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem className="space-y-2">
@@ -120,7 +120,7 @@ const ChangePassword = () => {
                 />
 
                 <Button
-                  className="w-full h-fit p-4 text-base text-white font-semibold 
+                  className="w-full h-fit p-4 text-base text-white font-semibold
         rounded-[56px] bg-primary-500 !mt-10"
                 >
                   Continue

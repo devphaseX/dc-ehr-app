@@ -80,7 +80,7 @@ interface ApiOptions {
 }
 
 interface ExtendedRequestOptions<T> extends RequestOptions<T> {
-  validateResponse?: (data: T) => T;
+  validateResponse?: (data: unknown) => T;
   retry?: number;
   throwOnFailedStatus?: boolean;
 }

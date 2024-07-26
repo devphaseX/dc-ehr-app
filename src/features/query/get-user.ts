@@ -8,7 +8,10 @@ import { serverApi } from "../server-api";
 export const getUser = cache(async () => {
   try {
     const { data } = await serverApi.get<GetUserResp>("/User/GetUser", {
-      validateResponse: (data) => getUserRespSchema.parse(data),
+      validateResponse: (data) => {
+        console.log({ data });
+        return getUserRespSchema.parse(data);
+      },
     });
 
     if (data.responseCode === 200) {

@@ -1,8 +1,11 @@
 "use client";
 
-import { changePasswordSchema } from "@/app/(pages)/(auth)/(recover-password)/reset-password/schema";
 import {
+  changePasswordSchema,
   ChangePasswordForm,
+} from "@/app/(pages)/(auth)/(recover-password)/reset-password/schema";
+
+import {
   UpdateProfileForm,
   updateProfileSchema,
 } from "@/app/(pages)/(auth)/sign-up/schema";
@@ -12,6 +15,7 @@ import { FormLabel } from "@/components/form/label";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
+import { useChangePassword } from "@/features/api/mutation/use-change-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -19,8 +23,10 @@ import { useForm } from "react-hook-form";
 type Props = {};
 
 export const ChangePassword = (props: Props) => {
+  const { mutate, isPending } = useChangePassword();
   const form = useForm<ChangePasswordForm>({
     resolver: zodResolver(changePasswordSchema),
+    disabled: isPending,
   });
 
   return (
@@ -30,10 +36,10 @@ export const ChangePassword = (props: Props) => {
         <Separator className="bg-neutral-100" />
       </div>
       <Form {...form}>
-        <form className="">
+        <form className="" onSubmit={form.handleSubmit((data) => mutate(data))}>
           <div className="flex items-center gap-x-6 [&>*]:flex-1">
             <FormField
-              name="currentPassword"
+              name="oldPassword"
               control={form.control}
               render={({ field }) => (
                 <FormItem>

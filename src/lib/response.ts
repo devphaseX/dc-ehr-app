@@ -49,8 +49,8 @@ export const getUserPayloadSchema = z.object({
   isVerified: z.boolean({ coerce: true }).default(false),
   isDeactivated: z.boolean({ coerce: true }).default(false),
   securityQuestion: z.any(),
-  createdDate: z.date({ coerce: true }),
-  dateModified: z.date({ coerce: true }),
+  createdDate: z.date({ coerce: true }).optional(),
+  dateModified: z.date({ coerce: true }).optional(),
 });
 
 export type User = TypeOf<typeof getUserPayloadSchema>;

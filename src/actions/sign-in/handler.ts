@@ -5,23 +5,26 @@ import { env } from "@/lib/env";
 import { signInRespSchema } from "@/lib/response";
 import { cookies } from "next/headers";
 import { TimeSpan } from "oslo";
+import { serverApi } from "@/features/server-api";
 
 export const signInAction = action(signInSchema, async (form) => {
   try {
-    const resp = await fetch(`${env.BACKEND_URL}/Auth/Login`, {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: {
-        "Content-type": "application/json",
+    const { data: payload } = await serverApi.post(
+      "/Auth/Login",
+      {
+        ...form,
+        redirectUrl: env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
       },
-    });
+      {
+        validateResponse: (data) => signInRespSchema.parse(data),
+      },
+    );
 
-    const result = signInRespSchema.parse(await resp.json());
-    if (resp.status !== 200) {
-      throw new Error(result.responseMessage ?? "failed to sign in");
+    if (payload.responseCode !== 200) {
+      throw new Error(payload.responseMessage ?? "failed to sign in");
     }
 
-    const data = result.responseData!;
+    const data = payload.responseData!;
 
     cookies().set({
       name: "jwt",

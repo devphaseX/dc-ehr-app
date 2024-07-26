@@ -9,6 +9,7 @@ import { FormLabel } from "@/components/form/label";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
+import { useProfileUpdate } from "@/features/api/mutation/use-profile-update";
 import { User } from "@/lib/response";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -23,9 +24,11 @@ type Props = {
 
 export const ProfileForm = (props: Props) => {
   const user = props.user;
+  const { mutate, isPending } = useProfileUpdate();
+
   const form = useForm<UpdateProfileForm>({
     resolver: zodResolver(updateProfileSchema),
-    disabled: props.preview,
+    disabled: props.preview || isPending,
     defaultValues: {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -43,7 +46,12 @@ export const ProfileForm = (props: Props) => {
         <Separator className="bg-neutral-100" />
       </div>
       <Form {...form}>
-        <form className="space-y-16">
+        <form
+          className="space-y-16"
+          onSubmit={form.handleSubmit((data) => {
+            mutate(data);
+          })}
+        >
           <div className="grid grid-cols-2 gap-x-6 gap-y-8">
             <FormField
               name="firstName"
@@ -102,27 +110,6 @@ export const ProfileForm = (props: Props) => {
                   <FormLabel text="Date of birth" optional />
                   <FormInput {...field} placeholder="dd/mm/yyyy" type="text" />
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              name="industry"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel text="Industry" />
-                  <FormInput {...field} placeholder="Type your email" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="categories"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel text="Categories" />
-                  <FormInput {...field} placeholder="Type your email" />
                 </FormItem>
               )}
             />

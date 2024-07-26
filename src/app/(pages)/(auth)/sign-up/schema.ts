@@ -45,17 +45,9 @@ export const updateProfileSchema = z.object({
     .email("email is not valid"),
 
   dateOfBirth: z.string().optional(),
-  industry: z.string({ required_error: "select an industry" }),
-  categories: z.string({ required_error: "select a category" }),
   country: z.string().optional(),
   state: z.string().optional(),
 });
 
-export const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1),
-  newPassword: z.string().min(8),
-});
-
 export type SignUpForm = TypeOf<typeof signUpFormSchema>;
-export type ChangePasswordForm = TypeOf<typeof changePasswordSchema>;
 export type UpdateProfileForm = TypeOf<typeof updateProfileSchema>;
