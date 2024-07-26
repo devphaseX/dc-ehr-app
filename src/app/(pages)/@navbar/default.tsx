@@ -5,6 +5,7 @@ import { useAuth } from "@/providers/auth";
 
 const MainNavbar = () => {
   const { user } = useAuth();
+
   if (!user) {
     return (
       <div className="px-10 py-6 w-full">

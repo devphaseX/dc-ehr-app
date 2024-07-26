@@ -7,7 +7,6 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,6 +14,8 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { User } from "@/lib/response";
 import { logout } from "@/auth";
+import Link from "next/link";
+import { addBase64Prefix } from "@/lib/utils";
 
 type Props = {
   user: User;
@@ -34,7 +35,10 @@ export const UserProfileDropDown = ({
     >
       <DropdownMenuTrigger>
         <Avatar className="size-12">
-          <AvatarImage src={profilePicture ?? undefined} alt="avatar" />
+          <AvatarImage
+            src={profilePicture ? addBase64Prefix(profilePicture) : undefined}
+            alt="avatar"
+          />
           <AvatarFallback className="uppercase">
             {firstName.slice(0, 1)}
           </AvatarFallback>
@@ -57,16 +61,21 @@ export const UserProfileDropDown = ({
           </div>
           <DropdownMenuSeparator />
           <DropdownMenuGroup className="p-0 space-y-6">
-            <DropdownMenuItem className="flex item-center gap-x-4 p-0 text-base text-neutral-700">
-              <div className="size-5 relative flex item-center gap-x-4">
-                <Image
-                  src="/icons/person.svg"
-                  alt="icon"
-                  className="absolute inset-0 object-fill"
-                  fill
-                />
-              </div>
-              Profile
+            <DropdownMenuItem className="p-0">
+              <Link
+                href="/user-profile"
+                className="flex item-center gap-x-4 text-base text-neutral-700"
+              >
+                <div className="size-5 relative flex item-center gap-x-4">
+                  <Image
+                    src="/icons/person.svg"
+                    alt="icon"
+                    className="absolute inset-0 object-fill"
+                    fill
+                  />
+                </div>
+                Profile
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex item-center gap-x-4 p-0 text-base text-neutral-700">
               <div className="size-5 relative flex item-center gap-x-4">

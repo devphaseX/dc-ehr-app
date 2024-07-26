@@ -7,7 +7,7 @@ import { FormLabel } from "@/components/form/label";
 import { FormInput } from "@/components/form/input";
 import { Button } from "@/components/ui/button";
 
-export const stage: Stage = "info";
+const stage: Stage = "info";
 const GetUserInfo = () => {
   const { form, next } = useSignUpContext();
   const [fields] = useState(stageMeta[stage]?.fields);

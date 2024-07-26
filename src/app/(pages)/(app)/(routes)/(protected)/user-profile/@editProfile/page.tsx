@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ProfileForm } from "../profile-form";
 import { ChevronLeft } from "lucide-react";

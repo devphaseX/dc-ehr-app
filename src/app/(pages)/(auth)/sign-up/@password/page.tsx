@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { Stage, stageMeta, useSignUpContext } from '../provider';
-import { SignUpForm } from '../schema';
-import { FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { FormLabel } from '@/components/form/label';
-import { FormInput } from '@/components/form/input';
-import { Button } from '@/components/ui/button';
-import { FormPasswordInput } from '@/components/form/form-password-input';
-import { Checkbox } from '@/components/ui/checkbox';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Stage, stageMeta, useSignUpContext } from "../provider";
+import { SignUpForm } from "../schema";
+import { FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { FormLabel } from "@/components/form/label";
+import { FormInput } from "@/components/form/input";
+import { Button } from "@/components/ui/button";
+import { FormPasswordInput } from "@/components/form/form-password-input";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export const stageTag: Stage = 'password';
+const stageTag: Stage = "password";
 const GetUserPassword = () => {
   const { form, stage, stageMeta, next } = useSignUpContext();
   const [fields] = useState(stageMeta[stageTag]?.fields);
   const router = useRouter();
 
   if (!form) {
-    throw new Error('Sign up form context not set');
+    throw new Error("Sign up form context not set");
   }
 
   if (!fields) {
@@ -28,7 +28,7 @@ const GetUserPassword = () => {
 
   useLayoutEffect(() => {
     if (stageTag !== stage) {
-      router.push('/sign-up');
+      router.push("/sign-up");
     }
   }, []);
 
@@ -87,7 +87,7 @@ const GetUserPassword = () => {
 
         <Button
           onClick={() => next?.()}
-          className="w-full h-fit p-4 text-base text-white font-semibold 
+          className="w-full h-fit p-4 text-base text-white font-semibold
         rounded-[56px] bg-primary-500 mt-[36px]"
         >
           Continue

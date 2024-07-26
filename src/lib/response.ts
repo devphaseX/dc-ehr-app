@@ -28,9 +28,9 @@ export const getSecurityQuestionRespSchema = createResponseSchema({
   sucessSchema: z.array(securityQuestionPayloadSchema),
 });
 
-export type GetSecurityQuestionData = TypeOf<
-  typeof getSecurityQuestionRespSchema
->["responseData"];
+export type GetSecurityQuestionData = NonNullable<
+  TypeOf<typeof getSecurityQuestionRespSchema>["responseData"]
+>;
 
 export const signInRespSchema = createResponseSchema({
   sucessSchema: z.object({
@@ -58,4 +58,4 @@ export const getUserRespSchema = createResponseSchema({
   sucessSchema: getUserPayloadSchema,
 });
 
-export type GetUserResp = TypeOf<typeof getUserRespSchema>;
+export type GetUserResp = NonNullable<TypeOf<typeof getUserRespSchema>>;

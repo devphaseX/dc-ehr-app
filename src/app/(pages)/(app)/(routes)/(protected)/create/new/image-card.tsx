@@ -6,7 +6,7 @@ import { useBase64Encoder } from "@/hooks/use-base64";
 
 type Props = FileItem & {
   drop?: (id: string) => void;
-  setFileUrl: (p: Promise<string>) => void;
+  setFileUrl: (p: { id: string; file: string }) => void;
 };
 
 export const ImageCard = ({ file, id, drop, setFileUrl }: Props) => {
@@ -15,7 +15,7 @@ export const ImageCard = ({ file, id, drop, setFileUrl }: Props) => {
   useEffect(() => {
     if (encoding) return;
     if (base64) {
-      setFileUrl(Promise.resolve(base64));
+      setFileUrl({ id, file: base64 });
     }
   }, [base64]);
 

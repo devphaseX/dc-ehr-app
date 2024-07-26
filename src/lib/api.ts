@@ -149,6 +149,8 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
           ...requestInit.headers,
           "Content-Type": "application/json",
         };
+      } else {
+        requestInit.body = requestOptions.formData;
       }
 
       req = new Request(fullUrl, requestInit);
@@ -169,7 +171,7 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
     let retryCount = 0;
     while (true) {
       try {
-        let response = await fetch(req);
+        let response = await fetch(req, { cache: "no-cache" });
         const checkedResponse = checkStatus(response, throwOnFailedStatus);
         let data = await parseJSON<T>(response);
         if (validateResponse) {

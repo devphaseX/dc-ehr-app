@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { UserProfileDropDown } from "@/components/user-profile-dropdown";
 import { User } from "@/lib/response";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const AuthNav = ({ user }: Props) => {
+  const router = useRouter();
   return (
     <div className="px-10 py-6 w-full">
       <div className="max-w-[1360px] mx-auto">
@@ -40,6 +42,9 @@ export const AuthNav = ({ user }: Props) => {
             <Button
               className="bg-primary-500  text-sm text-white font-semibold
             px-6 py-[14px] flex items-center w-fit h-fit rounded-[48px]"
+              onClick={() => {
+                router.push("/create/new");
+              }}
             >
               <Plus className="size-6 mr-2" />
               New Upload

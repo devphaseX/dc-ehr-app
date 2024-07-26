@@ -8,16 +8,17 @@ import { z } from "zod";
 import { ChangePassword } from "./change-password";
 import { DeleteUserAccount } from "./delete-account";
 import { ProfileForm } from "../profile-form";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useBase64Encoder } from "@/hooks/use-base64";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
 import { useAuth } from "@/providers/auth";
+import { addBase64Prefix } from "@/lib/utils";
 
 const SettingPage = () => {
   const {
     mutation: { mutate, status },
   } = useUploadProfileImg();
-  // const router = useRouter();
+  const router = useRouter();
 
   const { user } = useAuth();
 
@@ -39,7 +40,14 @@ const SettingPage = () => {
                 className="size-[120px] border-[4px]
            border-white"
               >
-                <AvatarImage src={"/imgs/avatar-2.png"} alt="" />
+                <AvatarImage
+                  src={
+                    user.profilePicture
+                      ? addBase64Prefix(user.profilePicture)
+                      : undefined
+                  }
+                  alt=""
+                />
 
                 <AvatarFallback />
               </Avatar>
@@ -100,7 +108,7 @@ const SettingPage = () => {
           </div>
 
           <div className="!mt-10 space-y-16">
-            <ProfileForm preview />
+            <ProfileForm preview user={user} />
             <ChangePassword />
             <DeleteUserAccount />
           </div>

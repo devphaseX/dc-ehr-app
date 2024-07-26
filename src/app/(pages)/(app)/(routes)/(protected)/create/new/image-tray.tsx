@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { LucideBatteryWarning } from "lucide-react";
 import React, { Dispatch, SetStateAction, useState } from "react";
@@ -91,26 +90,11 @@ export const ImageTray = ({ selectedFiles, setSelectFiles }: Props) => {
                     files.filter((file) => file.id !== id),
                   );
                 }}
-                setFileUrl={(base64FilePromise) =>
+                setFileUrl={({ id, file }) =>
                   setSelectFiles((files) =>
                     files.map((fileItem) => {
-                      if (fileItem.id === id) {
-                        fileItem = {
-                          id,
-                          fileUrl: base64FilePromise.then((base64) => {
-                            const resolvedFileItem = { id, fileUrl: base64 };
-
-                            setSelectFiles((files) =>
-                              files.map((file) => {
-                                return file.id === resolvedFileItem.id &&
-                                  fileItem.fileUrl === file.fileUrl
-                                  ? resolvedFileItem
-                                  : file;
-                              }),
-                            );
-                            return base64;
-                          }),
-                        };
+                      if (fileItem.id == id) {
+                        return { ...fileItem, fileUrl: file };
                       }
                       return fileItem;
                     }),

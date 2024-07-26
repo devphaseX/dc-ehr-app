@@ -7,7 +7,6 @@ export default async function SecurityPage() {
     headers: { "content-type": "application/json" },
   }).then((res) => res.json());
 
-  console.log(payload);
   const result = getSecurityQuestionRespSchema.parse(payload);
   return <SecurityQuestionsSetForm questions={result.responseData ?? []} />;
 }

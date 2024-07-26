@@ -27,10 +27,10 @@ const SignIn = () => {
   const router = useRouter();
 
   const { execute: signIn } = useAction(signInAction, {
-    onSettled: ({ data }) => {
+    onSettled: async ({ data }) => {
       if (data?.message) {
         toast.success(data?.message);
-        router.push("/");
+        window.location.href = "/";
       } else {
         toast.error(data?.error ?? "failed to sign user in.");
       }

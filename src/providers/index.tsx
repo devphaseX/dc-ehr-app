@@ -14,13 +14,15 @@ export const Provider = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <JwtAuthProvider
-        jwt={user ? jwt : null}
-        baseUrl={env.BACKEND_URL}
-        user={user}
-      >
-        <DataQueryProvider>{children}</DataQueryProvider>
-      </JwtAuthProvider>
+      <DataQueryProvider>
+        <JwtAuthProvider
+          jwt={user ? jwt : null}
+          baseUrl={env.BACKEND_URL}
+          user={user}
+        >
+          {children}
+        </JwtAuthProvider>
+      </DataQueryProvider>
     </>
   );
 };

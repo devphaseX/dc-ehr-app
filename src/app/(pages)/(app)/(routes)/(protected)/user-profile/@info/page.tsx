@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
 import { useBase64Encoder } from "@/hooks/use-base64";
+import { addBase64Prefix } from "@/lib/utils";
 import { useAuth } from "@/providers/auth";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -68,7 +70,14 @@ const Info = () => {
               className="size-[88px] border-[4px]
            border-white"
             >
-              <AvatarImage src={"/imgs/avatar-2.png"} alt="" />
+              <AvatarImage
+                src={
+                  user.profilePicture
+                    ? addBase64Prefix(user.profilePicture)
+                    : undefined
+                }
+                alt=""
+              />
 
               <AvatarFallback />
             </Avatar>
@@ -122,7 +131,12 @@ const Info = () => {
               </div>
             </div>
           </div>
-          <Button className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]">
+          <Button
+            className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]"
+            onClick={() => {
+              logout();
+            }}
+          >
             Logout
           </Button>
         </CardContent>
