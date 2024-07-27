@@ -3,9 +3,8 @@ import { action } from "@/lib/action";
 import { signInSchema } from "./schema";
 import { env } from "@/lib/env";
 import { signInRespSchema } from "@/lib/response";
-import { cookies } from "next/headers";
-import { TimeSpan } from "oslo";
 import { serverApi } from "@/features/server-api";
+import { setJwt } from "@/auth";
 
 export const signInAction = action(signInSchema, async (form) => {
   try {
@@ -26,14 +25,7 @@ export const signInAction = action(signInSchema, async (form) => {
 
     const data = payload.responseData!;
 
-    cookies().set({
-      name: "jwt",
-      value: data.token,
-      httpOnly: true,
-      path: "/",
-      maxAge: new TimeSpan(1, "h").milliseconds(),
-    });
-
+    await setJwt(data.token);
     return { message: "Login sucessful", userId: data.userId };
   } catch (e) {
     console.log({ type: e });

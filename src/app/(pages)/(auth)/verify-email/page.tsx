@@ -8,6 +8,7 @@ import { TimeSpan } from "oslo";
 import { getUser } from "@/features/query/get-user";
 import Link from "next/link";
 import { Footer } from "../../(app)/(home)/__components/footer";
+import { setJwt } from "@/auth";
 
 const ConfirmEmailVerify = async ({
   searchParams: { token, userId },
@@ -59,13 +60,7 @@ const ConfirmEmailVerify = async ({
                 <SetAuthToken
                   setToken={async () => {
                     "use server";
-                    cookies().set({
-                      name: "jwt",
-                      value: token,
-                      httpOnly: true,
-                      path: "/",
-                      maxAge: new TimeSpan(1, "h").milliseconds(),
-                    });
+                    setJwt(token);
                   }}
                 />
               )}

@@ -11,7 +11,7 @@ export const useDeleteUser = () => {
     mutationKey: ["disactivate-user"],
     mutationFn: async (userId: string) => {
       const { data: payload } = await api.delete(
-        "/User/DeleteUSer",
+        "/User/DeleteUser",
         { userId },
         {
           validateResponse: (data) =>
@@ -22,11 +22,9 @@ export const useDeleteUser = () => {
       );
 
       if (payload.responseCode !== 200) {
-        toast.error(
-          payload.responseMessage ?? "failed to deactivate user account",
-        );
+        toast.error(payload.responseMessage ?? "failed to delete user account");
       } else {
-        toast.success("account deactivated successfully");
+        toast.success("account delete successfully");
         await logout();
       }
 

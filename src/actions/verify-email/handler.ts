@@ -27,7 +27,6 @@ export const verifyEmailAction = async ({
       return { error: data.responseMessage ?? "failed to verify email" };
     }
 
-    console.log({ res: data });
     return { data: data.responseData };
   } catch (e) {
     console.log("[VERIFY EMAIL ERROR]", e);

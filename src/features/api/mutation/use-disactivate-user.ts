@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export const useDisactivatUser = () => {
+export const useDeactivatUser = () => {
   const api = useApi();
   return useMutation({
     mutationKey: ["disactivate-user"],
