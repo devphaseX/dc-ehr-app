@@ -9,7 +9,6 @@ export const getUser = cache(async () => {
   try {
     const { data } = await serverApi.get<GetUserResp>("/User/GetUser", {
       validateResponse: (data) => {
-        console.log({ data });
         return getUserRespSchema.parse(data);
       },
     });

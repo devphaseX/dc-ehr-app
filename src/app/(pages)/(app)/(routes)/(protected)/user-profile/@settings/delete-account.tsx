@@ -2,7 +2,6 @@
 
 import { changePasswordSchema } from "@/app/(pages)/(auth)/(recover-password)/reset-password/schema";
 import {
-  ChangePasswordForm,
   UpdateProfileForm,
   updateProfileSchema,
 } from "@/app/(pages)/(auth)/sign-up/schema";

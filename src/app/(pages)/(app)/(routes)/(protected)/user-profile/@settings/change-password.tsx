@@ -69,7 +69,10 @@ export const ChangePassword = (props: Props) => {
           </div>
           <div className="flex justify-end mt-8">
             <div className="flex items-center gap-x-6">
-              <Button className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm">
+              <Button
+                className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm"
+                disabled={form.formState.disabled}
+              >
                 Don’t remember password?
               </Button>
               <Button className="rounded-[48px] px-6 py-3 w-fit h-fit bg-primary-500 text-white font-semibold text-sm">

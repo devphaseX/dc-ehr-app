@@ -13,7 +13,7 @@ export const signInAction = action(signInSchema, async (form) => {
       "/Auth/Login",
       {
         ...form,
-        redirectUrl: env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+        redirectUrl: `${env.NEXT_PUBLIC_BASE_URL}/verify-email`,
       },
       {
         validateResponse: (data) => signInRespSchema.parse(data),

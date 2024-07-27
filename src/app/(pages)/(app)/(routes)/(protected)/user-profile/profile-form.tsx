@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { format } from "date-fns";
 
 type Props = {
   user: User;
@@ -34,6 +35,11 @@ export const ProfileForm = (props: Props) => {
       lastName: user.lastName,
       username: user.userName,
       email: user.email,
+      dateOfBirth: user.dateOfBirth
+        ? new Date(user.dateOfBirth).toLocaleDateString()
+        : undefined,
+      country: user.country ?? undefined,
+      state: user.state ?? undefined,
     },
   });
 
@@ -108,7 +114,16 @@ export const ProfileForm = (props: Props) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel text="Date of birth" optional />
-                  <FormInput {...field} placeholder="dd/mm/yyyy" type="text" />
+                  <FormInput
+                    {...field}
+                    value={
+                      field.value
+                        ? format(new Date(field.value), "dd/MM/yyyy")
+                        : undefined
+                    }
+                    placeholder="dd/mm/yyyy"
+                    type="text"
+                  />
                   <FormMessage />
                 </FormItem>
               )}

@@ -246,8 +246,11 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         ...options,
         ...(data instanceof FormData ? { formData: data } : { body: data }),
       }),
-    delete: <T>(url: string, options?: ExtendedRequestOptions<T>) =>
-      request<T>("DELETE", url, options),
+    delete: <T>(
+      url: string,
+      data?: any | FormData,
+      options?: ExtendedRequestOptions<T>,
+    ) => request<T>("DELETE", url, options),
     execute: <T>(req: Request, options?: ExtendedRequestOptions<T>) =>
       request<T>(req, options),
   };

@@ -46,6 +46,9 @@ export const getUserPayloadSchema = z.object({
   userName: z.string(),
   email: z.string().email(),
   profilePicture: z.string().nullable(),
+  country: z.string().optional().nullable(),
+  state: z.string().optional().nullable(),
+  dateOfBirth: z.date({ coerce: true }).nullish(),
   isVerified: z.boolean({ coerce: true }).default(false),
   isDeactivated: z.boolean({ coerce: true }).default(false),
   securityQuestion: z.any(),
@@ -58,4 +61,15 @@ export const getUserRespSchema = createResponseSchema({
   sucessSchema: getUserPayloadSchema,
 });
 
+export const changePasswordResSchema = createResponseSchema({
+  sucessSchema: getUserPayloadSchema,
+});
+
+export const updateProfileResSchema = createResponseSchema({
+  sucessSchema: getUserPayloadSchema,
+});
+
+export const verifyEmailResSchema = createResponseSchema({
+  sucessSchema: getUserPayloadSchema,
+});
 export type GetUserResp = NonNullable<TypeOf<typeof getUserRespSchema>>;
