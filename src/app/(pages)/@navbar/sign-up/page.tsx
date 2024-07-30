@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const SignUpNavbar = () => {
   return (
@@ -7,12 +7,12 @@ const SignUpNavbar = () => {
         <div className="flex items-center w-full justify-between">
           <div></div>
           <div className="flex items-center gap-x-2">
-            <Link href="" className="text-sm text-neutral-400">
+            <Link href="/sign-up" className="text-sm text-neutral-400">
               Have an account?
             </Link>
             <Link
-              href=""
-              className="flex item-center justify-center py-2.5 px-5 rounded-[40px] bg-neutral-50 
+              href="/sign-in"
+              className="flex item-center justify-center py-2.5 px-5 rounded-[40px] bg-neutral-50
               font-josefin font-semibold text-primary-500"
             >
               Sign in

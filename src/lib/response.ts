@@ -72,4 +72,40 @@ export const updateProfileResSchema = createResponseSchema({
 export const verifyEmailResSchema = createResponseSchema({
   sucessSchema: getUserPayloadSchema,
 });
+
+export const requestVerifyEmailResSchema = createResponseSchema({
+  sucessSchema: z.any(),
+});
+
+export const getRecoverySecurityQuestionResSchema = createResponseSchema({
+  sucessSchema: z.array(
+    z.object({ questionId: z.string(), question: z.string() }),
+  ),
+});
+
+export type RecoverySecurityQuestion = NonNullable<
+  TypeOf<typeof getRecoverySecurityQuestionResSchema>["responseData"]
+>;
 export type GetUserResp = NonNullable<TypeOf<typeof getUserRespSchema>>;
+
+export const recoverySecurityAnswerSchema = z.array(
+  z.object({
+    questionId: z.string().min(1),
+    securityAnswer: z.string().min(1),
+  }),
+);
+
+export type RecoverySecurityAnswer = TypeOf<
+  typeof recoverySecurityAnswerSchema
+>;
+
+export const submitRecoverySecurityAnswerResSchema = createResponseSchema({
+  sucessSchema: z.object({ token: z.string(), userId: z.string() }),
+});
+
+export const resetPasswordResSchema = createResponseSchema({
+  sucessSchema: z.object({
+    token: z.string().min(32),
+    userId: z.string().min(26),
+  }),
+});

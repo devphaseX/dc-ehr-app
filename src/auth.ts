@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { TimeSpan } from "oslo";
 const JWT_NAME = "jwt";
+const RECOVERY_JWT_NAME = "recovery-auth";
 
 export const getJwt = async () => {
   return cookies().get(JWT_NAME)?.value ?? null;
@@ -26,4 +27,22 @@ export const setJwt = async (token: string, maxAge?: number) => {
     path: "/",
     maxAge: maxAge ?? new TimeSpan(1, "h").milliseconds(),
   });
+};
+
+export const setRecoveryJwt = async (token: string, maxAge?: number) => {
+  cookies().set({
+    name: RECOVERY_JWT_NAME,
+    value: token,
+    httpOnly: true,
+    path: "/",
+    maxAge: maxAge ?? new TimeSpan(1, "h").milliseconds(),
+  });
+};
+
+export const getRecoveryJwt = () => {
+  return cookies().get(RECOVERY_JWT_NAME)?.value ?? null;
+};
+
+export const clearRecoveryJwt = () => {
+  return cookies().delete(RECOVERY_JWT_NAME);
 };

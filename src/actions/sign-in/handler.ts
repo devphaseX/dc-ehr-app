@@ -16,6 +16,7 @@ export const signInAction = action(signInSchema, async (form) => {
       },
       {
         validateResponse: (data) => signInRespSchema.parse(data),
+        ignoreJwt: true,
       },
     );
 

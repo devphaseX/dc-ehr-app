@@ -5,6 +5,7 @@ interface RequestOptions<T = unknown> extends Omit<RequestInit, "method"> {
   params?: Record<string, string>;
   middleware?: MiddlewareFunction[];
   formData?: FormData;
+  ignoreJwt?: boolean;
   validateResponse?: (data: T) => T;
 }
 
@@ -153,10 +154,17 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         requestInit.body = requestOptions.formData;
       }
 
+      console.log({ fullUrl, h: requestInit.headers });
+
       req = new Request(fullUrl, requestInit);
     }
 
-    const { validateResponse, retry = 0, throwOnFailedStatus } = options;
+    const {
+      validateResponse,
+      ignoreJwt,
+      retry = 0,
+      throwOnFailedStatus,
+    } = options;
 
     const context: HookContext = { request: req, options };
     // Apply beforeRequest hooks
@@ -164,7 +172,7 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
     context.request = req; // Update context with potentially modified request
 
     const token = await getToken();
-    if (token) {
+    if (token && !ignoreJwt) {
       req.headers.set("Authorization", `Bearer ${token}`);
     }
 
@@ -172,6 +180,7 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
     while (true) {
       try {
         let response = await fetch(req, { cache: "no-cache" });
+        // console.log({ response });
         const checkedResponse = checkStatus(response, throwOnFailedStatus);
         let data = await parseJSON<T>(response);
         if (validateResponse) {

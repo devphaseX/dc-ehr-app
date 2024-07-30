@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const SignInNavbar = () => {
   return (
@@ -11,8 +11,8 @@ const SignInNavbar = () => {
               Don't have an account? Please
             </p>
             <Link
-              href=""
-              className="flex item-center justify-center py-2.5 px-5 rounded-[40px] bg-neutral-50 
+              href="/sign-up"
+              className="flex item-center justify-center py-2.5 px-5 rounded-[40px] bg-neutral-50
               font-josefin font-semibold text-primary-500"
             >
               Sign up
