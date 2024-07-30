@@ -69,7 +69,13 @@ const RecoverySecurityQuestionForm = ({
     if (insertedQuestions.current) return;
     insertedQuestions.current = true;
     Array.from(questions, ([_, question], i) => {
-      insert(i, question);
+      insert(
+        i,
+        question as unknown as {
+          questionId: string;
+          securityAnswer: string;
+        },
+      );
     });
   }, [questions]);
 

@@ -25,7 +25,7 @@ export default async function ResetPassword() {
 
         const jwt = await getJwt();
 
-        const user = await getUser(jwt);
+        const user = await getUser(jwt ?? undefined);
 
         if (!user) {
           return { error: "not a valid user" };

@@ -2,7 +2,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Provider } from "@/providers";
 import { baseMetadata } from "@/lib/seo";
-import { SessionProvider } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 

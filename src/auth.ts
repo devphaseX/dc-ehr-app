@@ -39,10 +39,10 @@ export const setRecoveryJwt = async (token: string, maxAge?: number) => {
   });
 };
 
-export const getRecoveryJwt = () => {
+export const getRecoveryJwt = async () => {
   return cookies().get(RECOVERY_JWT_NAME)?.value ?? null;
 };
 
-export const clearRecoveryJwt = () => {
+export const clearRecoveryJwt = async () => {
   return cookies().delete(RECOVERY_JWT_NAME);
 };

@@ -12,6 +12,7 @@ import { FormPasswordInput } from "@/components/form/form-password-input";
 import { ChangePasswordForm, changePasswordSchema } from "./schema";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
 
 type ResetPasswordFormProps = {
   changePassword: (props: {

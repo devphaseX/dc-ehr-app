@@ -1,6 +1,5 @@
 import { getUser } from "@/features/query/get-user";
 import { serverApi } from "@/features/server-api";
-import { protectedAction } from "@/lib/action";
 import { cookies } from "next/headers";
 
 export const deleteUserAction = async () => {
