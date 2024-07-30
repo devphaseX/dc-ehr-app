@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  if (isAuthRoute && user) {
+  if (isAuthRoute && jwt) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
