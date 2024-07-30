@@ -17,9 +17,9 @@ export async function middleware(request: NextRequest) {
 
   const isAuthRoute = authRoutes.some((route) => path.startsWith(route));
   // Check for the auth token in the cookies
-  const user = await getUser();
+  const jwt = await getJwt();
 
-  if (isProtectedRoute && !user) {
+  if (isProtectedRoute && !jwt) {
     // Redirect to login if accessing a protected route without a token
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
@@ -38,20 +38,4 @@ export const config = {
   // See https://clerk.com/docs/references/nextjs/auth-middleware
   // for more information about configuring your Middleware
   matcher: ["/((?!api).*)"],
-};
-
-const getUser = async () => {
-  try {
-    const { data } = await serverApi.get<GetUserResp>("/User/GetUser", {
-      validateResponse: (data) => getUserRespSchema.parse(data),
-    });
-
-    if (data.responseCode === 200) {
-      return data.responseData;
-    }
-    return null;
-  } catch (e) {
-    console.log("[GET USER]", e);
-    return null;
-  }
 };
