@@ -11,7 +11,7 @@ export const useUploadProfileImg = () => {
     mutationFn: async (data: { file: File }) => {
       const formData = new FormData();
       formData.set("file", data.file);
-      formData.set("pictureType", "2");
+      formData.set("pictureType", "1");
       const payload = api.put("/User/UploadPicture", formData);
       return payload;
     },
