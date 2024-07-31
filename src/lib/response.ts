@@ -12,7 +12,7 @@ export function createResponseSchema<SucessRepSchema extends ZodSchema>({
   sucessSchema: SucessRepSchema;
 }) {
   return baseResponseSchema.and(
-    z.object({ responseData: sucessSchema.optional() }),
+    z.object({ responseData: sucessSchema.optional().nullable() }),
   );
 }
 
