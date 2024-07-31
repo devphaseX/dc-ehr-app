@@ -5,6 +5,7 @@ import { serverApi } from "@/features/server-api";
 import { resetPasswordResSchema } from "@/lib/response";
 import { getUser } from "@/features/query/get-user";
 import { cookies } from "next/headers";
+import { NonCompliantResponseError } from "@/lib/error";
 
 export default async function ResetPassword() {
   const jwt = getRecoveryJwt();
@@ -39,6 +40,10 @@ export default async function ResetPassword() {
             validateResponse: (data) => resetPasswordResSchema.parse(data),
           },
         );
+
+        if (!data) {
+          throw new NonCompliantResponseError();
+        }
 
         if (data.responseCode !== 200) {
           return { error: data.responseMessage };

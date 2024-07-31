@@ -9,9 +9,21 @@ export const useChangePassword = () => {
   return useMutation({
     mutationKey: ["change-user-password"],
     mutationFn: async (data: ChangePasswordForm) => {
-      const { data: payload } = await api.put("/User/ChangePassword", data, {
-        validateResponse: (data) => changePasswordResSchema.parse(data),
-      });
+      const { status, data: payload } = await api.put(
+        "/User/ChangePassword",
+        data,
+        {
+          validateResponse: (data) => changePasswordResSchema.parse(data),
+        },
+      );
+
+      if (!payload && status === 200) {
+        return toast.success("password changed successfully");
+      }
+
+      if (!payload) {
+        return toast.error("failed to change password");
+      }
 
       if (payload.responseCode !== 200) {
         toast.error(payload.responseMessage ?? "failed to change password");

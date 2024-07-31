@@ -1,6 +1,7 @@
 "use server";
 import { serverApi } from "@/features/server-api";
 import { action } from "@/lib/action";
+import { NonCompliantResponseError } from "@/lib/error";
 import { verifyEmailResSchema } from "@/lib/response";
 import { cookies } from "next/headers";
 import { TimeSpan } from "oslo";
@@ -22,6 +23,10 @@ export const verifyEmailAction = async ({
         validateResponse: (data) => verifyEmailResSchema.parse(data),
       },
     );
+
+    if (!data) {
+      throw new NonCompliantResponseError();
+    }
 
     if (data.responseCode !== 200) {
       return { error: data.responseMessage ?? "failed to verify email" };

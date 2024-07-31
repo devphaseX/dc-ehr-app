@@ -4,6 +4,7 @@ import { cache } from "react";
 import { env } from "@/lib/env";
 import { GetUserResp, getUserRespSchema, User } from "@/lib/response";
 import { serverApi } from "../server-api";
+import { getJwt, logout } from "@/auth";
 
 export const getUser = cache(async (jwt?: string) => {
   try {
@@ -18,9 +19,10 @@ export const getUser = cache(async (jwt?: string) => {
       }),
     });
 
-    if (data.responseCode === 200) {
+    if (data?.responseCode === 200) {
       return data.responseData;
     }
+
     return null;
   } catch (e) {
     console.log("[GET USER]", e);

@@ -21,6 +21,10 @@ export const useDeleteUser = () => {
         },
       );
 
+      if (!payload) {
+        return toast.error("failed to delete user account");
+      }
+
       if (payload.responseCode !== 200) {
         toast.error(payload.responseMessage ?? "failed to delete user account");
       } else {

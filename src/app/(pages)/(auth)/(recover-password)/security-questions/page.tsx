@@ -3,6 +3,7 @@ import { serverApi } from "@/features/server-api";
 import { redirect } from "next/navigation";
 import { getRecoverySecurityQuestionResSchema } from "@/lib/response";
 import { RecoverySecurityQuestionForm } from "./security-questions-form";
+import { NonCompliantResponseError } from "@/lib/error";
 
 export default async function SecurityPage({
   searchParams,
@@ -23,6 +24,10 @@ export default async function SecurityPage({
       ignoreJwt: true,
     },
   );
+
+  if (!data) {
+    throw new NonCompliantResponseError();
+  }
 
   if (data.responseCode !== 200) {
     return redirect(`/forget-password?error=${data.responseMessage}`);

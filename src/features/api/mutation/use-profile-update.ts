@@ -20,6 +20,10 @@ export const useProfileUpdate = () => {
         { validateResponse: (data) => updateProfileResSchema.parse(data) },
       );
 
+      if (!payload) {
+        return toast.error("failed to update user profile");
+      }
+
       if (payload.responseCode !== 200) {
         return toast.error(
           payload.responseMessage ?? "failed to update user profile",

@@ -21,6 +21,10 @@ export const useDeactivatUser = () => {
         },
       );
 
+      if (!payload) {
+        return toast.error("failed to deactivate user account");
+      }
+
       if (payload.responseCode !== 200) {
         toast.error(
           payload.responseMessage ?? "failed to deactivate user account",

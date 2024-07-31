@@ -1,6 +1,7 @@
 "use client";
-import { getJwt } from "@/auth";
+import { getJwt, logout } from "@/auth";
 import createApi from "@/lib/api";
+import { NonCompliantResponseError } from "@/lib/error";
 import { GetUserResp, getUserRespSchema, User } from "@/lib/response";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useMemo } from "react";
@@ -67,9 +68,17 @@ export const useAuth = () => {
   } = useQuery({
     queryFn: async () => {
       try {
-        const { data } = await api.get<GetUserResp>("/User/GetUser", {
+        const { status, data } = await api.get<GetUserResp>("/User/GetUser", {
           validateResponse: (data) => getUserRespSchema.parse(data),
         });
+
+        if (status === 401) {
+          await logout();
+        }
+
+        if (!data) {
+          throw new NonCompliantResponseError();
+        }
 
         if (data.responseCode === 200) {
           return data.responseData;

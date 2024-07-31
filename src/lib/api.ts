@@ -12,7 +12,7 @@ interface RequestOptions<T = unknown> extends Omit<RequestInit, "method"> {
 type MiddlewareFunction = (request: Request) => Promise<Request>;
 
 interface ApiResponse<T = any> {
-  data: T;
+  data: T | null;
   status: number;
   headers: Headers;
 }
@@ -26,12 +26,18 @@ const defaultMiddleware: MiddlewareFunction[] = [
   },
 ];
 
-const parseJSON = async <T>(response: Response): Promise<T> => {
-  if (response.status === 204 || response.status === 205) {
-    return null as T;
-  }
+const parseJSON = async <T>(response: Response): Promise<T | null> => {
+  try {
+    if (response.status === 204 || response.status === 205) {
+      return null;
+    }
 
-  return response.json();
+    const data = (await response.json()) as Promise<T>;
+    return data;
+  } catch (e) {
+    console.log("[RESPONSE JSON PARSING ERROR]", e);
+    return null;
+  }
 };
 
 const checkStatus = (
@@ -185,7 +191,9 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         let data = await parseJSON<T>(response);
         if (validateResponse) {
           try {
-            data = validateResponse(data) as Awaited<T>;
+            if (data) {
+              data = validateResponse(data) as Awaited<T>;
+            }
           } catch (error) {
             console.error("Response validation failed:", error);
             throw error;

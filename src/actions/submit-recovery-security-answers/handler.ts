@@ -28,6 +28,10 @@ export const submitRecoverSecurityAnswersAction = async ({
       },
     );
 
+    if (!data) {
+      throw new Error("failed to submit security answers");
+    }
+
     if (data.responseCode !== 200) {
       return { error: data.responseMessage };
     }

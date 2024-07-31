@@ -20,6 +20,10 @@ export const signInAction = action(signInSchema, async (form) => {
       },
     );
 
+    if (!payload) {
+      throw new Error("failed to sign in");
+    }
+
     if (payload.responseCode !== 200) {
       throw new Error(payload.responseMessage ?? "failed to sign in");
     }
