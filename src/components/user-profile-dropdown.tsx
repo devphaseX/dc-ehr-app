@@ -26,13 +26,8 @@ export const UserProfileDropDown = ({
   user: { id, firstName, lastName, userName, profilePicture },
   offset,
 }: Props) => {
-  const [profileDropDownOpen, setProfileDropDownOpen] = useState(false);
-
   return (
-    <DropdownMenu
-      open={profileDropDownOpen}
-      onOpenChange={setProfileDropDownOpen}
-    >
+    <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="size-12">
           <AvatarImage
@@ -64,7 +59,7 @@ export const UserProfileDropDown = ({
             <DropdownMenuItem className="p-0">
               <Link
                 href="/user-profile"
-                className="flex item-center gap-x-4 text-base text-neutral-700"
+                className="flex item-center gap-x-4 text-base text-neutral-700 w-full"
               >
                 <div className="size-5 relative flex item-center gap-x-4">
                   <Image
@@ -74,41 +69,56 @@ export const UserProfileDropDown = ({
                     fill
                   />
                 </div>
-                Profile
+                <span>Profile</span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex item-center gap-x-4 p-0 text-base text-neutral-700">
-              <div className="size-5 relative flex item-center gap-x-4">
-                <Image
-                  src="/icons/favourite.svg"
-                  alt="icon"
-                  className="absolute inset-0 object-fill"
-                  fill
-                />
-              </div>
-              Favorites
+            <DropdownMenuItem className="p-0">
+              <Link
+                href="/user-profile"
+                className="flex item-center gap-x-4 text-base text-neutral-700 w-full"
+              >
+                <div className="size-5 relative flex item-center gap-x-4">
+                  <Image
+                    src="/icons/favourite.svg"
+                    alt="icon"
+                    className="absolute inset-0 object-fill"
+                    fill
+                  />
+                </div>
+                <span>Favorites</span>
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex item-center gap-x-4 p-0 text-base text-neutral-700">
-              <div className="size-5 relative flex item-center gap-x-4">
-                <Image
-                  src="/icons/profile-archieve.svg"
-                  alt="icon"
-                  className="absolute inset-0 object-fill"
-                  fill
-                />
-              </div>
-              Archieve
+            <DropdownMenuItem className="p-0">
+              <Link
+                href="/user-profile"
+                className="flex item-center gap-x-4 text-base text-neutral-700 w-full"
+              >
+                <div className="size-5 relative flex item-center gap-x-4">
+                  <Image
+                    src="/icons/profile-archieve.svg"
+                    alt="icon"
+                    className="absolute inset-0 object-fill"
+                    fill
+                  />
+                </div>
+                <span>Archieve</span>
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex item-center gap-x-4 p-0 text-base text-neutral-700">
-              <div className="size-5 relative flex item-center gap-x-4">
-                <Image
-                  src="/icons/settings.svg"
-                  alt="icon"
-                  className="absolute inset-0 object-fill"
-                  fill
-                />
-              </div>
-              Settings
+            <DropdownMenuItem className="p-0">
+              <Link
+                href="/user-profile?tab=settings"
+                className="flex item-center gap-x-4 text-base text-neutral-700 w-full"
+              >
+                <div className="size-5 relative flex item-center gap-x-4">
+                  <Image
+                    src="/icons/settings.svg"
+                    alt="icon"
+                    className="absolute inset-0 object-fill"
+                    fill
+                  />
+                </div>
+                <span>Settings</span>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
