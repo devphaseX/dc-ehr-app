@@ -168,8 +168,6 @@ const RecoverySecurityQuestionForm = ({
                             disabled={form.formState.disabled}
                             className="w-full h-fit p-4 text-base text-white font-semibold
           rounded-[56px] bg-primary-500 !mt-8"
-
-                            // onClick={() => next?.()}
                           >
                             Continue
                           </Button>

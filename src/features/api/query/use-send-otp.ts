@@ -8,7 +8,7 @@ export const useSendOtp = (email: string) => {
   return useQuery({
     queryKey: ["verify-email"],
     queryFn: async () => {
-      const resp = await api.get(`/Auth/SendOtp/${email}`, {
+      const resp = await api.get(`/Auth/SendOTP/${email}`, {
         validateResponse: (data) => requestVerifyEmailResSchema.parse(data),
       });
 

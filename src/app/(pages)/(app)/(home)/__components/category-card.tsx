@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ContentCategory } from '@/types';
-import Image from 'next/image';
-import React from 'react';
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ContentCategory } from "@/lib/response";
+import Image from "next/image";
+import React from "react";
 
 interface ContentCardCategoryCardProps extends ContentCategory {}
 export const ContentCatgoryCard = ({
-  title,
+  name,
   bannerUrl,
   grade,
   colour,
@@ -24,7 +24,7 @@ export const ContentCatgoryCard = ({
       </CardHeader>
       <CardContent className="p-6" style={{ backgroundColor: colour }}>
         <div className="w-full font-josefin space-y-2">
-          <h4 className="text-xl font-bold text-white">{title}</h4>
+          <h4 className="text-xl font-bold text-white">{name}</h4>
           <p className="lowercase text-white font-medium text-base">
             CLASS: {grade}
           </p>

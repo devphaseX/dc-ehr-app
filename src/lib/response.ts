@@ -103,9 +103,37 @@ export const submitRecoverySecurityAnswerResSchema = createResponseSchema({
   sucessSchema: z.object({ token: z.string(), userId: z.string() }),
 });
 
+export const sendResetPasswordOtpSchema = createResponseSchema({
+  sucessSchema: z.any(),
+});
+export const verifyResetPasswordOtpResSchema = createResponseSchema({
+  sucessSchema: z.object({ token: z.string(), userId: z.string() }),
+});
+
 export const resetPasswordResSchema = createResponseSchema({
   sucessSchema: z.object({
     token: z.string().min(32),
     userId: z.string().min(26),
   }),
+});
+
+const categoryPayload = z.object({
+  id: z.string().min(26),
+  name: z.string().min(2),
+  description: z.string().min(2),
+  grade: z.string().min(2).optional(),
+  createdDate: z.date({ coerce: true }),
+  dateModified: z.date({ coerce: true }),
+});
+
+export type ContentCategory = TypeOf<typeof categoryPayload> & {
+  colour: string;
+  bannerUrl: string;
+};
+export const getCategoriesResSchema = createResponseSchema({
+  sucessSchema: z.array(categoryPayload),
+});
+
+export const getSubjectsResSchema = createResponseSchema({
+  sucessSchema: z.array(z.string().min(1)),
 });

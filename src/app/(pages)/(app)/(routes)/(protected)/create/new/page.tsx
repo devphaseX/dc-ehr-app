@@ -26,7 +26,7 @@ import { toast } from "sonner";
 const NewResource = () => {
   const form = useForm<CreateNewResource>({
     resolver: zodResolver(createNewResourceSchema),
-    defaultValues: { images: [] },
+    defaultValues: { files: [] },
   });
 
   const selectedFiles = (form.watch("images") ?? []) as FileItem[];
@@ -70,12 +70,12 @@ const NewResource = () => {
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit((formValues) => {
-                      let images: Array<string> = formValues.images
+                      let images: Array<string> = formValues.files
                         .map((file) => file.fileUrl)
                         .filter((url): url is string => url != null);
 
                       const imageNotFullyResolved =
-                        formValues.images.length != images.length;
+                        formValues.files.length != images.length;
 
                       if (imageNotFullyResolved) {
                         toast.error("Images still uploading");

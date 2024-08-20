@@ -15,3 +15,13 @@ export function addBase64Prefix(base64String: string): string {
     return prefix + base64String; // Add the prefix if it's not there
   }
 }
+
+export function mapRecordToFormData(payload: Record<string, any>) {
+  const formData = new FormData();
+
+  Object.entries(payload).forEach(([key, value]) => {
+    formData.set(key, String(value));
+  });
+
+  return formData;
+}

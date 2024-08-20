@@ -27,10 +27,10 @@ export const JwtAuthProvider = ({
   baseUrl,
 }: JwtAuthProvider) => {
   const { data: jwt } = useQuery({
-    queryKey: ["token"],
+    queryKey: ["jwt"],
     queryFn: () => getJwt(),
     initialData: initialJwt,
-    refetchInterval: ({ state: { data } }) => (data ? 1000 : false),
+    refetchInterval: ({ state: { data } }) => (data ? 1000 * 60 * 5 : false),
     enabled: initialJwt != null,
     refetchOnMount: true,
   });
@@ -39,7 +39,7 @@ export const JwtAuthProvider = ({
   const api = useMemo(
     () =>
       createApi({
-        getToken: () => client.getQueryData<string>(["token"]) ?? null,
+        getToken: () => client.getQueryData<string>(["jwt"]) ?? null,
       }),
     [],
   );
@@ -58,6 +58,7 @@ export const useJwtToken = () => {
 
 export const useAuth = () => {
   const { jwt } = useJwtToken();
+  const client = useQueryClient();
   const { api, user: initialUserData } = useContext(jwtAuthContext);
   const {
     data: user,
@@ -83,7 +84,8 @@ export const useAuth = () => {
         if (data.responseCode === 200) {
           return data.responseData;
         }
-        return null;
+
+        return client.getQueryData<User>(["user-profile"]) ?? null;
       } catch (e) {
         console.log("[GET USER]", e);
         return null;
@@ -91,7 +93,7 @@ export const useAuth = () => {
     },
     queryKey: ["user-profile"],
     initialData: initialUserData,
-    refetchOnMount: true,
+    refetchOnMount: false,
     refetchInterval: ({ state: { data } }) => {
       return data ? 1000 : false;
     },
