@@ -1,3 +1,4 @@
+"use client";
 import { Container } from "@/components/container";
 import React, { useMemo } from "react";
 import { ContentCatgoryCard } from "./category-card";
@@ -7,66 +8,16 @@ type Props = {
   categories: Array<ContentCategory>;
 };
 
-const remainingData: Record<string, Partial<ContentCategory>> = {
+const partialContentCategoryData: Record<string, Partial<ContentCategory>> = {
   Primary: { bannerUrl: "/imgs/category-1.png", colour: "#FA5A5A" },
   Secondary: { bannerUrl: "/imgs/category-2.png", colour: "#28BCEC" },
   Tertiary: { bannerUrl: "/imgs/category-3.png", colour: "#4EAC86" },
 };
 
-// [
-//     {
-//       "name": "Secondary",
-//       "description": "This is the category for Secondary Institutions",
-//       "id": "25976e98-971b-4fe4-8330-1621e29c89c2",
-//       "createdDate": "2024-08-12T13:28:21.05",
-//       "dateModified": "2024-08-12T13:28:21.05",
-//       "isDeleted": false
-//     },
-//     {
-//       "name": "Tertiary",
-//       "description": "This is the category for Tertiary Institutions",
-//       "id": "88e49dd7-70dc-4ee4-b20f-4ef6d3a743b4",
-//       "createdDate": "2024-08-12T13:28:21.05",
-//       "dateModified": "2024-08-12T13:28:21.05",
-//       "isDeleted": false
-//     },
-//     {
-//       "name": "Primary",
-//       "description": "This is the category for Primary Institutions",
-//       "id": "a438e595-0616-4304-a863-ed735e99ea53",
-//       "createdDate": "2024-08-12T13:28:21.05",
-//       "dateModified": "2024-08-12T13:28:21.05",
-//       "isDeleted": false
-//     }
-// const categories: Array<ContentCategory> = [
-//   {
-//     title: 'Elementary Hub',
-//     bannerUrl: '/imgs/category-1.png',
-//     grade: 'K - 5',
-//     colour: '#FA5A5A',
-//     url: '/',
-//   },
-//   {
-//     title: 'Primary Hub',
-//     bannerUrl: '/imgs/category-2.png',
-//     grade: 'K - 5',
-//     colour: '#28BCEC',
-//     url: '/',
-//   },
-//   {
-//     title: 'Tertiary Hub',
-//     bannerUrl: '/imgs/category-3.png',
-//     grade: '12+',
-//     colour: '#4EAC86',
-//     url: '/',
-//   },
-// ];
-
 export const ChooseCategory = ({ categories }: Props) => {
-  console.log({ categories });
-  const [data] = useMemo(
+  categories = useMemo<Array<ContentCategory>>(
     () =>
-      Object.entries(remainingData).map(
+      Object.entries(partialContentCategoryData).map(
         ([key, value]) =>
           ({
             ...categories.find(
@@ -77,7 +28,6 @@ export const ChooseCategory = ({ categories }: Props) => {
       ),
     [categories],
   );
-  console.log(data);
 
   return (
     <div className="w-full bg-white pt-[96px] pb-[148px]">

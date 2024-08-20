@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { ContentFilters } from '../__components/content-filters';
-import { Container } from '@/components/container';
-import { Author, ContentResource } from '@/lib/schema/data';
-import { ContentCard } from '@/components/content-card';
+import React from "react";
+import { ContentFilters } from "../__components/content-filters";
+import { Container } from "@/components/container";
+import { Author, ContentResource } from "@/lib/schema/data";
+import { ContentCard } from "@/components/content-card";
 
 type Props = {};
 
 const author: Author = {
-  fullName: 'Austin Smiths',
-  email: 'austin.smiths@gmail.com',
-  avatarUrl: '/',
+  fullName: "Austin Smiths",
+  email: "austin.smiths@gmail.com",
+  avatarUrl: "/",
 };
 
 const content: ContentResource = {
-  title: 'The History of Numbers and Counting Systems',
-  href: 'https://www.web.com/come',
-  bannerImgUrl: '/imgs/category-3.png',
+  title: "The History of Numbers and Counting Systems",
+  href: "https://www.web.com/come",
+  bannerImgUrl: "/imgs/category-3.png",
   bookmarked: false,
 };
 
@@ -50,11 +50,11 @@ export const Contents = (props: Props) => {
           <div
             className="grid gap-8 w-full"
             style={{
-              gridTemplateColumns: 'repeat(auto-fit, minmax(379px, 1fr))',
+              gridTemplateColumns: "repeat(auto-fit, minmax(379px, 1fr))",
             }}
           >
-            {items.map((item) => (
-              <ContentCard data={item[0]} author={item[1]} />
+            {items.map((item, i) => (
+              <ContentCard data={item[0]} author={item[1]} key={i} />
             ))}
           </div>
         </div>
