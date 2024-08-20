@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { cache } from 'react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { cache } from "react";
 
-const getQueryClient = cache(() => {
+export const getQueryClient = cache(() => {
   return new QueryClient();
 });
 

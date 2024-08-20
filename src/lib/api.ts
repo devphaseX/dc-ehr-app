@@ -1,3 +1,5 @@
+import { FetchError } from "./error";
+
 // api.ts
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -12,9 +14,10 @@ interface RequestOptions<T = unknown> extends Omit<RequestInit, "method"> {
 type MiddlewareFunction = (request: Request) => Promise<Request>;
 
 interface ApiResponse<T = any> {
-  data: T | null;
-  status: number;
-  headers: Headers;
+  data?: T | null;
+  fetchError?: Error;
+  status?: number;
+  headers?: Headers;
 }
 
 const defaultMiddleware: MiddlewareFunction[] = [
@@ -185,7 +188,13 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
     let retryCount = 0;
     while (true) {
       try {
-        let response = await fetch(req, { cache: "no-cache" });
+        let response = await fetch(req, { cache: "no-cache" }).catch((err) => {
+          throw new FetchError(
+            Object(err) === err && err instanceof Error
+              ? err.message
+              : "fetch api error",
+          );
+        });
         // console.log({ response });
         const checkedResponse = checkStatus(response, throwOnFailedStatus);
         let data = await parseJSON<T>(response);
@@ -227,6 +236,9 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
           });
           retryCount++;
         } else {
+          if (Object(error) === error && error instanceof FetchError) {
+            return { fetchError: error };
+          }
           throw error;
         }
       }

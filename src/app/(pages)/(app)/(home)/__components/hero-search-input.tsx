@@ -2,15 +2,23 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ContentCategory } from "@/lib/response";
 import { ChevronDown } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import React from "react";
+type Props = {
+  categories: Array<ContentCategory>;
+};
 
-export const HeroSearchInput = () => {
-  const [level, setLevel] = useQueryState(
-    "level",
-    parseAsString.withOptions({ throttleMs: 500 }).withDefault("  All level"),
+export const HeroSearchInput = ({ categories }: Props) => {
+  const [category, setCategory] = useQueryState(
+    "category",
+    parseAsString.withOptions({ throttleMs: 500 }),
   );
 
   const [search, setSearch] = useQueryState(
@@ -28,10 +36,17 @@ export const HeroSearchInput = () => {
             h-fit px-6 py-4 rounded-[56px]  flex items-center gap-x-4
             text-sm font-medium text-neutral-700"
             >
-              {level}
+              {category ?? "All category"}
               <ChevronDown className="size-5" />
             </Button>
           </PopoverTrigger>
+          <PopoverContent side="bottom" align={"start"}>
+            <ul>
+              {categories.map((category) => (
+                <li key={category.id}>{category.name}</li>
+              ))}
+            </ul>
+          </PopoverContent>
         </Popover>
 
         <div className="flex-1 self-stretch relative">

@@ -1,9 +1,12 @@
-import React from 'react';
-import { HeroSearchInput } from './__components/hero-search-input';
+import React from "react";
+import { HeroSearchInput } from "./__components/hero-search-input";
+import { serverGetCategories } from "@/features/query/get-categories";
+import { ContentCategory } from "@/lib/response";
 
 type Props = {};
 
-export const Heroes = (props: Props) => {
+export const Heroes = async (props: Props) => {
+  const { data } = await serverGetCategories();
   return (
     <div className="min-h-[660px] bg-primary-500">
       <div className="h-full pt-[140px]">
@@ -18,7 +21,9 @@ export const Heroes = (props: Props) => {
                 by top creators
               </p>
             </div>
-            <HeroSearchInput />
+            <HeroSearchInput
+              categories={(data?.responseData || []) as Array<ContentCategory>}
+            />
           </div>
         </div>
       </div>

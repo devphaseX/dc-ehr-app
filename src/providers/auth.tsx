@@ -69,23 +69,26 @@ export const useAuth = () => {
   } = useQuery({
     queryFn: async () => {
       try {
-        const { status, data } = await api.get<GetUserResp>("/User/GetUser", {
-          validateResponse: (data) => getUserRespSchema.parse(data),
-        });
+        const { status, data, fetchError } = await api.get<GetUserResp>(
+          "/User/GetUser",
+          {
+            validateResponse: (data) => getUserRespSchema.parse(data),
+          },
+        );
 
         if (status === 401) {
           await logout();
+        }
+
+        if (fetchError || status != 200) {
+          return client.getQueryData<User>(["user-profile"]) ?? null;
         }
 
         if (!data) {
           throw new NonCompliantResponseError();
         }
 
-        if (data.responseCode === 200) {
-          return data.responseData;
-        }
-
-        return client.getQueryData<User>(["user-profile"]) ?? null;
+        return data.responseData;
       } catch (e) {
         console.log("[GET USER]", e);
         return null;
