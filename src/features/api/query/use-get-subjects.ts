@@ -11,6 +11,16 @@ export const useGetSubjects = () => {
       const { data } = await api.get("/Utility/GetAllSubjects", {
         validateResponse: (data) => getSubjectsResSchema.parse(data),
       });
+
+      if (!data) {
+        throw new Error("An error occurred fetching subjects");
+      }
+
+      if (data?.responseCode !== 200) {
+        throw new Error(data?.responseMessage);
+      }
+
+      return data.responseData!;
     },
   });
 };

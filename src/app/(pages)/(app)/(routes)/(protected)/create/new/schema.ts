@@ -1,6 +1,9 @@
 import { TypeOf, z } from "zod";
 
 export const createNewResourceSchema = z.object({
+  fileName: z.string().min(1),
+  category: z.string().min(1),
+  subject: z.string().min(1),
   files: z
     .object({
       id: z.string(),
@@ -8,11 +11,8 @@ export const createNewResourceSchema = z.object({
       file: z.unknown().optional(),
     })
     .array(),
-  fileName: z.string().min(1),
-  category: z.string().min(1),
-  subject: z.string().min(1),
   licenses: z.string().optional(),
-  tags: z.string().min(1).array(),
+  tags: z.array(z.object({ id: z.string(), tag: z.string() })),
   description: z.string().optional(),
 });
 

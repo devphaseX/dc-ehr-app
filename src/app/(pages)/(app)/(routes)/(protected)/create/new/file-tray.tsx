@@ -4,16 +4,16 @@ import { LucideBatteryWarning } from "lucide-react";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { ulid } from "ulid";
-import { ImageCard } from "./image-card";
 import { FileItem } from "./schema";
+import { FileCard } from "./file-card";
 
 type Props = {
   selectedFiles: Array<FileItem>;
   setSelectFiles: Dispatch<SetStateAction<FileItem[]>>;
 };
 
-const fileTypes = ["png", "jpg", "jpeg", "gif"];
-export const ImageTray = ({ selectedFiles, setSelectFiles }: Props) => {
+const fileTypes = ["png", "jpg", "jpeg", "gif", "pdf", "doc", "docx"];
+export const FileTray = ({ selectedFiles, setSelectFiles }: Props) => {
   const handleChange = (files: FileList) => {
     setSelectFiles((currentFiles) =>
       currentFiles.concat(Array.from(files, (file) => ({ id: ulid(), file }))),
@@ -80,7 +80,7 @@ export const ImageTray = ({ selectedFiles, setSelectFiles }: Props) => {
           </p>
           <div className="flex items-center gap-[10px]">
             {selectedFiles.map(({ id, file, fileUrl }) => (
-              <ImageCard
+              <FileCard
                 key={id}
                 file={file}
                 id={id}

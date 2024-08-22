@@ -11,6 +11,16 @@ export const useGetCategories = () => {
       const { data } = await api.get("/Category/GetCategories", {
         validateResponse: (data) => getCategoriesResSchema.parse(data),
       });
+
+      if (!data) {
+        throw new Error("An error occurred fetching categories");
+      }
+
+      if (data?.responseCode !== 200) {
+        throw new Error(data?.responseMessage);
+      }
+
+      return data.responseData!;
     },
   });
 };

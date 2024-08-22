@@ -9,7 +9,7 @@ type Props = FileItem & {
   setFileUrl: (p: { id: string; file: string }) => void;
 };
 
-export const ImageCard = ({ file, id, drop, setFileUrl }: Props) => {
+export const FileCard = ({ file, id, drop, setFileUrl }: Props) => {
   const { base64, encoding, pick } = useBase64Encoder();
 
   useEffect(() => {

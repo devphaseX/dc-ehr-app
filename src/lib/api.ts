@@ -163,8 +163,6 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         requestInit.body = requestOptions.formData;
       }
 
-      console.log({ fullUrl, h: requestInit.headers });
-
       req = new Request(fullUrl, requestInit);
     }
 
@@ -195,7 +193,6 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
               : "fetch api error",
           );
         });
-        // console.log({ response });
         const checkedResponse = checkStatus(response, throwOnFailedStatus);
         let data = await parseJSON<T>(response);
         if (validateResponse) {
