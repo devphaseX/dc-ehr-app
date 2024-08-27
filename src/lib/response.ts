@@ -137,3 +137,46 @@ export const getCategoriesResSchema = createResponseSchema({
 export const getSubjectsResSchema = createResponseSchema({
   sucessSchema: z.array(z.string().min(1)),
 });
+
+export const resourcePayload = z
+  .object({
+    Id: z.string().min(1),
+    ResourceName: z.string().min(1),
+    CategoryId: z.string().min(1),
+    Subject: z.string().min(1),
+    Description: z.string().min(1),
+    ResourceFile: z.string().url(),
+    Tags: z.string().array(),
+    CreatedAt: z.date({ coerce: true }),
+  })
+  .transform(
+    ({
+      Id,
+      ResourceName,
+      Subject,
+      CategoryId,
+      Description,
+      ResourceFile,
+      Tags,
+      CreatedAt,
+    }) => {
+      return {
+        id: Id,
+        fileName: ResourceName,
+        category: CategoryId,
+        subject: Subject,
+        file: ResourceFile,
+        tags: Tags,
+        description: Description,
+        createdAt: CreatedAt,
+      };
+    },
+  );
+
+export const getResourceResSchema = createResponseSchema({
+  sucessSchema: resourcePayload,
+});
+
+export const createResourceResSchema = createResponseSchema({
+  sucessSchema: z.string().min(1).optional(),
+});

@@ -14,7 +14,7 @@ import { FormLabel } from "@/components/form/label";
 import { ChevronLeft, LucideBatteryWarning, X } from "lucide-react";
 import Link from "next/link";
 import { useFieldArray, useForm } from "react-hook-form";
-import { CreateNewResource, createNewResourceSchema, FileItem } from "./schema";
+import { NewResource, createNewResourceSchema, FileItem } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -33,12 +33,13 @@ import {
 } from "@/components/ui/select";
 import { z } from "zod";
 import { ulid } from "ulid";
+import { useRouter } from "next/navigation";
 
 export const NewResourceForm = () => {
   const { data: categories } = useGetCategories();
   const { data: subjects } = useGetSubjects();
 
-  const form = useForm<CreateNewResource & { tag?: string }>({
+  const form = useForm<NewResource & { tag?: string }>({
     resolver: zodResolver(
       createNewResourceSchema.extend({
         tag: z.string().min(3).optional(),
@@ -46,6 +47,8 @@ export const NewResourceForm = () => {
     ),
     defaultValues: { fileName: "", files: [], tags: [] },
   });
+
+  const router = useRouter();
 
   const {
     fields: tagFields,
@@ -97,26 +100,25 @@ export const NewResourceForm = () => {
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit((formValues) => {
-                      let images: Array<string> = formValues.files
-                        .map((file) => file.fileUrl)
+                      let files = (formValues.files as Array<FileItem>)
+                        .map(({ fileUrl }) => fileUrl)
                         .filter((url): url is string => url != null);
 
                       const imageNotFullyResolved =
-                        formValues.files.length != images.length;
+                        formValues.files.length != files.length;
 
                       if (imageNotFullyResolved) {
                         toast.error("Images still uploading");
                         return;
                       }
 
-                      if (!images.length) {
-                        toast.error("Atleast one image needs to be selected.");
+                      if (!files.length) {
+                        toast.error("Atleast one file needs to be selected.");
                         return;
                       }
 
-                      delete (formValues as { images?: Array<any> }).images;
-
-                      setPost({ ...formValues, images });
+                      setPost({ ...formValues });
+                      router.push("/create/preview");
                     })}
                   >
                     <div className="space-y-14">

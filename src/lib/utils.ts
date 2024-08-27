@@ -20,7 +20,10 @@ export function mapRecordToFormData(payload: Record<string, any>) {
   const formData = new FormData();
 
   Object.entries(payload).forEach(([key, value]) => {
-    formData.set(key, String(value));
+    formData.set(
+      key,
+      Object(value) === value && value instanceof Blob ? value : String(value),
+    );
   });
 
   return formData;
