@@ -13,6 +13,7 @@ import { ChangePasswordForm, changePasswordSchema } from "./schema";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/providers/auth";
 
 type ResetPasswordFormProps = {
   changePassword: (props: {
@@ -30,6 +31,8 @@ export const ResetPasswordForm = ({
       newPassword: "",
     },
   });
+
+  const { user } = useAuth();
 
   const [resetLoading, setResetLoading] = useState(false);
   const [resetCompleted, setResetCompleted] = useState(false);
@@ -54,7 +57,11 @@ export const ResetPasswordForm = ({
             type="button"
             onClick={() => {
               router.refresh();
-              router.push("/");
+              if (user) {
+                router.push("/user-profile?tab=settings");
+              } else {
+                router.push("/");
+              }
             }}
             className="h-fit px-8 py-4 text-base text-white font-semibold
       rounded-[56px] bg-primary-500"

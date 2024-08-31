@@ -3,7 +3,7 @@ import { getJwt, logout } from "@/auth";
 import createApi from "@/lib/api";
 import { NonCompliantResponseError } from "@/lib/error";
 import { GetUserResp, getUserRespSchema, User } from "@/lib/response";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useMemo } from "react";
 
 type JwtAuthContextData = Partial<{
@@ -58,7 +58,6 @@ export const useJwtToken = () => {
 
 export const useAuth = () => {
   const { jwt } = useJwtToken();
-  const client = useQueryClient();
   const { api, user: initialUserData } = useContext(jwtAuthContext);
   const {
     data: user,
@@ -81,7 +80,7 @@ export const useAuth = () => {
         }
 
         if (fetchError || status != 200) {
-          return client.getQueryData<User>(["user-profile"]) ?? null;
+          return initialUserData;
         }
 
         if (!data) {
