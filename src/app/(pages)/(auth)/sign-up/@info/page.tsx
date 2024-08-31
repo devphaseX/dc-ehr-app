@@ -81,28 +81,6 @@ const GetUserInfo = () => {
           )}
         />
 
-        {/* <FormItem className="space-x-6 flex items-center space-y-0 w-full [&>*]:flex-1">
-          <FormField
-            name="industry"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="">
-                <FormLabel text="Industry" />
-                <FormInput {...field} placeholder="Type your email" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="categories"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="">
-                <FormLabel text="Categories" />
-                <FormInput {...field} placeholder="Type your email" />
-              </FormItem>
-            )}
-          />
-        </FormItem> */}
         <Button
           type="button"
           onClick={() => next?.()}

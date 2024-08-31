@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { SignUpProvider, useSignUpContext } from './provider';
-import { StageProgressBar } from './stage-progress-bar';
+import { SignUpProvider, useSignUpContext } from "./provider";
+import { StageProgressBar } from "./stage-progress-bar";
 
 type SignUpProps = {
   info: React.ReactNode;
@@ -15,16 +15,16 @@ const SignUp = ({ info, password, questions, verifyAccount }: SignUpProps) => {
     const { stage } = useSignUpContext();
     return (
       <>
-        {stage === 'info' && info}
-        {stage === 'password' && password}
-        {stage === 'security-questions' && questions}
-        {stage === 'verify-account' && verifyAccount}
+        {stage === "info" && info}
+        {stage === "password" && password}
+        {stage === "security-questions" && questions}
+        {stage === "verify-account" && verifyAccount}
       </>
     );
   }
 
   return (
-    <div className="max-w-[580px] w-full mx-auto h-full relative pt-[96px] flex justify-center">
+    <div className="max-w-[580px] w-full mx-auto h-full relative pt-[96px] pb-[118px] flex justify-center">
       <SignUpProvider>
         <div className="space-y-16">
           <div className="px-[52px]">

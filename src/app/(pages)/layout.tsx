@@ -5,7 +5,7 @@ type LayoutProps = {
 
 const Layout = ({ navbar, children }: LayoutProps) => {
   return (
-    <div className="flex flex-col min-h-[1024px]">
+    <div className="flex flex-col min-h-screen">
       {navbar}
       <div className="relative h-1 flex-1">{children}</div>
     </div>

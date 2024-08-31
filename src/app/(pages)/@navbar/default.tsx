@@ -8,7 +8,7 @@ const MainNavbar = () => {
 
   if (!user) {
     return (
-      <div className="px-10 py-6 w-full">
+      <div className="px-10 py-6 w-full border-b border-neutral-200">
         <div className="max-w-[1360px] mx-auto">
           <div className="w-full flex items-center justify-between">
             <div></div>

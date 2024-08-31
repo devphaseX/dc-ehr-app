@@ -17,6 +17,7 @@ import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import { useChangePassword } from "@/features/api/mutation/use-change-password";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -28,6 +29,8 @@ export const ChangePassword = (props: Props) => {
     resolver: zodResolver(changePasswordSchema),
     disabled: isPending,
   });
+
+  const router = useRouter();
 
   return (
     <div className="space-y-8">
@@ -72,6 +75,7 @@ export const ChangePassword = (props: Props) => {
               <Button
                 className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm"
                 disabled={form.formState.disabled}
+                onClick={() => router.push("/forget-password")}
               >
                 Don’t remember password?
               </Button>

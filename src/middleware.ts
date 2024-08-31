@@ -24,10 +24,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  if (isAuthRoute && jwt) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
   // If it's not a protected route or the user has a token, continue
   return NextResponse.next();
 }

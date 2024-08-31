@@ -55,7 +55,7 @@ export const VerifyResetPasswordOTPForm = () => {
 
   if (!resetEmail) return null;
   return (
-    <div className="pt-20">
+    <div className="pt-32">
       <div className="h-full w-full flex items-center justify-center">
         <div className="max-w-[580px] w-full text-center space-y-6">
           <Form {...form}>

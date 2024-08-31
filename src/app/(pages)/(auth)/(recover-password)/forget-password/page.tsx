@@ -11,31 +11,37 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getUser } from "@/features/query/get-user";
+import { useAuth } from "@/providers/auth";
 
 const ResetPassword = () => {
-  const [email, setEmail] = useState("");
   const router = useRouter();
+  const { user } = useAuth();
 
   const form = useForm<ResetPasswordForm>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email,
+      email: user?.email ?? "",
     },
   });
 
-  useEffect(() => {
-    return () => {
-      setEmail(form.getValues("email"));
-    };
-  }, []);
+  const [showResetMethod, setShowResetMethod] = useState(
+    user?.email === form.getValues("email"),
+  );
 
-  if (email) {
+  if (showResetMethod) {
+    const email = form.getValues("email");
     return (
-      <div className="flex-1 pt-[128px] pb-[422px]">
+      <div className="flex-1 pt-32 pb-[422px]">
         <div className="space-y-8 max-w-[580px] w-full mx-auto">
           <div className="space-y-12">
             <div
-              onClick={() => form.reset({ email: "" })}
+              onClick={() => {
+                if (email === user?.email) {
+                  return router.push("/user-profile?tab=settings");
+                }
+                form.reset({ email: "" });
+              }}
               className="text-primary-500 text-sm flex items-center gap-x-2"
             >
               <ChevronLeft className="size-5" />
@@ -97,8 +103,8 @@ const ResetPassword = () => {
         <Form {...form}>
           <form
             className="space-y-8"
-            onSubmit={form.handleSubmit(({ email }) => {
-              setEmail(email);
+            onSubmit={form.handleSubmit(() => {
+              setShowResetMethod(true);
             })}
           >
             <FormField

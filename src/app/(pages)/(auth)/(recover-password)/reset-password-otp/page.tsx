@@ -10,26 +10,26 @@ export default async function ResetPasswordOtpPage({
 }: {
   searchParams: { email?: string };
 }) {
-  const email = searchParams.email;
+  // const email = searchParams.email;
 
-  if (!email) {
-    return redirect("/forget-password");
-  }
+  // if (!email) {
+  //   return redirect("/forget-password");
+  // }
 
-  const { data, status } = await serverApi.get(`/Auth/SendResetOTP/${email}`, {
-    validateResponse: (data) => sendResetPasswordOtpSchema.parse(data),
-    ignoreJwt: true,
-  });
+  // const { data, status } = await serverApi.get(`/Auth/SendResetOTP/${email}`, {
+  //   validateResponse: (data) => sendResetPasswordOtpSchema.parse(data),
+  //   ignoreJwt: true,
+  // });
 
-  if (!data) {
-    throw new NonCompliantResponseError();
-  }
+  // if (!data) {
+  //   throw new NonCompliantResponseError();
+  // }
 
-  if (data.responseCode !== 200 || status != 200) {
-    return redirect(
-      `/forget-password?error=${data.responseMessage || "failed to send otp"}`,
-    );
-  }
+  // if (data.responseCode !== 200 || status != 200) {
+  //   return redirect(
+  //     `/forget-password?error=${data.responseMessage || "failed to send otp"}`,
+  //   );
+  // }
 
   return <VerifyResetPasswordOTPForm />;
 }
