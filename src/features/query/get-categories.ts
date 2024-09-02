@@ -8,5 +8,6 @@ export const serverGetCategories = cache(async () => {
   return serverApi.get("/Category/GetCategories", {
     headers: jwt ? { Authorization: `bearer ${jwt}` } : undefined,
     validateResponse: (data) => getCategoriesResSchema.parse(data),
+    ignoreJwt: true,
   });
 });

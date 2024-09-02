@@ -33,6 +33,7 @@ export const ResetPasswordForm = ({
   });
 
   const { user } = useAuth();
+  const nonAuthResetMode = useRef(!!user);
 
   const [resetLoading, setResetLoading] = useState(false);
   const [resetCompleted, setResetCompleted] = useState(false);
@@ -41,7 +42,7 @@ export const ResetPasswordForm = ({
 
   if (resetCompleted) {
     return (
-      <div className="h-full w-full flex items-center justify-center">
+      <div className="h-full w-full flex items-center justify-center mt-32">
         <div className="max-w-[580px] w-full text-center space-y-6">
           <div className="space-y-3">
             <h3 className="text-[28px] font-semibold text-neutral-800">
@@ -57,11 +58,12 @@ export const ResetPasswordForm = ({
             type="button"
             onClick={() => {
               router.refresh();
-              if (user) {
-                router.push("/user-profile?tab=settings");
-              } else {
+              if (nonAuthResetMode) {
                 router.push("/");
+                return;
               }
+
+              router.push("/user-profile?tab=settings");
             }}
             className="h-fit px-8 py-4 text-base text-white font-semibold
       rounded-[56px] bg-primary-500"
@@ -74,7 +76,7 @@ export const ResetPasswordForm = ({
   }
 
   return (
-    <div className="flex-1 h-full flex items-center">
+    <div className="flex-1 h-full flex items-center mt-32">
       <div className="space-y-10 max-w-[580px] w-full mx-auto">
         <div className="space-y-10">
           <div className="space-y-12">

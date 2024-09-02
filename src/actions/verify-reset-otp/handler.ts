@@ -16,14 +16,15 @@ export const verifyResetPasswordOtpAction = async ({
   email: string;
 }) => {
   try {
-    const { data } = await serverApi.post(
-      `/Auth/VerifyOTP?email=${email}`,
-      { otp },
+    const { data, status } = await serverApi.get(
+      `/Auth/VerifyOTP/${email}?otp=${otp}`,
       {
         validateResponse: (data) => verifyResetPasswordOtpResSchema.parse(data),
         ignoreJwt: true,
       },
     );
+
+    console.log({ data, status });
 
     if (!data) {
       throw new Error("failed to submit security answers");
@@ -34,7 +35,7 @@ export const verifyResetPasswordOtpAction = async ({
     }
 
     setRecoveryJwt(data.responseData!.token);
-    return { message: data.responseMessage ?? "otp not valid" };
+    return { message: "otp verification completed" };
   } catch (e) {
     console.log("[VERIFY_RESET_PASSWORD_OTP]", e);
     return { error: "otp not valid" };

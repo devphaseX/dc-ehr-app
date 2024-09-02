@@ -1,10 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSignUpContext } from "../provider";
+import { useRouter } from "next/navigation";
 
 const VerifyUserAccount = () => {
-  const [email] = useState("jameswilliams@gmail.com");
+  const { form, stage } = useSignUpContext();
+
+  const email = form?.getValues("email");
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(`/sign-up`);
+  }, []);
+
+  if (!(stage === "verify-account" && email)) {
+    return null;
+  }
   return (
     <div className="w-full flex">
       <div className="space-y-8">

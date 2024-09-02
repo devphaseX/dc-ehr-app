@@ -69,11 +69,12 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
     result,
   } = useAction(registerAction, {
     onSettled: ({ data }) => {
+      console.log({ data });
       if (data?.message) {
-        toast.error(data.message);
-        next();
+        toast.success(data.message);
+        setStage("verify-account");
+        return;
       }
-
       if (data?.error) {
         toast.error(data.error);
       }
@@ -102,7 +103,12 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
       .withOptions({ throttleMs: 500 }),
   );
 
-  async function next() {
+  async function next(data?: SignUpForm) {
+    if (data) {
+      registerUser(data);
+      return;
+    }
+
     const { fields, index } = stageMeta[stage] ?? {};
 
     if (!(fields && typeof index === "number")) {
@@ -139,9 +145,7 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
         <Form {...form}>
           <form
             {...(stage === "security-questions" && {
-              onSubmit: form.handleSubmit((data) => {
-                registerUser(data);
-              }),
+              onSubmit: form.handleSubmit(next),
             })}
             className="w-full"
           >

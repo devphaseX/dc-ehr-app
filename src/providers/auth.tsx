@@ -3,7 +3,7 @@ import { getJwt, logout } from "@/auth";
 import createApi from "@/lib/api";
 import { NonCompliantResponseError } from "@/lib/error";
 import { GetUserResp, getUserRespSchema, User } from "@/lib/response";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useMemo } from "react";
 
 type JwtAuthContextData = Partial<{
@@ -79,6 +79,8 @@ export const useAuth = () => {
           await logout();
         }
 
+        console.log({ data, status });
+
         if (fetchError || status != 200) {
           return initialUserData;
         }
@@ -97,7 +99,7 @@ export const useAuth = () => {
     initialData: initialUserData,
     refetchOnMount: false,
     refetchInterval: ({ state: { data } }) => {
-      return data ? 1000 : false;
+      return data ? 1000 * 20 : false;
     },
     refetchIntervalInBackground: true,
   });
