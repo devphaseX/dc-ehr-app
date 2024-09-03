@@ -29,8 +29,6 @@ export const ChooseCategory = ({ categories }: Props) => {
     [categories],
   );
 
-  console.log({ categories });
-
   return (
     <div className="w-full bg-white pt-[96px] pb-[148px]">
       <Container>

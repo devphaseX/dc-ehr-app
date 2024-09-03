@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { format } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -27,4 +28,16 @@ export function mapRecordToFormData(payload: Record<string, any>) {
   });
 
   return formData;
+}
+
+export function formatDate(val: Date | string) {
+  if (!val) {
+    return ""; // or 'N/A', or whatever you want to display for null/undefined dates
+  }
+  let date = new Date(val);
+
+  if (isNaN(date.getTime()) || date.getFullYear() === 1) {
+    return ""; // or 'N/A', for invalid dates or dates in year 1
+  }
+  return format(date, "dd/mmm/yyyy");
 }

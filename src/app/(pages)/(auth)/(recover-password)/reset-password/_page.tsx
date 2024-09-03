@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { FormLabel } from "@/components/form/label";
 import { Button } from "@/components/ui/button";
@@ -32,8 +32,11 @@ export const ResetPasswordForm = ({
     },
   });
 
-  const { user } = useAuth();
-  const nonAuthResetMode = useRef(!!user);
+  const {
+    //@ts-ignore
+    user,
+  } = useAuth();
+  const nonAuthResetMode = useRef(Boolean(user));
 
   const [resetLoading, setResetLoading] = useState(false);
   const [resetCompleted, setResetCompleted] = useState(false);

@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+import { formatDate } from "@/lib/utils";
 
 type Props = {
   user: User;
@@ -27,6 +28,8 @@ export const ProfileForm = (props: Props) => {
   const user = props.user;
   const { mutate, isPending } = useProfileUpdate();
 
+  console.log({ date: user.dateOfBirth });
+
   const form = useForm<UpdateProfileForm>({
     resolver: zodResolver(updateProfileSchema),
     disabled: props.preview || isPending,
@@ -35,9 +38,7 @@ export const ProfileForm = (props: Props) => {
       lastName: user.lastName,
       username: user.userName,
       email: user.email,
-      dateOfBirth: user.dateOfBirth
-        ? new Date(user.dateOfBirth).toLocaleDateString()
-        : undefined,
+      dateOfBirth: user.dateOfBirth ? formatDate(user.dateOfBirth) : undefined,
       country: user.country ?? undefined,
       state: user.state ?? undefined,
     },
@@ -116,11 +117,73 @@ export const ProfileForm = (props: Props) => {
                   <FormLabel text="Date of birth" optional />
                   <FormInput
                     {...field}
-                    value={
-                      field.value
-                        ? format(new Date(field.value), "dd/MM/yyyy")
-                        : undefined
-                    }
+                    onChange={(ev) => {
+                      let value = ev.target.value;
+                      // If the user enters a slash, format the preceding section
+                      if (
+                        value.endsWith("/") &&
+                        !(field.value ?? "").endsWith("/")
+                      ) {
+                        const parts = value.split("/");
+                        if (parts[0].length === 1) {
+                          parts[0] = parts[0].padStart(2, "0");
+                        }
+                        if (parts[1] && parts[1].length === 1) {
+                          parts[1] = parts[1].padStart(2, "0");
+                        }
+                        value = parts.join("/");
+                      } else if (/^\d{3}$/.test(value)) {
+                        const [, day, month] = /^(\d{2})(\d)$/.exec(value)!;
+                        value = `${day}/${month}`;
+                      } else {
+                        // Remove any non-digit and non-slash characters
+                        value = value.replace(/[^\d/]/g, "");
+                      }
+
+                      let formattedDate = "";
+                      const parts = value.split("/");
+
+                      // Format day
+                      if (parts[0]) {
+                        let day = parts[0].slice(0, 2);
+                        if (parseInt(day) > 31) day = "31";
+                        formattedDate += day;
+                      }
+
+                      // Format month
+                      if (
+                        parts[1] ||
+                        (parts[0] &&
+                          parts[0].length === 2 &&
+                          value.endsWith("/"))
+                      ) {
+                        formattedDate += "/";
+                        if (parts[1]) {
+                          let month = parts[1].slice(0, 2);
+
+                          if (parseInt(month) > 12) month = "12";
+                          formattedDate += month;
+                        }
+                      }
+
+                      // Format year
+                      if (
+                        parts[2] ||
+                        (parts[1] &&
+                          parts[1].length === 2 &&
+                          value.endsWith("/"))
+                      ) {
+                        formattedDate += "/";
+                        if (parts[2]) {
+                          let year = parts[2].slice(0, 4);
+                          formattedDate += year;
+                        }
+                      }
+
+                      console.log({ formattedDate });
+                      form.setValue("dateOfBirth", formattedDate);
+                    }}
+                    value={field.value}
                     placeholder="dd/mm/yyyy"
                     type="text"
                   />
