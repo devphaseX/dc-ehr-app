@@ -1,11 +1,18 @@
-import { Author, ContentResource } from '@/lib/schema/data';
-import React from 'react';
-import { Card, CardContent, CardHeader } from './ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
-import { Heart, Share } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+
+import { Author, ContentResource } from "@/lib/schema/data";
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { Heart, Share } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useBookmarkResource } from "@/features/api/mutation/use-resource-bookmark";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/providers/auth";
+import { useUnbookmarkResource } from "@/features/api/mutation/use-resource-unbookmark";
 
 type Props = {
   data: ContentResource;
@@ -13,13 +20,18 @@ type Props = {
 };
 
 export const ContentCard = ({
-  data: { title, bannerImgUrl, bookmarked, href },
+  data: { id, title, bannerImgUrl, isBookmarked: bookmarked, href },
   author: { fullName, email, avatarUrl },
 }: Props) => {
+  const { mutate: bookmarkResource } = useBookmarkResource();
+  const { mutate: unbookmarkResource } = useUnbookmarkResource();
+  const { user } = useAuth();
+  const [bookmark, setBookmark] = useState(bookmarked);
+
   return (
     <Link href={href} className="isolate">
       <Card
-        className="relative min-w-[379px] rounded-[12px] 
+        className="relative min-w-[379px] rounded-[12px]
       overflow-hidden  p-0 border-none drop-shadow-content-card"
       >
         <CardHeader
@@ -30,23 +42,79 @@ export const ContentCard = ({
             <Avatar className="size-10">
               <AvatarImage src={avatarUrl} alt="photo" />
               <AvatarFallback className="bg-neutral-50">
-                {fullName.at(0)}
+                <span className="text-lg">{fullName.at(0)}</span>
               </AvatarFallback>
             </Avatar>
-            <p className="text-sm text-white font-josefin">
-              by <span className="capitalize">{fullName}</span>
+            <p className="text-sm text-neutral-900 font-josefin">
+              by <span className="capitalize font-bold">{fullName}</span>
             </p>
           </div>
 
-          <Button
-            className="size-10 rounded-full flex items-center 
-                justify-center !bg-neutral-50 p-0"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <Heart className="size-5 text-neutral-900" />
-          </Button>
+          {user && (
+            <Button
+              className={cn(
+                `size-10 rounded-full flex items-center
+                justify-center !bg-neutral-50 p-0`,
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (bookmark) {
+                  setBookmark(false);
+                  unbookmarkResource(
+                    { id },
+                    {
+                      onSuccess: () => {
+                        toast.success("removed resource from bookmarks");
+                      },
+                      onError: (err) => {
+                        setBookmark(true);
+                        let error: Error;
+
+                        if (Object(err) === err && err instanceof Error) {
+                          error = err;
+                        } else {
+                          error = new Error(String(err));
+                        }
+                        toast.error(error.message);
+                      },
+                    },
+                  );
+                  return;
+                }
+
+                setBookmark(true);
+
+                bookmarkResource(
+                  { id },
+                  {
+                    onSuccess: () => {
+                      toast.success("resource bookmarked successfully");
+                    },
+                    onError: (err) => {
+                      setBookmark(false);
+                      let error: Error;
+
+                      if (Object(err) === err && err instanceof Error) {
+                        error = err;
+                      } else {
+                        error = new Error(String(err));
+                      }
+                      toast.error(error.message);
+                    },
+                  },
+                );
+              }}
+            >
+              <Heart
+                className={cn(
+                  `size-5 text-neutral-900`,
+                  bookmark && "fill-rose-500 text-rose-500",
+                )}
+              />
+            </Button>
+          )}
         </CardHeader>
 
         <CardContent className="p-0 shadow-none">

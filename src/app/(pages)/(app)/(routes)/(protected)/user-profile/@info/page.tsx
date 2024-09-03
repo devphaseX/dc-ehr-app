@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useUploadCoverBg } from "@/features/api/mutation/use-upload-cover-bg";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
 import { useBase64Encoder } from "@/hooks/use-base64";
 import { addBase64Prefix } from "@/lib/utils";
@@ -23,6 +24,10 @@ const Info = () => {
   const {
     mutation: { mutate, status },
   } = useUploadProfileImg();
+
+  const {
+    mutation: { mutate: uploadCoverBg },
+  } = useUploadCoverBg();
 
   const { user } = useAuth();
 

@@ -140,43 +140,79 @@ export const getSubjectsResSchema = createResponseSchema({
 
 export const resourcePayload = z
   .object({
-    Id: z.string().min(1),
-    ResourceName: z.string().min(1),
-    CategoryId: z.string().min(1),
-    Subject: z.string().min(1),
-    Description: z.string().min(1),
-    ResourceFile: z.string().url(),
-    Tags: z.string().array(),
-    CreatedAt: z.date({ coerce: true }),
+    resourceId: z.string().min(1),
+    resourceName: z.string().min(1),
+    categoryId: z.string().min(1),
+    category: z.string().min(1),
+    subject: z.string().min(1),
+    userId: z.string().min(1),
+    email: z.string().email(),
+    username: z.string().min(1),
+    profilePicture: z.string().min(1).nullable(),
+    description: z.string().min(1),
+    tags: z.string().array(),
+    isBookmarked: z.boolean().default(false),
   })
   .transform(
     ({
-      Id,
-      ResourceName,
-      Subject,
-      CategoryId,
-      Description,
-      ResourceFile,
-      Tags,
-      CreatedAt,
+      resourceId,
+      resourceName,
+      userId,
+      username,
+      profilePicture,
+      email,
+      category,
+      subject,
+      categoryId,
+      description,
+      isBookmarked,
+      tags,
     }) => {
       return {
-        id: Id,
-        fileName: ResourceName,
-        category: CategoryId,
-        subject: Subject,
-        file: ResourceFile,
-        tags: Tags,
-        description: Description,
-        createdAt: CreatedAt,
+        id: resourceId,
+        fileName: resourceName,
+        profilePicture,
+        userId,
+        email,
+        username,
+        categoryId,
+        category,
+        subject,
+        tags,
+        isBookmarked,
+        description,
       };
     },
   );
+
+// {
+//       resourceId: '6d48ad2d-fd7c-40f8-a2d6-36954802da2e',
+//       resourceName: 'my content',
+//       description: 'some random file',
+//       subject: 'Project',
+//       categoryId: '25976e98-971b-4fe4-8330-1621e29c89c2',
+//       category: 'Secondary',
+//       tags: [Array]
+//     }
 
 export const getResourceResSchema = createResponseSchema({
   sucessSchema: resourcePayload,
 });
 
+export const getResourcesResSchema = createResponseSchema({
+  sucessSchema: z.object({
+    data: z.array(resourcePayload),
+    totalRecords: z.number().int().positive(),
+    pageNumber: z.number().int().positive(),
+    pageSize: z.number().int().positive(),
+    totalPages: z.number().int().positive(),
+  }),
+});
+
 export const createResourceResSchema = createResponseSchema({
   sucessSchema: z.string().min(1).optional(),
+});
+
+export const bookmarkResourceResSchema = createResponseSchema({
+  sucessSchema: z.any(),
 });

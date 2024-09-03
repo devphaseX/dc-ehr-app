@@ -39,5 +39,5 @@ export function formatDate(val: Date | string) {
   if (isNaN(date.getTime()) || date.getFullYear() === 1) {
     return ""; // or 'N/A', for invalid dates or dates in year 1
   }
-  return format(date, "dd/mmm/yyyy");
+  return format(new Date(date), "dd/MM/yyyy");
 }

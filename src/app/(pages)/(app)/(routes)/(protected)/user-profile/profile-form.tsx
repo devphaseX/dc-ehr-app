@@ -28,8 +28,6 @@ export const ProfileForm = (props: Props) => {
   const user = props.user;
   const { mutate, isPending } = useProfileUpdate();
 
-  console.log({ date: user.dateOfBirth });
-
   const form = useForm<UpdateProfileForm>({
     resolver: zodResolver(updateProfileSchema),
     disabled: props.preview || isPending,
@@ -160,6 +158,10 @@ export const ProfileForm = (props: Props) => {
                         formattedDate += "/";
                         if (parts[1]) {
                           let month = parts[1].slice(0, 2);
+
+                          if (month === "00") {
+                            return;
+                          }
 
                           if (parseInt(month) > 12) month = "12";
                           formattedDate += month;

@@ -29,12 +29,14 @@ import { getResourceResSchema } from "@/lib/response";
 import { ResourceCard } from "@/components/resource-card";
 import { addMinutes, isWithinInterval } from "date-fns";
 import { getUser } from "@/features/query/get-user";
+import { ContentCard } from "@/components/content-card";
 
 const CompleteResourcePage = async ({
   searchParams,
 }: {
   searchParams: { resourceId: string };
 }) => {
+  console.log({ searchParams });
   if (!searchParams.resourceId) {
     return redirect("/");
   }
@@ -63,46 +65,49 @@ const CompleteResourcePage = async ({
   const resource = data.responseData!;
 
   const resourceUrl = `/resources/${resource.id}`;
-  if (
-    !isWithinInterval(resource.createdAt, {
-      start: resource.createdAt,
-      end: addMinutes(Date.now(), 10),
-    })
-  ) {
-    return redirect(resourceUrl);
-  }
+  // if (
+  //   !isWithinInterval(resource.createdAt, {
+  //     start: resource.createdAt,
+  //     end: addMinutes(Date.now(), 10),
+  //   })
+  // ) {
+  //   return redirect(resourceUrl);
+  // }
+  //
 
   return (
-    <div className="bg-neutral-50 min-h-full pt-14 pb-[445px]">
+    <div className="bg-neutral-50 min-h-full pt-14 pb-[97px]">
       <Container>
         <div>
-          <div className="bg-white rounded-[12px] p-[48px]">
-            <div className="max-w-[789px] w-full mx-auto space-y-16">
-              <div className="max-w-[360px] max-auto">
-                <ResourceCard
-                  item={{
+          <div className="bg-white rounded-[12px] p-[48px] ">
+            <div className="max-w-[580px] w-full mx-auto space-y-16 flex flex-col items-center">
+              <div className="max-w-[360px] h-[360px] mx-auto">
+                <ContentCard
+                  author={{
+                    userId: resource.userId,
+                    fullName: `${user.firstName} ${user.lastName}`,
+                    email: user.email,
+                    avatarUrl: user.profilePicture ?? "",
+                  }}
+                  data={{
+                    id: resource.id,
                     title: resource.fileName,
-                    education: {
-                      level: resource.category,
-                      grade: resource.category,
-                    },
-                    resourceUrl,
-                    topicSampleTitle: resource.description
-                      .split(/\s+/, 20)
-                      .join(" "),
+                    href: resourceUrl,
+                    bannerImgUrl: "/",
+                    isBookmarked: false,
                   }}
                 />
               </div>
-              <div className="space-y-3">
+              <div className="space-y-3 w-full text-center">
                 <h3 className="font-bold text-[28px] leading-[37.8px] text-neutral-800">
                   Resource Upload Successful
                 </h3>
-                <div className="space-y-8">
-                  <p>{`Your ${user.firstName} resource has successfully been published.`}</p>
+                <div>
+                  <p className="mb-8">{`Your ${user.firstName} resource has successfully been published.`}</p>
                   <Link href={resourceUrl}>
                     <Button
                       type="submit"
-                      className="flex items-center justify-center px-8 py-4
+                      className="flex items-center justify-center px-8 py-4 w-full
                   rounded-[48px] bg-primary-500 text-white font-semibold text-base font-josefin full h-fit"
                     >
                       view resource

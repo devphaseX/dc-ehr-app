@@ -1,6 +1,7 @@
 import { TypeOf, z } from "zod";
 
 const authorSchema = z.object({
+  userId: z.string().min(1),
   fullName: z.string().min(1),
   email: z.string().email(),
   avatarUrl: z.string().url(),
@@ -9,9 +10,10 @@ const authorSchema = z.object({
 export type Author = TypeOf<typeof authorSchema>;
 
 export const contentResourceSchema = z.object({
+  id: z.string().min(1),
   title: z.string().min(1),
   href: z.string().url(),
-  bookmarked: z.boolean().default(false),
+  isBookmarked: z.boolean().default(false),
   bannerImgUrl: z.string().url(),
 });
 

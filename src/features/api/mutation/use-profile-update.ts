@@ -3,7 +3,7 @@ import { updateProfileResSchema } from "@/lib/response";
 import { useApi, useAuth } from "@/providers/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-
+// resourceId=6d48ad2d-fd7c-40f8-a2d6-36954802da2e
 export const useProfileUpdate = () => {
   const api = useApi();
   const { user } = useAuth();
@@ -14,6 +14,7 @@ export const useProfileUpdate = () => {
       if (!user) {
         throw new Error("user session expired");
       }
+
       const { data: payload } = await api.put(
         "/User/UpdateUser",
         { ...data, userId: user.id },

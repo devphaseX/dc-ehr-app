@@ -1,24 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { ContentFilters } from "../__components/content-filters";
 import { Container } from "@/components/container";
 import { Author, ContentResource } from "@/lib/schema/data";
 import { ContentCard } from "@/components/content-card";
+import { useGetResources } from "@/features/api/query/use-get-resources";
 
 type Props = {};
 
 const author: Author = {
+  userId: "adudjfjfjgjg",
   fullName: "Austin Smiths",
   email: "austin.smiths@gmail.com",
   avatarUrl: "/",
 };
 
 const content: ContentResource = {
+  id: "1gdhdhfyr",
   title: "The History of Numbers and Counting Systems",
   href: "https://www.web.com/come",
   bannerImgUrl: "/imgs/category-3.png",
-  bookmarked: false,
+  isBookmarked: false,
 };
 
 const items = [
@@ -32,6 +35,26 @@ const items = [
 ] as Array<[ContentResource, Author]>;
 
 export const Contents = (props: Props) => {
+  const { data } = useGetResources();
+
+  const items = useMemo(() => {
+    return (data?.data || []).map<[ContentResource, Author]>((resource) => [
+      {
+        id: resource.id,
+        isBookmarked: resource.isBookmarked,
+        title: resource.fileName,
+        bannerImgUrl: "/imgs/category-3.png",
+        href: `/resources/${resource.id}`,
+      },
+      {
+        userId: resource.userId,
+        avatarUrl: resource.profilePicture ?? "",
+        email: resource.email,
+        fullName: resource.username,
+      },
+    ]);
+  }, [data?.data]);
+
   return (
     <div className="w-full pb-[144px]">
       <Container>
