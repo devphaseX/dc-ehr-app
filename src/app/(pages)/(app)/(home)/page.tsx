@@ -47,7 +47,7 @@ const Home = async () => {
     <>
       <Heroes />
       <ChooseCategory categories={categories} />
-      <Contents />
+      <Contents categories={categories} />
       <QuickSignUp />
     </>
   );

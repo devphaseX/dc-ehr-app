@@ -6,8 +6,13 @@ import { Container } from "@/components/container";
 import { Author, ContentResource } from "@/lib/schema/data";
 import { ContentCard } from "@/components/content-card";
 import { useGetResources } from "@/features/api/query/use-get-resources";
+import { parseAsInteger, useQueryState } from "nuqs";
+import { InfiniteData } from "@tanstack/react-query";
+import { ContentCategory } from "@/lib/response";
 
-type Props = {};
+type Props = {
+  categories: Array<ContentCategory>;
+};
 
 const author: Author = {
   userId: "adudjfjfjgjg",
@@ -35,10 +40,26 @@ const items = [
 ] as Array<[ContentResource, Author]>;
 
 export const Contents = (props: Props) => {
-  const { data } = useGetResources();
+  const [page, setPage] = useQueryState(
+    "page",
+    parseAsInteger.withDefault(1).withOptions({ shallow: false }),
+  );
 
+  const [pageSize, setPageSize] = useQueryState(
+    "page",
+    parseAsInteger.withDefault(1).withOptions({ shallow: false }),
+  );
+
+  const { data: dataResult } = useGetResources({
+    pageNumber: page,
+    pageSize: pageSize,
+  });
+  const payload = dataResult as any as InfiniteData<
+    NonNullable<typeof dataResult>
+  >;
+  const data = payload?.pages[page - 1]?.data;
   const items = useMemo(() => {
-    return (data?.data || []).map<[ContentResource, Author]>((resource) => [
+    return (data || []).map<[ContentResource, Author]>((resource) => [
       {
         id: resource.id,
         isBookmarked: resource.isBookmarked,
@@ -53,7 +74,7 @@ export const Contents = (props: Props) => {
         fullName: resource.username,
       },
     ]);
-  }, [data?.data]);
+  }, [data]);
 
   return (
     <div className="w-full pb-[144px]">
@@ -68,7 +89,7 @@ export const Contents = (props: Props) => {
             </p>
           </div>
 
-          <ContentFilters />
+          <ContentFilters categories={props.categories} />
 
           <div
             className="grid gap-8 w-full"

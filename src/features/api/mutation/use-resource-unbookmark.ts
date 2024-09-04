@@ -14,7 +14,7 @@ export const useUnbookmarkResource = () => {
       if (!userId) {
         throw new Error("failed to remove bookmark  on resource");
       }
-      const { data, status } = await api.post(
+      const { data, status } = await api.put(
         `/Resource/UnBookmarkResource?userId=${userId}&resourceId=${id}`,
         null,
         { validateResponse: (data) => bookmarkResourceResSchema.parse(data) },
