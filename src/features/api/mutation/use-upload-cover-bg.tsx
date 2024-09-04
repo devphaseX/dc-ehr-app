@@ -12,7 +12,7 @@ export const useUploadCoverBg = () => {
       const formData = new FormData();
       formData.set("file", data.file);
       formData.set("pictureType", "2");
-      const payload = api.put("/User/UploadProfilePicture", formData);
+      const payload = api.put("/User/UploadPicture", formData);
       return payload;
     },
   });

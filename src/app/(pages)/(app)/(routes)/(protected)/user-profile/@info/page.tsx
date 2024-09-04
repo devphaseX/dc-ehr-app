@@ -58,13 +58,27 @@ const Info = () => {
             </Button>
 
             <Button className="!bg-white rounded-full size-8 p-0">
-              <Image
-                src="/icons/pencil-r.svg"
-                alt="icon"
-                width={16}
-                height={16}
-                className="object-fill"
-              />
+              <label htmlFor="bg-image-picker">
+                <input
+                  className="hidden"
+                  id="bg-image-picker"
+                  type="file"
+                  onChange={(ev) => {
+                    const files = ev.target.files;
+                    if (files) {
+                      const [file] = files;
+                      uploadCoverBg({ file });
+                    }
+                  }}
+                />
+                <Image
+                  src="/icons/pencil-r.svg"
+                  alt="icon"
+                  width={16}
+                  height={16}
+                  className="object-fill"
+                />
+              </label>
             </Button>
           </div>
         </CardHeader>

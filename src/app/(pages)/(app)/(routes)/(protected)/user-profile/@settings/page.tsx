@@ -13,12 +13,17 @@ import { useBase64Encoder } from "@/hooks/use-base64";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
 import { useAuth } from "@/providers/auth";
 import { addBase64Prefix } from "@/lib/utils";
+import { useUploadCoverBg } from "@/features/api/mutation/use-upload-cover-bg";
 
 const SettingPage = () => {
   const {
     mutation: { mutate, status },
   } = useUploadProfileImg();
   const router = useRouter();
+
+  const {
+    mutation: { mutate: uploadCoverBg },
+  } = useUploadCoverBg();
 
   const { user } = useAuth();
 
@@ -79,9 +84,24 @@ const SettingPage = () => {
             </div>
 
             <div className="flex items-center gap-x-6">
-              <Button className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm">
-                Change cover photo
-              </Button>
+              <div className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm">
+                <input
+                  className="hidden"
+                  id="cover-bg-picker"
+                  type="file"
+                  onChange={(ev) => {
+                    const files = ev.target.files;
+                    if (files) {
+                      const [file] = files;
+                      uploadCoverBg({ file });
+                    }
+                  }}
+                />
+                <label htmlFor="cover-bg-picker" className="cursor-pointer">
+                  Change cover photo
+                </label>
+              </div>
+
               <Button
                 onClick={() => {
                   const url = new URL(window.location.href);
