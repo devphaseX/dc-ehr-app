@@ -79,9 +79,8 @@ export const useAuth = () => {
           await logout();
         }
 
-        console.log({ data, status });
-
         if (fetchError || status != 200) {
+          console.log({ fetchError });
           return initialUserData;
         }
 

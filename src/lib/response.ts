@@ -46,6 +46,7 @@ export const getUserPayloadSchema = z.object({
   userName: z.string(),
   email: z.string().email(),
   profilePicture: z.string().nullable(),
+  coverPicture: z.string().nullable(),
   country: z.string().optional().nullable(),
   state: z.string().optional().nullable(),
   dateOfBirth: z.date({ coerce: true }).nullish(),
@@ -150,7 +151,7 @@ export const resourcePayload = z
     username: z.string().min(1),
     profilePicture: z.string().min(1).nullable(),
     description: z.string().min(1),
-    tags: z.string().array(),
+    tags: z.array(z.string().nullable()),
     isBookmarked: z.boolean().default(false),
   })
   .transform(
@@ -178,7 +179,9 @@ export const resourcePayload = z
         categoryId,
         category,
         subject,
-        tags,
+        tags:
+          tags?.filter((data): data is string => typeof data === "string") ??
+          [],
         isBookmarked,
         description,
       };
@@ -207,6 +210,17 @@ export const getResourcesResSchema = createResponseSchema({
     pageSize: z.number().int().positive(),
     totalPages: z.number().int().positive(),
   }),
+});
+
+const resourceFilePayloadSchema = z.object({
+  fileId: z.string().uuid(),
+  fileName: z.string(),
+  fileImage: z.string(),
+});
+
+export type ResourceFile = TypeOf<typeof resourceFilePayloadSchema>;
+export const getResourceFilesResSchema = createResponseSchema({
+  sucessSchema: z.array(resourceFilePayloadSchema),
 });
 
 export const createResourceResSchema = createResponseSchema({

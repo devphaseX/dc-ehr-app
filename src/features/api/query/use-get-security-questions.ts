@@ -14,7 +14,6 @@ export const useGetUserSecurityQuestions = (email: string) => {
           validateResponse: (data) => requestVerifyEmailResSchema.parse(data),
         },
       );
-
       return resp.data;
     },
   });

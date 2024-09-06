@@ -1,6 +1,7 @@
 import { verifyEmailAction } from "@/actions/verify-email/handler";
 import { Button } from "@/components/ui/button";
 import { getUser } from "@/features/query/get-user";
+import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 
 const CompleteAccountPage = async ({
@@ -40,13 +41,13 @@ const CompleteAccountPage = async ({
               free resources from your resources page
             </p>
           </div>
-          <Button
-            type="button"
+          <Link
+            href="/sign-in"
             className="w-full h-fit p-4 text-base text-white font-semibold
         rounded-[56px] bg-primary-500 !mt-10"
           >
-            Go to dashboard
-          </Button>
+            Go to sign in
+          </Link>
         </div>
       </div>
     </div>

@@ -29,8 +29,6 @@ const Home = async () => {
         validateResponse: (data) => getResourcesResSchema.parse(data),
       });
 
-      console.log({ data });
-
       if (!data) {
         throw new Error("An error occurred fetching resources");
       }

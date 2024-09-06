@@ -6,6 +6,7 @@ type Props = {
   setToken: () => Promise<void>;
 };
 
+//@ts-ignore
 export const SetAuthToken = ({ setToken }: Props) => {
   const [settingToken, setSettingToken] = useState(false);
   useEffect(() => {

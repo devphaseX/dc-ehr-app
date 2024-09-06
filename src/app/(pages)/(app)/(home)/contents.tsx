@@ -14,31 +14,6 @@ type Props = {
   categories: Array<ContentCategory>;
 };
 
-const author: Author = {
-  userId: "adudjfjfjgjg",
-  fullName: "Austin Smiths",
-  email: "austin.smiths@gmail.com",
-  avatarUrl: "/",
-};
-
-const content: ContentResource = {
-  id: "1gdhdhfyr",
-  title: "The History of Numbers and Counting Systems",
-  href: "https://www.web.com/come",
-  bannerImgUrl: "/imgs/category-3.png",
-  isBookmarked: false,
-};
-
-const items = [
-  [content, author],
-  [content, author],
-  [content, author],
-  [content, author],
-  [content, author],
-  [content, author],
-  [content, author],
-] as Array<[ContentResource, Author]>;
-
 export const Contents = (props: Props) => {
   const [page, setPage] = useQueryState(
     "page",

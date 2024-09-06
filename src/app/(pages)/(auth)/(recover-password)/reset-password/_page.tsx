@@ -36,7 +36,7 @@ export const ResetPasswordForm = ({
     //@ts-ignore
     user,
   } = useAuth();
-  const nonAuthResetMode = useRef(Boolean(user));
+  const nonAuthResetMode = useRef(!Boolean(user));
 
   const [resetLoading, setResetLoading] = useState(false);
   const [resetCompleted, setResetCompleted] = useState(false);
@@ -57,26 +57,46 @@ export const ResetPasswordForm = ({
               resources from your resources page
             </p>
           </div>
-          <Button
-            type="button"
-            onClick={() => {
-              router.refresh();
-              if (nonAuthResetMode) {
-                router.push("/");
-                return;
-              }
+          <div className="space-y-8 flex flex-col items-center">
+            <Button
+              type="button"
+              onClick={() => {
+                router.refresh();
+                if (nonAuthResetMode.current) {
+                  router.push("/");
+                  return;
+                }
 
-              router.push("/user-profile?tab=settings");
-            }}
-            className="h-fit px-8 py-4 text-base text-white font-semibold
-      rounded-[56px] bg-primary-500"
-          >
-            Go to dashboard
-          </Button>
+                router.push("/user-profile?tab=settings");
+              }}
+              className="h-fit px-8 py-4 text-base text-white font-semibold
+      rounded-[56px] w-full bg-primary-500"
+            >
+              Go to dashboard
+            </Button>
+            {!nonAuthResetMode.current && (
+              <Button
+                type="button"
+                onClick={() => {
+                  router.push("/user-profile?tab=settings");
+                }}
+                className="px-8 py-4
+                 rounded-[56px] bg-primary-50 text-primary-500
+                  font-semibold text-sm font-josefin w-full h-fit"
+              >
+                Go to settings
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     );
   }
+
+  /*
+  className="flex items-center justify-center px-6 py-[14px]
+   rounded-[48px] bg-primary-50 text-primary-500
+    font-semibold text-sm font-josefin w-fit h-fit" */
 
   return (
     <div className="flex-1 h-full flex items-center mt-32">

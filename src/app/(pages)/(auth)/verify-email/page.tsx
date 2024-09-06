@@ -19,12 +19,6 @@ const ConfirmEmailVerify = async ({
     return redirect("/");
   }
 
-  const user = await getUser();
-
-  if (user && user.isVerified) {
-    return redirect("/");
-  }
-
   const { data, error } = await verifyEmailAction({ userId, token });
 
   if (!data) {
@@ -35,7 +29,7 @@ const ConfirmEmailVerify = async ({
     <div className="absolute inset-0">
       <div className="flex flex-col justify-between h-full">
         <div className="w-full flex justify-center pt-24">
-          <div className="space-y-8">
+          <div className="space-y-8 max-w-[506px]">
             <div className="space-y-3 text-center">
               <h3 className="font-bold text-[28px] leading-[37px] text-neutral-800">
                 Email verification
@@ -45,7 +39,8 @@ const ConfirmEmailVerify = async ({
                 <span className="font-semibold text-neutral-700 underline">
                   {data.email}
                 </span>{" "}
-                is verified
+                is verified. Welcome, You can now share and download alot of
+                free resources from your resources page
               </p>
             </div>
             <div className="space-y-4 flex justify-center">

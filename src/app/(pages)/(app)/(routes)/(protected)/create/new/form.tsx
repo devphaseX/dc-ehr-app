@@ -37,8 +37,10 @@ import { useRouter } from "next/navigation";
 
 export const NewResourceForm = () => {
   const { data: categories } = useGetCategories();
-  const { data: subjects } = useGetSubjects();
+  const { data: subjectsPayload } = useGetSubjects();
 
+  const subjects = Array.from(new Set(subjectsPayload));
+  console.log({ subjects });
   const form = useForm<NewResource & { tag?: string }>({
     resolver: zodResolver(
       createNewResourceSchema.extend({
@@ -117,7 +119,7 @@ export const NewResourceForm = () => {
                         return;
                       }
 
-                      setPost({ ...formValues });
+                      setPost({ ...(formValues as any) });
                       router.push("/create/preview");
                     })}
                   >
