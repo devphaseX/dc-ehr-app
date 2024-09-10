@@ -11,7 +11,6 @@ import Link from "next/link";
 import { useBookmarkResource } from "@/features/api/mutation/use-resource-bookmark";
 import { toast } from "sonner";
 import { addBase64Prefix, cn } from "@/lib/utils";
-import { useAuth } from "@/providers/auth";
 import { useUnbookmarkResource } from "@/features/api/mutation/use-resource-unbookmark";
 import { ResourceFile } from "@/lib/response";
 
@@ -20,12 +19,21 @@ type Props = {
 };
 
 export const ResourceFileCard = ({ data }: Props) => {
-  const { user } = useAuth();
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = `/api/Resource/DownloadResourceFile/${data.fileId}`;
+    link.download = data.fileName || "download";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
-    <Card className="flex gap-x-4 border-none shadow-none">
+    <Card className="flex gap-x-4 border-none drop-shadow-content-card px-4 py-[18px]">
       <CardHeader className="inline-flex p-0 shadow-none space-y-0">
-        <div className="size-[100px] bg-neutral-50 rounded-[8px]"></div>
+        <div className="size-[100px] bg-neutral-50 rounded-[8px] relative">
+          {<Image src={addBase64Prefix(data.fileImage)} alt="image" fill />}
+        </div>
       </CardHeader>
 
       <CardContent className="p-0 shadow-none self-stretch flex-1">
@@ -65,7 +73,10 @@ export const ResourceFileCard = ({ data }: Props) => {
               </Button>
             </div>
 
-            <Button className="text-xs px-5 py-[10px] w-fit h-fit rounded-[40px]">
+            <Button
+              onClick={handleDownload}
+              className="text-xs px-5 py-[10px] w-fit h-fit rounded-[40px]"
+            >
               Download
             </Button>
           </div>

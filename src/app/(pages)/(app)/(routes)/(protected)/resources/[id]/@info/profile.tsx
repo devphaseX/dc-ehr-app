@@ -1,5 +1,4 @@
 "use client";
-
 import { logout } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -16,17 +15,15 @@ import { addBase64Prefix } from "@/lib/utils";
 import { useAuth } from "@/providers/auth";
 import Image from "next/image";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { getServerResource } from "@/features/query/get-resource";
+import { getAuthorProfile } from "@/features/query/get-author-profile";
+import Link from "next/link";
+import { useGetAuthorPublishCount } from "@/features/api/query/use-get-publications-count";
+import { User } from "@/lib/response";
 
-const Info = () => {
-  const router = useRouter();
-
-  const { user } = useAuth();
-
-  if (!user) {
-    return null;
-  }
-
+export const AuthorProfile = ({ user }: { user: User }) => {
+  const { data } = useGetAuthorPublishCount(user.id);
   return (
     <div className="flex flex-col gap-y-6 max-w-[320px]">
       <Card
@@ -60,7 +57,9 @@ const Info = () => {
           <div className="border border-neutral-100 rounded-[12px] p-6">
             <div className="w-full flex items-center gap-x-4">
               <div className="space-y-[6px] flex items-center flex-col w-[50%] flex-1">
-                <p className="text-neutral-700 font-semibold text-base">56</p>
+                <p className="text-neutral-700 font-semibold text-base">
+                  {data ?? "-"}
+                </p>
                 <p className="text-sm text-neutral-500">Publication</p>
               </div>
               <div className="self-stretch  relative">
@@ -75,15 +74,13 @@ const Info = () => {
               </div>
             </div>
           </div>
-          <Button
-            className="w-full h-fit px-6 py-[14px] text-base text-white font-semibold
+          <Link
+            href={`/author-profile/${user.userName}`}
+            className="w-full h-fit flex items-center justify-center px-6 py-[14px] text-base text-white font-semibold
     rounded-[48px] bg-primary-500 text-center"
-            onClick={() => {
-              router.push(`/author-profile`);
-            }}
           >
             View creator profile
-          </Button>
+          </Link>
         </CardContent>
       </Card>
 
@@ -120,5 +117,3 @@ const Info = () => {
     </div>
   );
 };
-
-export default Info;

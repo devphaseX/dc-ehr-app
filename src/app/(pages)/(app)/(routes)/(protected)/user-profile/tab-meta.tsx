@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsTrigger, TabsList } from "@/components/ui/tabs";
+import { useGetAuthorPublishCount } from "@/features/api/query/use-get-publications-count";
 import { cn } from "@/lib/utils";
 
 import { parseAsStringEnum, useQueryState } from "nuqs";
@@ -10,11 +11,11 @@ import { parseAsStringEnum, useQueryState } from "nuqs";
 export type TabItem = {
   label: string;
   tab: string;
-  tagCount?: number;
+  tagCount?: number | string;
   disabled?: boolean;
 };
 
-export const ProfileActionTab = () => {
+export const ProfileActionTab = ({ userId }: { userId: string }) => {
   const [selectedTab, setSelectedTab] = useQueryState(
     "tab",
     parseAsStringEnum([
@@ -25,11 +26,13 @@ export const ProfileActionTab = () => {
     ]).withDefault("publications"),
   );
 
+  const { data } = useGetAuthorPublishCount(userId);
+
   const items: Array<TabItem> = [
     {
       label: "Publications",
       tab: "publications",
-      tagCount: 9,
+      tagCount: data ?? "-",
     },
     {
       label: "Favourite",

@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { serverApi } from "../server-api";
 import { getResourceResSchema } from "@/lib/response";
+import { getJwt } from "@/auth";
 
 export const getServerResource = cache(async (id: string) => {
   const { data } = await serverApi.get(`/Resource/GetResource/${id}`, {

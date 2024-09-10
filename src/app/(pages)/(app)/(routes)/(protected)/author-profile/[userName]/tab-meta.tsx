@@ -11,7 +11,7 @@ import { parseAsStringEnum, useQueryState } from "nuqs";
 export type TabItem = {
   label: string;
   tab: string;
-  tagCount?: number;
+  tagCount?: number | string;
   disabled?: boolean;
 };
 

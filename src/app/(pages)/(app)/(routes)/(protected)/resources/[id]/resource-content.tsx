@@ -31,35 +31,49 @@ import {
 import { z } from "zod";
 import { ulid } from "ulid";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { addBase64Prefix, cn } from "@/lib/utils";
 import { ResourceActionTab } from "./tab-meta";
 import { ResourceTabContent } from "./resource-tab-content";
+import { ResourcePayload } from "@/lib/response";
+import Image from "next/image";
 
-const ResourcePage = () => {
-  const tags = ["Robotics", "Basic Electronics", "Artificial Intelligent"];
+export const ResourceContent = ({
+  resource,
+}: {
+  resource: ResourcePayload;
+}) => {
+  const tags = resource.tags ?? [];
 
   const metas: { title: string; content: string }[] = [
     { title: "Uploaded date", content: "Jan 23, 2024" },
-    { title: "Uploaded date", content: "Jan 23, 2024" },
-    { title: "Subject", content: "Mathematics" },
-    { title: "Level", content: "Secondary" },
+    { title: "Subject", content: resource.subject },
+    { title: "Level", content: resource.category },
   ];
+
   return (
     <div className="bg-white min-h-full p-8 rounded-xl">
       <div>
         <div className="space-y-8">
           <div>
             <h3 className="font-semibold text-lg text-neutral-800">
-              The Best Online Resoruce Library Hub
+              {resource.fileName}
             </h3>
             <p className="text-sm text-neutral-500">
               by{" "}
-              <span className="font-semibold text-neutral-800">Adam James</span>
+              <span className="font-semibold text-neutral-800">
+                {resource.username}
+              </span>
             </p>
           </div>
 
           <div>
-            <div className="h-[486px] w-full bg-neutral-50"></div>
+            <div className="h-[486px] w-full bg-neutral-50 relative">
+              <Image
+                src={addBase64Prefix(resource.resourceThumbnail)}
+                alt="photo"
+                fill
+              />
+            </div>
           </div>
 
           <div className="space-y-7">
@@ -133,12 +147,10 @@ const ResourcePage = () => {
 
           <div>
             <ResourceActionTab />
-            <ResourceTabContent />
+            <ResourceTabContent resourceId={resource.id} />
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default ResourcePage;

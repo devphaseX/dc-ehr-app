@@ -30,10 +30,8 @@ const BookPublications = async () => {
           <h3 className="font-semibold text-[40px] leading-[54px] text-neutral-800">
             Profile
           </h3>
-          <ProfileActionTab />
-          {/*
-             <BookPublicationContent username={user.userName} />
-            */}
+          <ProfileActionTab userId={user.id} />
+          <BookPublicationContent username={user.userName} />
         </div>
       </div>
     </div>
