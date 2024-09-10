@@ -14,27 +14,18 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useUploadCoverBg } from "@/features/api/mutation/use-upload-cover-bg";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
+import { useGetAuthor } from "@/features/api/query/use-get-author";
+import { useGetAuthorPublishCount } from "@/features/api/query/use-get-publications-count";
 import { useBase64Encoder } from "@/hooks/use-base64";
+import { User } from "@/lib/response";
 import { addBase64Prefix } from "@/lib/utils";
 import { useAuth } from "@/providers/auth";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-const Info = () => {
-  const {
-    mutation: { mutate, status },
-  } = useUploadProfileImg();
-
-  const {
-    mutation: { mutate: uploadCoverBg },
-  } = useUploadCoverBg();
-
-  const { user } = useAuth();
-
-  if (!user) {
-    return null;
-  }
-
+export const AuthorProfile = ({ user }: { user: User }) => {
+  const { data, isLoading } = useGetAuthorPublishCount(user.id);
   return (
     <div className="flex flex-col gap-y-6 max-w-[320px]">
       <Card
@@ -52,42 +43,6 @@ const Info = () => {
               alt="cover"
               fill
             />
-          </div>
-
-          <div className="flex justify-between items-center p-4">
-            <Button className="!bg-white rounded-full size-8 p-0">
-              <Image
-                src="/icons/gear-alt-r.svg"
-                alt="icon"
-                width={16}
-                height={16}
-                className="object-fill"
-              />
-            </Button>
-
-            <Button className="!bg-white rounded-full size-8 p-0">
-              <label htmlFor="bg-image-picker">
-                <input
-                  className="hidden"
-                  id="bg-image-picker"
-                  type="file"
-                  onChange={(ev) => {
-                    const files = ev.target.files;
-                    if (files) {
-                      const [file] = files;
-                      uploadCoverBg({ file });
-                    }
-                  }}
-                />
-                <Image
-                  src="/icons/pencil-r.svg"
-                  alt="icon"
-                  width={16}
-                  height={16}
-                  className="object-fill"
-                />
-              </label>
-            </Button>
           </div>
         </CardHeader>
 
@@ -108,31 +63,6 @@ const Info = () => {
 
               <AvatarFallback />
             </Avatar>
-            <label
-              htmlFor="small-image-picker"
-              className="absolute flex items-center justify-center size-6
-            bg-primary-500 rounded-full bottom-0 right-[4px] border-[2px] border-white"
-            >
-              <input
-                className="hidden"
-                id="small-image-picker"
-                type="file"
-                onChange={(ev) => {
-                  const files = ev.target.files;
-                  if (files) {
-                    const [file] = files;
-                    mutate({ file });
-                  }
-                }}
-              />
-              <Image
-                src="/icons/camera-r.svg"
-                alt="icon"
-                width={12}
-                height={12}
-                className="object-fill"
-              />
-            </label>
           </div>
 
           <div className="space-y-[2px] flex flex-col mx-auto w-full items-center">
@@ -143,7 +73,9 @@ const Info = () => {
           <div className="border border-neutral-100 rounded-[12px] p-6">
             <div className="w-full flex items-center gap-x-4">
               <div className="space-y-[6px] flex items-center flex-col w-[50%] flex-1">
-                <p className="text-neutral-700 font-semibold text-base">56</p>
+                <p className="text-neutral-700 font-semibold text-base">
+                  {isLoading ? "-" : (data ?? "-")}
+                </p>
                 <p className="text-sm text-neutral-500">Publication</p>
               </div>
               <div className="self-stretch  relative">
@@ -158,15 +90,6 @@ const Info = () => {
               </div>
             </div>
           </div>
-          <Button
-            className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]"
-            onClick={async () => {
-              await logout();
-              window.location.reload();
-            }}
-          >
-            Logout
-          </Button>
         </CardContent>
       </Card>
 
@@ -203,5 +126,3 @@ const Info = () => {
     </div>
   );
 };
-
-export default Info;

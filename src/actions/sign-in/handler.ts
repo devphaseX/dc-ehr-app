@@ -8,7 +8,7 @@ import { setJwt } from "@/auth";
 
 export const signInAction = action(signInSchema, async (form) => {
   try {
-    const { data: payload } = await serverApi.post(
+    const { data: payload, status } = await serverApi.post(
       "/Auth/Login",
       {
         ...form,
@@ -33,7 +33,6 @@ export const signInAction = action(signInSchema, async (form) => {
     await setJwt(data.token);
     return { message: "Login sucessful", userId: data.userId };
   } catch (e) {
-    console.log({ type: e });
     return {
       error: (e as Error).message,
     };

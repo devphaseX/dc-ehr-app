@@ -19,7 +19,6 @@ export const ProfileActionTab = () => {
     "tab",
     parseAsStringEnum([
       "publications",
-      "repost",
       "favourite",
       "deleted",
       "setting",
@@ -31,12 +30,6 @@ export const ProfileActionTab = () => {
       label: "Publications",
       tab: "publications",
       tagCount: 9,
-    },
-
-    {
-      label: "Repost",
-      tab: "repost",
-      tagCount: 20,
     },
     {
       label: "Favourite",

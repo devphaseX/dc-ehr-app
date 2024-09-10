@@ -149,6 +149,7 @@ export const resourcePayload = z
     userId: z.string().min(1),
     email: z.string().email(),
     username: z.string().min(1),
+    resourceThumbnail: z.string().min(1),
     profilePicture: z.string().min(1).nullable(),
     description: z.string().min(1),
     tags: z.array(z.string().nullable()),
@@ -158,6 +159,7 @@ export const resourcePayload = z
     ({
       resourceId,
       resourceName,
+      resourceThumbnail,
       userId,
       username,
       profilePicture,
@@ -179,6 +181,7 @@ export const resourcePayload = z
         categoryId,
         category,
         subject,
+        resourceThumbnail,
         tags:
           tags?.filter((data): data is string => typeof data === "string") ??
           [],
@@ -187,16 +190,6 @@ export const resourcePayload = z
       };
     },
   );
-
-// {
-//       resourceId: '6d48ad2d-fd7c-40f8-a2d6-36954802da2e',
-//       resourceName: 'my content',
-//       description: 'some random file',
-//       subject: 'Project',
-//       categoryId: '25976e98-971b-4fe4-8330-1621e29c89c2',
-//       category: 'Secondary',
-//       tags: [Array]
-//     }
 
 export const getResourceResSchema = createResponseSchema({
   sucessSchema: resourcePayload,
@@ -219,6 +212,7 @@ const resourceFilePayloadSchema = z.object({
 });
 
 export type ResourceFile = TypeOf<typeof resourceFilePayloadSchema>;
+export type ResourcePayload = TypeOf<typeof resourcePayload>;
 export const getResourceFilesResSchema = createResponseSchema({
   sucessSchema: z.array(resourceFilePayloadSchema),
 });
@@ -229,4 +223,12 @@ export const createResourceResSchema = createResponseSchema({
 
 export const bookmarkResourceResSchema = createResponseSchema({
   sucessSchema: z.any(),
+});
+
+export const getResourcesByUsernameResSchema = createResponseSchema({
+  sucessSchema: z.array(resourcePayload),
+});
+
+export const getAuthorPublicationsCountResSchema = createResponseSchema({
+  sucessSchema: z.number().int().positive(),
 });

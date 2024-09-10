@@ -8,7 +8,8 @@ import { ContentCard } from "@/components/content-card";
 import { useGetResources } from "@/features/api/query/use-get-resources";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { InfiniteData } from "@tanstack/react-query";
-import { ContentCategory } from "@/lib/response";
+import { ContentCategory, ResourcePayload } from "@/lib/response";
+import { addBase64Prefix } from "@/lib/utils";
 
 type Props = {
   categories: Array<ContentCategory>;
@@ -39,12 +40,16 @@ export const Contents = (props: Props) => {
         id: resource.id,
         isBookmarked: resource.isBookmarked,
         title: resource.fileName,
-        bannerImgUrl: "/imgs/category-3.png",
+        bannerImgUrl: addBase64Prefix(
+          (resource as ResourcePayload).resourceThumbnail,
+        ),
         href: `/resources/${resource.id}`,
       },
       {
         userId: resource.userId,
-        avatarUrl: resource.profilePicture ?? "",
+        avatarUrl: resource.profilePicture
+          ? addBase64Prefix(resource.profilePicture)
+          : "",
         email: resource.email,
         fullName: resource.username,
       },

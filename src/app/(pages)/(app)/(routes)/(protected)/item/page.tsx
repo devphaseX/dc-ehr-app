@@ -14,7 +14,6 @@ import { FormLabel } from "@/components/form/label";
 import { ChevronLeft, LucideBatteryWarning, Plus, Star, X } from "lucide-react";
 import Link from "next/link";
 import { useFieldArray, useForm } from "react-hook-form";
-import { NewResource, createNewResourceSchema, FileItem } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
