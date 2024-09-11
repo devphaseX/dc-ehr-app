@@ -40,7 +40,6 @@ export const NewResourceForm = () => {
   const { data: subjectsPayload } = useGetSubjects();
 
   const subjects = Array.from(new Set(subjectsPayload));
-  console.log({ subjects });
   const form = useForm<NewResource & { tag?: string }>({
     resolver: zodResolver(
       createNewResourceSchema.extend({

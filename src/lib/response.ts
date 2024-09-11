@@ -200,8 +200,8 @@ export const getResourcesResSchema = createResponseSchema({
     data: z.array(resourcePayload),
     totalRecords: z.number().int().positive(),
     pageNumber: z.number().int().positive(),
-    pageSize: z.number().int().positive(),
-    totalPages: z.number().int().positive(),
+    pageSize: z.number().int(),
+    totalPages: z.number().int(),
   }),
 });
 

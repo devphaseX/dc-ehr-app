@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCategories } from "@/features/api/query/use-get-categories";
 import { ContentCategory } from "@/lib/response";
 import { ChevronDown } from "lucide-react";
@@ -66,3 +67,19 @@ export const ContentFilters = ({
     </div>
   );
 };
+
+export function ContentFiltersSkeleton() {
+  return (
+    <div className="space-y-8" aria-busy="true" aria-live="polite">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-x-4">
+          <Skeleton className="w-40 h-12 rounded-[56px]" />
+        </div>
+
+        <div>
+          <Skeleton className="w-32 h-12 rounded-[80px]" />
+        </div>
+      </div>
+    </div>
+  );
+}

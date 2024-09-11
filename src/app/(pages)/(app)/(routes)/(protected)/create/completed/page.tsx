@@ -36,7 +36,6 @@ const CompleteResourcePage = async ({
 }: {
   searchParams: { resourceId: string };
 }) => {
-  console.log({ searchParams });
   if (!searchParams.resourceId) {
     return redirect("/");
   }

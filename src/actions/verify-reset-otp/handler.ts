@@ -24,8 +24,6 @@ export const verifyResetPasswordOtpAction = async ({
       },
     );
 
-    console.log({ data, status });
-
     if (!data) {
       throw new Error("failed to submit security answers");
     }

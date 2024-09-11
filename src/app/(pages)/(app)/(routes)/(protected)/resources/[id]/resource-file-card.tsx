@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { addBase64Prefix, cn } from "@/lib/utils";
 import { useUnbookmarkResource } from "@/features/api/mutation/use-resource-unbookmark";
 import { ResourceFile } from "@/lib/response";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   data: ResourceFile;
@@ -21,7 +22,7 @@ type Props = {
 export const ResourceFileCard = ({ data }: Props) => {
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = `/api/Resource/DownloadResourceFile/${data.fileId}`;
+    link.href = `/api/v1/Resource/DownloadResourceFile/${data.fileId}`;
     link.download = data.fileName || "download";
     document.body.appendChild(link);
     link.click();
@@ -85,3 +86,31 @@ export const ResourceFileCard = ({ data }: Props) => {
     </Card>
   );
 };
+
+export function ResourceFileCardSkeleton() {
+  return (
+    <div className="isolate" aria-busy="true" aria-live="polite">
+      <Card className="flex gap-x-4 border-none drop-shadow-content-card px-4 py-[18px]">
+        <CardHeader className="inline-flex p-0 shadow-none space-y-0">
+          <Skeleton className="h-[100px] w-[100px] rounded-[8px]" />
+        </CardHeader>
+
+        <CardContent className="p-0 shadow-none self-stretch flex-1">
+          <div className="flex flex-col w-full justify-between gap-y-3">
+            <div className="space-y-1">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+            </div>
+            <div className="flex w-full items-baseline justify-between">
+              <div className="inline-flex items-center gap-x-4">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <Skeleton className="h-10 w-10 rounded-full" />
+              </div>
+              <Skeleton className="h-8 w-24 rounded-[40px]" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/providers/auth";
 import { useUnbookmarkResource } from "@/features/api/mutation/use-resource-unbookmark";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
   data: ContentResource;
@@ -137,3 +138,26 @@ export const ContentCard = ({
     </Link>
   );
 };
+
+export default function ContentCardSkeleton() {
+  return (
+    <div className="isolate" aria-busy="true" aria-live="polite">
+      <Card className="relative min-w-[379px] rounded-xl overflow-hidden border-none drop-shadow-content-card">
+        <CardHeader className="flex flex-row items-center justify-between p-4 space-y-0">
+          <div className="flex items-center gap-x-2">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <Skeleton className="h-4 w-32" />
+          </div>
+          <Skeleton className="h-10 w-10 rounded-full" />
+        </CardHeader>
+
+        <CardContent className="p-0">
+          <Skeleton className="h-60 w-full" />
+          <div className="bg-white p-6">
+            <Skeleton className="h-5 w-3/4" />
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

@@ -25,7 +25,7 @@ import { User } from "@/lib/response";
 export const AuthorProfile = ({ user }: { user: User }) => {
   const { data } = useGetAuthorPublishCount(user.id);
   return (
-    <div className="flex flex-col gap-y-6 max-w-[320px]">
+    <div className="flex flex-col gap-y-6 max-w-[320px] w-full">
       <Card
         className="rounded-[24px] border border-neutral-100 p-0
       overflow-hidden shadow-none border-none drop-shadow-none"
@@ -84,6 +84,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
         </CardContent>
       </Card>
 
+      {/*
       <Card className="p-6 rounded-[12px] space-y-6 shadow-none border-none drop-shadow-none">
         <CardHeader className="p-0">
           <CardTitle className="font-semibold text-xl font-josefin">
@@ -114,6 +115,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
           </ul>
         </CardFooter>
       </Card>
+        */}
     </div>
   );
 };

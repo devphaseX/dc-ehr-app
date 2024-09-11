@@ -46,8 +46,6 @@ const PreviewNewResourcePage = () => {
     }
   }, [post]);
 
-  console.log({ error });
-
   if (!post) return null;
 
   return (

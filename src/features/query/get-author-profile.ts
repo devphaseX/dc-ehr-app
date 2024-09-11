@@ -10,8 +10,6 @@ export const getAuthorProfile = cache(async (userName: string) => {
     },
   );
 
-  console.log({ data });
-
   if (fetchError) {
     throw new Error("no internet connection");
   }

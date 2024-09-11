@@ -19,13 +19,13 @@ const CompleteAccountPage = async ({
     return redirect("/");
   }
 
-  const { data, error } = await verifyEmailAction({ userId, token });
+  const result = await verifyEmailAction({ userId, token });
 
-  if (!data) {
-    return redirect(`/sign-in?error=${error}`);
+  if (result?.error) {
+    return redirect(`/sign-in?error=${result?.error}`);
   }
 
-  user = user || data;
+  user = result.user!;
 
   return (
     <div className="w-full h-full absolute inset-0">

@@ -19,9 +19,9 @@ const ConfirmEmailVerify = async ({
     return redirect("/");
   }
 
-  const { data, error } = await verifyEmailAction({ userId, token });
+  const { user, error } = await verifyEmailAction({ userId, token });
 
-  if (!data) {
+  if (!user) {
     return redirect(`/sign-in?error=${error}`);
   }
 
@@ -37,7 +37,7 @@ const ConfirmEmailVerify = async ({
               <p className="text-lg text-neutral-500">
                 Your email{" "}
                 <span className="font-semibold text-neutral-700 underline">
-                  {data.email}
+                  {user.email}
                 </span>{" "}
                 is verified. Welcome, You can now share and download alot of
                 free resources from your resources page
@@ -51,7 +51,7 @@ const ConfirmEmailVerify = async ({
               >
                 Go to dashboard
               </Link>
-              {data && (
+              {user && (
                 <SetAuthToken
                   setToken={async () => {
                     "use server";

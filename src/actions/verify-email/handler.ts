@@ -15,7 +15,7 @@ export const verifyEmailAction = async ({
   token: string;
 }) => {
   try {
-    const { data } = await serverApi.put(
+    const { data, status } = await serverApi.put(
       `/User/SetUserToIsVerified?userId=${userId}`,
       undefined,
       {
@@ -25,14 +25,14 @@ export const verifyEmailAction = async ({
     );
 
     if (!data) {
-      throw new NonCompliantResponseError();
+      return { error: new NonCompliantResponseError().message };
     }
 
-    if (data.responseCode !== 200) {
+    if (status !== 200) {
       return { error: data.responseMessage ?? "failed to verify email" };
     }
 
-    return { data: data.responseData };
+    return { user: data.responseData! };
   } catch (e) {
     console.log("[VERIFY EMAIL ERROR]", e);
     return { error: "failed to verify email" };

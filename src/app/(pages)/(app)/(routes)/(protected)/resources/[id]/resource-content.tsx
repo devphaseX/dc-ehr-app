@@ -36,6 +36,7 @@ import { ResourceActionTab } from "./tab-meta";
 import { ResourceTabContent } from "./resource-tab-content";
 import { ResourcePayload } from "@/lib/response";
 import Image from "next/image";
+import { parseAsStringEnum, useQueryState } from "nuqs";
 
 export const ResourceContent = ({
   resource,
@@ -43,6 +44,12 @@ export const ResourceContent = ({
   resource: ResourcePayload;
 }) => {
   const tags = resource.tags ?? [];
+  const [selectedTab, setSelectedTab] = useQueryState(
+    "tab",
+    parseAsStringEnum(["resources", "descriptions"]).withDefault(
+      "descriptions",
+    ),
+  );
 
   const metas: { title: string; content: string }[] = [
     { title: "Uploaded date", content: "Jan 23, 2024" },
@@ -92,6 +99,7 @@ export const ResourceContent = ({
               </div>
             </div>
 
+            {/*
             <div className="flex items-center gap-x-1">
               <div className="flex items-baseline gap-x-1">
                 <Star className="size-4 text-primary-500" />
@@ -104,6 +112,7 @@ export const ResourceContent = ({
                 4.5 (Ratings)
               </p>
             </div>
+              */}
 
             <div className="flex [&>*]:flex-1">
               {metas.map((meta, i) => (
@@ -135,6 +144,7 @@ export const ResourceContent = ({
                 New upload
               </Button>
 
+              {/*
               <Button
                 className="px-4 py-[10px] rounded-[36px]
                 border border-neutral-200 text-primary-500 font-medium text-sm bg-transparent"
@@ -142,12 +152,19 @@ export const ResourceContent = ({
                 <Star className="size-5 mr-2" />
                 Rate Resource
               </Button>
+                */}
             </div>
           </div>
 
           <div>
             <ResourceActionTab />
-            <ResourceTabContent resourceId={resource.id} />
+            {selectedTab === "descriptions" ? (
+              <div>
+                <p>{resource.description}</p>
+              </div>
+            ) : (
+              <ResourceTabContent resourceId={resource.id} />
+            )}
           </div>
         </div>
       </div>

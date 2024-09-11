@@ -21,7 +21,6 @@ export default async function ResetPasswordOtpPage({
     ignoreJwt: true,
   });
 
-  console.log({ data, status });
   if (!data) {
     throw new NonCompliantResponseError();
   }

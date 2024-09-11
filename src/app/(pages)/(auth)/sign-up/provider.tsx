@@ -69,7 +69,6 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
     result,
   } = useAction(registerAction, {
     onSettled: ({ data }) => {
-      console.log({ data });
       if (data?.message) {
         toast.success(data.message);
         setStage("verify-account");

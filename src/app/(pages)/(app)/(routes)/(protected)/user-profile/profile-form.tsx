@@ -182,7 +182,6 @@ export const ProfileForm = (props: Props) => {
                         }
                       }
 
-                      console.log({ formattedDate });
                       form.setValue("dateOfBirth", formattedDate);
                     }}
                     value={field.value}

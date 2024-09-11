@@ -1,20 +1,33 @@
-'use client';
+"use client";
 
-import { parseAsString, useQueryState } from 'nuqs';
-import { useState } from 'react';
-import { Input } from './ui/input';
-import { Search } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Input } from "./ui/input";
+import { Search } from "lucide-react";
 
 type SearchInputProps = {
-  mapToUrlWith: string;
+  initialSearch?: string;
   onSearch?: (value: string) => void;
 };
 
-export const SearchInput = ({ mapToUrlWith }: SearchInputProps) => {
-  const [search, setSearch] = useQueryState(
-    mapToUrlWith,
-    parseAsString.withOptions({ throttleMs: 500 }).withDefault('')
-  );
+export const SearchInput = ({ initialSearch, onSearch }: SearchInputProps) => {
+  const [search, setSearch] = useState(initialSearch ?? "");
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300); // Debounce delay (in milliseconds)
+
+    return () => {
+      clearTimeout(handler); // Clear timeout if the user types again before the timeout completes
+    };
+  }, [search]);
+
+  useEffect(() => {
+    if (onSearch) {
+      onSearch(debouncedSearch); // Call the onSearch function when the debounced value changes
+    }
+  }, [debouncedSearch, onSearch]);
 
   return (
     <div className="relative min-w-[320px] h-full">
@@ -23,8 +36,8 @@ export const SearchInput = ({ mapToUrlWith }: SearchInputProps) => {
         value={search}
         placeholder="Search"
         onChange={(e) => setSearch(e.target.value)}
-        className="border-none bg-neutral-50 py-3 px-5 rounded-[48px] 
-         w-full h-full placeholder:text-neutral-400 
+        className="border-none bg-neutral-50 py-3 px-5 rounded-[48px]
+         w-full h-full placeholder:text-neutral-400
          font-josefin text-neutral-900 text-base pl-14"
       />
     </div>

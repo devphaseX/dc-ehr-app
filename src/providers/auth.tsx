@@ -80,7 +80,6 @@ export const useAuth = () => {
         }
 
         if (fetchError || status != 200) {
-          console.log({ fetchError });
           return initialUserData;
         }
 

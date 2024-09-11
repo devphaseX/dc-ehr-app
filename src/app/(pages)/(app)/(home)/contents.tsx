@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import { ContentFilters } from "../__components/content-filters";
 import { Container } from "@/components/container";
 import { Author, ContentResource } from "@/lib/schema/data";
-import { ContentCard } from "@/components/content-card";
+import ContentCardSkeleton, { ContentCard } from "@/components/content-card";
 import { useGetResources } from "@/features/api/query/use-get-resources";
 import { parseAsInteger, useQueryState } from "nuqs";
 import { InfiniteData } from "@tanstack/react-query";
@@ -26,7 +26,7 @@ export const Contents = (props: Props) => {
     parseAsInteger.withDefault(1).withOptions({ shallow: false }),
   );
 
-  const { data: dataResult } = useGetResources({
+  const { data: dataResult, isLoading } = useGetResources({
     pageNumber: page,
     pageSize: pageSize,
   });
@@ -71,12 +71,14 @@ export const Contents = (props: Props) => {
 
           <ContentFilters categories={props.categories} />
 
-          <div
-            className="grid gap-8 w-full"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(379px, 1fr))",
-            }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {isLoading && (
+              <>
+                <ContentCardSkeleton />
+                <ContentCardSkeleton />
+                <ContentCardSkeleton />
+              </>
+            )}
             {items.map((item, i) => (
               <ContentCard data={item[0]} author={item[1]} key={i} />
             ))}

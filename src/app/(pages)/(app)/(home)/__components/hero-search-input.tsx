@@ -8,9 +8,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ContentCategory } from "@/lib/response";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { parseAsString, useQueryState } from "nuqs";
-import React from "react";
+import React, { useState } from "react";
 type Props = {
   categories: Array<ContentCategory>;
 };
@@ -21,10 +22,17 @@ export const HeroSearchInput = ({ categories }: Props) => {
     parseAsString.withOptions({ throttleMs: 500 }),
   );
 
-  const [search, setSearch] = useQueryState(
-    "q",
-    parseAsString.withOptions({ throttleMs: 500 }).withDefault(""),
-  );
+  const [searchTerm, setSearch] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) return;
+
+    setIsLoading(true);
+    router.push(`/results?q=${encodeURIComponent(searchTerm)}`);
+  };
 
   return (
     <div className="w-full">
@@ -54,16 +62,24 @@ export const HeroSearchInput = ({ categories }: Props) => {
             className="absolute inset-0 h-full border-none text-lg
              text-neutral-700 placeholder:text-neutral-400 p-0 !ring-0 !ring-transparent "
             placeholder="Search resources by name, topics, creator"
-            value={search}
+            value={searchTerm}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <Button
+          onClick={handleSearch}
           className="!bg-black w-fit
             h-fit px-8 py-4 rounded-[56px]
             text-base font-medium text-white"
         >
-          Search
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Searching
+            </>
+          ) : (
+            "Search"
+          )}
         </Button>
       </div>
     </div>

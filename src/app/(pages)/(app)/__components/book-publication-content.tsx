@@ -1,6 +1,6 @@
 "use client";
 
-import { ContentCard } from "@/components/content-card";
+import ContentCardSkeleton, { ContentCard } from "@/components/content-card";
 import { useGetResourcesByUsername } from "@/features/api/query/use-get-resource-by-username";
 import { ResourcePayload } from "@/lib/response";
 import { Author, ContentResource } from "@/lib/schema/data";
@@ -48,6 +48,13 @@ export const BookPublicationContent = (props: BookPublicationContentProps) => {
         gridTemplateColumns: "repeat(auto-fit, minmax(379px, 1fr))",
       }}
     >
+      {isLoading && (
+        <>
+          <ContentCardSkeleton />
+          <ContentCardSkeleton />
+          <ContentCardSkeleton />
+        </>
+      )}
       {items.map((item, i) => (
         <ContentCard data={item[0]} author={item[1]} key={i} />
       ))}
