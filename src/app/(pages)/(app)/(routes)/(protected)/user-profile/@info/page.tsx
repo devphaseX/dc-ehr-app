@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { useUploadCoverBg } from "@/features/api/mutation/use-upload-cover-bg";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
 import { useBase64Encoder } from "@/hooks/use-base64";
+import tryit from "@/lib/tryit";
 import { addBase64Prefix } from "@/lib/utils";
 import { useAuth } from "@/providers/auth";
 import Image from "next/image";
@@ -36,7 +37,7 @@ const Info = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-6 max-w-[320px]">
+    <div className="flex flex-col gap-y-6 max-w-[320px] w-full">
       <Card
         className="rounded-[24px] border border-neutral-100 p-0
       overflow-hidden shadow-none border-none drop-shadow-none"
@@ -161,14 +162,16 @@ const Info = () => {
           <Button
             className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]"
             onClick={async () => {
-              await logout();
-              window.location.reload();
+              await tryit(logout());
+              window.location.href = "/";
             }}
           >
             Logout
           </Button>
         </CardContent>
       </Card>
+
+      {/*
 
       <Card className="p-6 rounded-[12px] space-y-6 shadow-none border-none drop-shadow-none">
         <CardHeader className="p-0">
@@ -200,6 +203,7 @@ const Info = () => {
           </ul>
         </CardFooter>
       </Card>
+        */}
     </div>
   );
 };

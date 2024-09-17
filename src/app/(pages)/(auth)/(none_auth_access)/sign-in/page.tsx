@@ -14,19 +14,10 @@ import { useAction } from "next-safe-action/hooks";
 import { signInAction } from "@/actions/sign-in/handler";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const SignIn = () => {
-  const form = useForm<SignInForm>({
-    resolver: zodResolver(signInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const router = useRouter();
-
-  const { execute: signIn } = useAction(signInAction, {
+  const { execute: signIn, status } = useAction(signInAction, {
     onSettled: async ({ data }) => {
       if (data?.message) {
         toast.success(data?.message);
@@ -37,8 +28,19 @@ const SignIn = () => {
     },
   });
 
+  const form = useForm<SignInForm>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    disabled: status === "executing",
+  });
+
+  const router = useRouter();
+
   return (
-    <div className="w-full h-full flex items-center justify-center mt-[148px]">
+    <div className="w-full h-full flex items-center justify-center my-[148px]">
       <div className="space-y-10 max-w-[580px] w-full mx-auto">
         <div className="space-y-3">
           <h3 className="text-[28px] text-neutral-800 font-bold">
@@ -102,8 +104,12 @@ const SignIn = () => {
                 </div>
                 <Button
                   className="w-full h-fit p-4 text-base text-white font-semibold
-                      rounded-[56px] bg-primary-500"
+                      rounded-[56px] bg-primary-500 items-center"
+                  disabled={form.formState.disabled}
                 >
+                  {status === "executing" && (
+                    <Loader2 className="mr-2 size-5 animate-spin" />
+                  )}
                   Continue
                 </Button>
               </div>

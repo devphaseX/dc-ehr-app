@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema } from "./schema";
@@ -29,20 +29,25 @@ const signUpStages: SignUpStages = {
 };
 
 type SignUpContext = {
-  form?: UseFormReturn<SignUpForm>;
-  stage?: Stage;
-  next?: () => void;
+  form: UseFormReturn<SignUpForm>;
+  stage: Stage;
+  next: () => void;
   stageMeta: StageMeta;
-  setStage?: (stage: Stage) => void;
+  setStage: (stage: Stage) => void;
   currentStageValid?: boolean;
   accountCreated?: boolean;
   syncStageData?: (data: unknown) => Promise<void> | void;
+  canNavigateStage: (stage: keyof StageMeta) => Promise<boolean>;
+  acceptedTerms?: boolean;
+  setAcceptedTerms: (accepted: boolean) => void;
+  submitting?: boolean;
 };
 
-type StageMeta = {
+export type StageMeta = {
   [K in Stage]: {
     index: number;
     fields: Array<keyof SignUpForm>;
+    valid?: boolean;
   };
 };
 
@@ -58,7 +63,7 @@ export const stageMeta: StageMeta = {
 
 const SignUpContext = React.createContext<SignUpContext>({
   stageMeta: stageMeta,
-});
+} as SignUpContext);
 
 export const useSignUpContext = () => useContext(SignUpContext);
 
@@ -95,12 +100,9 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
     disabled: status === "executing",
   });
 
-  const [stage, setStage] = useQueryState(
-    "stage",
-    parseAsStringEnum([...formStages])
-      .withDefault("info")
-      .withOptions({ throttleMs: 500 }),
-  );
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+
+  const [stage, setStage] = useState<keyof StageMeta>("info");
 
   async function next(data?: SignUpForm) {
     if (data) {
@@ -129,6 +131,18 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
     setStage(nextStage);
   }
 
+  async function canNavigateStage(
+    navigateStage: keyof StageMeta,
+  ): Promise<boolean> {
+    const { fields, index } = stageMeta[navigateStage] ?? {};
+
+    if (!(fields && typeof index === "number")) {
+      return false;
+    }
+
+    return form.trigger(fields as Array<keyof SignUpForm>);
+  }
+
   return (
     <>
       <SignUpContext.Provider
@@ -136,9 +150,13 @@ export const SignUpProvider = ({ children }: { children: React.ReactNode }) => {
           form,
           stage,
           next,
+          submitting: status === "executing",
           stageMeta,
           accountCreated: true,
           setStage,
+          canNavigateStage,
+          acceptedTerms,
+          setAcceptedTerms,
         }}
       >
         <Form {...form}>

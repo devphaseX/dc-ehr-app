@@ -1,3 +1,4 @@
+import { TempLogo } from "@/components/temp-logo";
 import Link from "next/link";
 
 const SignUpNavbar = () => {
@@ -5,7 +6,9 @@ const SignUpNavbar = () => {
     <div className="w-full px-10 py-4 border-b border-neutral-200">
       <div className="max-w-[1360px] w-full mx-auto">
         <div className="flex items-center w-full justify-between">
-          <div></div>
+          <div className="text-black">
+            <TempLogo />
+          </div>
           <div className="flex items-center gap-x-2">
             <Link href="/sign-up" className="text-sm text-neutral-400">
               Have an account?

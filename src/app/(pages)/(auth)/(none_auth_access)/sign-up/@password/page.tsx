@@ -14,7 +14,8 @@ import { useRouter } from "next/navigation";
 
 const stageTag: Stage = "password";
 const GetUserPassword = () => {
-  const { form, stage, stageMeta, next } = useSignUpContext();
+  const { form, stage, stageMeta, next, acceptedTerms, setAcceptedTerms } =
+    useSignUpContext();
   const [fields] = useState(stageMeta[stageTag]?.fields);
   const router = useRouter();
 
@@ -71,6 +72,10 @@ const GetUserPassword = () => {
         />
         <div className="flex items-center gap-x-2 text-sm font-inter font-medium text-neutral-400">
           <Checkbox
+            checked={acceptedTerms}
+            onCheckedChange={(checked) => {
+              setAcceptedTerms(Boolean(checked));
+            }}
             className="size-6 border-neutral-300 bg-white rounded-[2px]
                      border-[2px] p-0 data-[state=checked]:border-primary-500
                       data-[state=checked]:bg-primary-500 !ring-0 !ring-transparent "

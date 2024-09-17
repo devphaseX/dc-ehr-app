@@ -5,7 +5,7 @@ import { Stage, useSignUpContext } from "../provider";
 import { useFieldArray } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, Loader2 } from "lucide-react";
 import { useOnClickOutside } from "usehooks-ts";
 import {
   FormControl,
@@ -38,7 +38,7 @@ const SecurityQuestionsSetForm = ({ questions: prepQuestions }: Props) => {
       ),
     [prepQuestions],
   );
-  const { form, stageMeta, stage, next } = useSignUpContext();
+  const { form, stageMeta, stage, submitting, next } = useSignUpContext();
   const [stageFields] = useState(stageMeta[stageTag]?.fields);
   const router = useRouter();
   const [questionModalOpen, setQuestionModalOpen] = useState(false);
@@ -197,8 +197,12 @@ const SecurityQuestionsSetForm = ({ questions: prepQuestions }: Props) => {
                   <Button
                     type="submit"
                     className="w-full h-fit p-4 text-base text-white font-semibold
-        rounded-[56px] bg-primary-500 !mt-8"
+        rounded-[56px] bg-primary-500 !mt-8 items-center"
+                    disabled={!!submitting}
                   >
+                    {submitting && (
+                      <Loader2 className="mr-2 size-5 animate-spin" />
+                    )}
                     Continue
                   </Button>
                 </div>

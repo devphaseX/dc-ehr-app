@@ -41,3 +41,29 @@ export function formatDate(val: Date | string) {
   }
   return format(new Date(date), "dd/MM/yyyy");
 }
+
+export type QueryValue =
+  | string
+  | number
+  | boolean
+  | Array<string | number | boolean>;
+
+export interface QueryObject {
+  [key: string]: QueryValue;
+}
+
+export function objectToURLParams(obj: QueryObject): string {
+  const params = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (Array.isArray(value)) {
+      value.forEach((item) => params.append(key, item.toString()));
+    } else if (value != null) {
+      params.append(key, value.toString());
+    } else {
+      params.delete(key);
+    }
+  }
+
+  return params.toString();
+}

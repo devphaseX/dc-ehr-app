@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  UpdateProfileForm,
-  updateProfileSchema,
-} from "@/app/(pages)/(auth)/sign-up/schema";
 import { FormInput } from "@/components/form/input";
 import { FormLabel } from "@/components/form/label";
 import { Button } from "@/components/ui/button";
@@ -17,6 +13,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { formatDate } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
+import {
+  UpdateProfileForm,
+  updateProfileSchema,
+} from "@/app/(pages)/(auth)/(none_auth_access)/sign-up/schema";
 
 type Props = {
   user: User;
@@ -223,24 +224,33 @@ export const ProfileForm = (props: Props) => {
                 />
               </div>
 
-              <div className="w-full flex justify-end mt-16">
-                <div className="flex items-center gap-x-6">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      const url = new URL(window.location.href);
-                      url.searchParams.set("tab", "settings");
-                      router.push(url.toString());
-                    }}
-                    className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm"
-                  >
-                    Cancel
-                  </Button>
-                  <Button className="rounded-[48px] px-6 py-3 w-fit h-fit bg-primary-500 text-white font-semibold text-sm">
-                    Save Changes
-                  </Button>
+              {!props.preview && (
+                <div className="w-full flex justify-end mt-16">
+                  <div className="flex items-center gap-x-6">
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        const url = new URL(window.location.href);
+                        url.searchParams.set("tab", "settings");
+                        router.push(url.toString());
+                      }}
+                      className="rounded-[48px] px-6 py-3 w-fit h-fit text-primary-500 bg-primary-50 font-semibold text-sm"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="rounded-[48px] px-6 py-3 w-fit h-fit bg-primary-500 text-white font-semibold text-sm"
+                      disabled={form.formState.disabled}
+                    >
+                      {isPending && (
+                        <Loader2 className="mr-2 size-5 animate-spin" />
+                      )}
+                      Save Changes
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </form>

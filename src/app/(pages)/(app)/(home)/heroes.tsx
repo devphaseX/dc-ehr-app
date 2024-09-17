@@ -14,7 +14,7 @@ export const Heroes = async (props: Props) => {
           <div className="max-w-[790px] w-full space-y-[48px]">
             <div className="max-w-[666px] w-full mx-auto space-y-6">
               <h1 className="text-white font-semibold text-[64px] text-center">
-                The Best Online Resoruce Library Hub
+                The Best Online Resource Library Hub
               </h1>
               <p className="text-2xl text-white text-center">
                 Acquire and download reilable resource that have been provided

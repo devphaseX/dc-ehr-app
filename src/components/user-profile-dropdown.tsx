@@ -16,6 +16,7 @@ import { User } from "@/lib/response";
 import { logout } from "@/auth";
 import Link from "next/link";
 import { addBase64Prefix } from "@/lib/utils";
+import tryit from "@/lib/tryit";
 
 type Props = {
   user: User;
@@ -59,7 +60,7 @@ export const UserProfileDropDown = ({
             <DropdownMenuItem className="p-0">
               <Link
                 href="/user-profile"
-                className="flex item-center gap-x-4 text-base text-neutral-700 w-full"
+                className="flex item-center gap-x-4 text-base text-neutral-700 w-full bg-transparent"
               >
                 <div className="size-5 relative flex item-center gap-x-4">
                   <Image
@@ -72,6 +73,8 @@ export const UserProfileDropDown = ({
                 <span>Profile</span>
               </Link>
             </DropdownMenuItem>
+            {/*
+
             <DropdownMenuItem className="p-0">
               <Link
                 href="/user-profile"
@@ -104,10 +107,11 @@ export const UserProfileDropDown = ({
                 <span>Archieve</span>
               </Link>
             </DropdownMenuItem>
+              */}
             <DropdownMenuItem className="p-0">
               <Link
                 href="/user-profile?tab=settings"
-                className="flex item-center gap-x-4 text-base text-neutral-700 w-full"
+                className="flex item-center gap-x-4 text-base text-neutral-700 w-full bg-transparent"
               >
                 <div className="size-5 relative flex item-center gap-x-4">
                   <Image
@@ -126,8 +130,9 @@ export const UserProfileDropDown = ({
             <DropdownMenuItem asChild>
               <Button
                 className="text-sm text-white bg-[#FA5A5A] border-none font-semibold py-[14px] w-full h-fit rounded-[24px]"
-                onClick={() => {
-                  logout();
+                onClick={async () => {
+                  await tryit(logout());
+                  window.location.href = "/";
                 }}
               >
                 Logout

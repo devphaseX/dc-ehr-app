@@ -1,8 +1,10 @@
+import { createServerQuery } from "@/app/(pages)/(app)/(routes)/(protected)/results/schema";
 import {
   getCategoriesResSchema,
   getResourceResSchema,
   getResourcesResSchema,
 } from "@/lib/response";
+import { objectToURLParams } from "@/lib/utils";
 import { useApi } from "@/providers/auth";
 import {
   QueryFunctionContext,
@@ -11,6 +13,7 @@ import {
   useInfiniteQuery,
   useQuery,
 } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
 interface ResourceData {
   id: string;
@@ -94,15 +97,13 @@ export const useGetResources = (
 ) => {
   const api = useApi();
 
+  const searchParams = Object.fromEntries(useSearchParams());
   return useInfiniteQuery({
-    queryKey: ["resources", initialPageParam],
+    queryKey: ["resources", searchParams],
     initialPageParam: initialPageParam,
     queryFn: async ({ pageParam }) => {
       const { data } = await api.get("/Resource/GetAllResource", {
-        params: {
-          pageNumber: String((pageParam as PageParam).pageNumber),
-          pageSize: String((pageParam as PageParam).pageSize),
-        },
+        params: createServerQuery(searchParams),
         validateResponse: (data) => getResourcesResSchema.parse(data),
       });
 

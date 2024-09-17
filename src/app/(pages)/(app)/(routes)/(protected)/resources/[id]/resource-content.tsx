@@ -37,6 +37,7 @@ import { ResourceTabContent } from "./resource-tab-content";
 import { ResourcePayload } from "@/lib/response";
 import Image from "next/image";
 import { parseAsStringEnum, useQueryState } from "nuqs";
+import { AttachNewResource } from "./attach-resource";
 
 export const ResourceContent = ({
   resource,
@@ -50,6 +51,8 @@ export const ResourceContent = ({
       "descriptions",
     ),
   );
+
+  const router = useRouter();
 
   const metas: { title: string; content: string }[] = [
     { title: "Uploaded date", content: "Jan 23, 2024" },
@@ -139,12 +142,16 @@ export const ResourceContent = ({
               <Button
                 className="px-4 py-[10px] rounded-[36px]
               border border-neutral-200 text-primary-500 font-medium text-sm bg-transparent"
+                onClick={() => {
+                  router.push(`/create/new?resourceId=${resource.id}`);
+                }}
               >
                 <Plus className="size-5 mr-2" />
                 New upload
               </Button>
 
               {/*
+               <AttachNewResource />
               <Button
                 className="px-4 py-[10px] rounded-[36px]
                 border border-neutral-200 text-primary-500 font-medium text-sm bg-transparent"
@@ -158,7 +165,7 @@ export const ResourceContent = ({
 
           <div>
             <ResourceActionTab />
-            {selectedTab === "descriptions" ? (
+            {!!selectedTab || selectedTab === "descriptions" ? (
               <div>
                 <p>{resource.description}</p>
               </div>

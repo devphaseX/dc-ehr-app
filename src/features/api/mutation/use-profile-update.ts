@@ -1,4 +1,4 @@
-import { UpdateProfileForm } from "@/app/(pages)/(auth)/sign-up/schema";
+import { UpdateProfileForm } from "@/app/(pages)/(auth)/(none_auth_access)/sign-up/schema";
 import { updateProfileResSchema } from "@/lib/response";
 import { useApi, useAuth } from "@/providers/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +20,8 @@ export const useProfileUpdate = () => {
         { validateResponse: (data) => updateProfileResSchema.parse(data) },
       );
 
+      console.log({ payload });
+
       if (!payload) {
         return toast.error("failed to update user profile");
       }
@@ -29,6 +31,8 @@ export const useProfileUpdate = () => {
           payload.responseMessage ?? "failed to update user profile",
         );
       }
+
+      toast.success("profile updated");
 
       await client.invalidateQueries({ queryKey: ["user"] });
     },

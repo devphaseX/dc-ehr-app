@@ -1,3 +1,5 @@
+import { TempLogo } from "@/components/temp-logo";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 const SignInNavbar = () => {
@@ -5,7 +7,11 @@ const SignInNavbar = () => {
     <div className="w-full px-10 py-4 border-b border-neutral-200">
       <div className="max-w-[1360px] w-full mx-auto">
         <div className="flex items-center w-full justify-between">
-          <div></div>
+          <div className="flex items-center gap-x-6">
+            <div className="text-black">
+              <TempLogo />
+            </div>
+          </div>
           <div className="flex items-center gap-x-2">
             <p className="text-sm text-neutral-400">
               Don't have an account? Please

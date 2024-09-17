@@ -33,11 +33,14 @@ import {
 } from "@/components/ui/select";
 import { z } from "zod";
 import { ulid } from "ulid";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const NewResourceForm = () => {
   const { data: categories } = useGetCategories();
   const { data: subjectsPayload } = useGetSubjects();
+  const { resourceId } = Object.fromEntries(useSearchParams()) as {
+    resourceId: string;
+  };
 
   const subjects = Array.from(new Set(subjectsPayload));
   const form = useForm<NewResource & { tag?: string }>({
@@ -118,7 +121,10 @@ export const NewResourceForm = () => {
                         return;
                       }
 
-                      setPost({ ...(formValues as any) });
+                      setPost({
+                        ...(formValues as any),
+                        ...(resourceId && { ResourceId: resourceId }),
+                      });
                       router.push("/create/preview");
                     })}
                   >

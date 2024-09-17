@@ -1,4 +1,6 @@
+import { createServerQuery } from "@/app/(pages)/(app)/(routes)/(protected)/results/schema";
 import { FetchError } from "./error";
+import { objectToURLParams } from "./utils";
 
 // api.ts
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -147,12 +149,12 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         validateResponse,
         retry,
         throwOnFailedStatus,
+        params,
         ...requestOptions
       } = options;
 
-      const fullUrl = `${baseUrl ? baseUrl : "/api/v1"}${url}`;
+      const fullUrl = `${baseUrl ? baseUrl : "/api/v1"}${url}?${params ? objectToURLParams(params) : ""}`;
       let requestInit: RequestInit = { ...requestOptions, method };
-
       if (requestOptions.body && !(requestOptions.body instanceof FormData)) {
         requestInit.body = JSON.stringify(requestOptions.body);
         requestInit.headers = {
@@ -163,6 +165,7 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         requestInit.body = requestOptions.formData;
       }
 
+      console.log({ requestURL: fullUrl.toString() });
       req = new Request(fullUrl, requestInit);
     }
 

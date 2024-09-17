@@ -1,3 +1,4 @@
+import { createServerQuery } from "@/app/(pages)/(app)/(routes)/(protected)/results/schema";
 import {
   getCategoriesResSchema,
   getResourceResSchema,
@@ -12,6 +13,7 @@ import {
   useQuery,
   useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
 interface ResourceData {
   id: string;
@@ -96,27 +98,19 @@ export const useSuspenseGetResources = (
 ) => {
   const api = useApi();
 
+  const searchParams = Object.fromEntries(useSearchParams());
+
   return useSuspenseInfiniteQuery({
-    queryKey: ["resources", initialPageParam],
+    queryKey: ["resources", searchParams],
     initialPageParam: initialPageParam,
     queryFn: async ({ pageParam }) => {
       const pageURL = new URL(location.href);
-      if (query.q) {
-        pageURL.searchParams.set("title", query.q);
-      } else {
-        pageURL.searchParams.delete("title");
-      }
 
-      const { data } = await api.get(
-        `/Resource/GetAllResource${pageURL.search}`,
-        {
-          params: {
-            pageNumber: String((pageParam as PageParam).pageNumber),
-            pageSize: String((pageParam as PageParam).pageSize),
-          },
-          validateResponse: (data) => getResourcesResSchema.parse(data),
-        },
-      );
+      console.log({ a: createServerQuery(searchParams), searchParams });
+      const { data } = await api.get(`/Resource/GetAllResource`, {
+        params: createServerQuery(searchParams),
+        validateResponse: (data) => getResourcesResSchema.parse(data),
+      });
 
       console.log({ data });
 

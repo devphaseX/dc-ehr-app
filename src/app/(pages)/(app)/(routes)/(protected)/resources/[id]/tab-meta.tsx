@@ -18,7 +18,9 @@ export type TabItem = {
 export const ResourceActionTab = () => {
   const [selectedTab, setSelectedTab] = useQueryState(
     "tab",
-    parseAsStringEnum(["resources", "descriptions"]).withDefault("resources"),
+    parseAsStringEnum(["resources", "descriptions"]).withDefault(
+      "descriptions",
+    ),
   );
 
   const items: Array<TabItem> = [

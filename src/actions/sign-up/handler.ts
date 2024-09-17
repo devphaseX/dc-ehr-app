@@ -1,9 +1,9 @@
 "use server";
+import { signUpFormSchema } from "@/app/(pages)/(auth)/(none_auth_access)/sign-up/schema";
 import { action } from "@/lib/action";
 import { env } from "@/lib/env";
 import { createResponseSchema, signInRespSchema } from "@/lib/response";
 import { cookies } from "next/headers";
-import { signUpFormSchema } from "@/app/(pages)/(auth)/sign-up/schema";
 import { z } from "zod";
 
 export const registerAction = action(

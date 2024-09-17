@@ -1,10 +1,6 @@
 "use client";
 
 import { changePasswordSchema } from "@/app/(pages)/(auth)/(recover-password)/reset-password/schema";
-import {
-  UpdateProfileForm,
-  updateProfileSchema,
-} from "@/app/(pages)/(auth)/sign-up/schema";
 import { FormPasswordInput } from "@/components/form/form-password-input";
 import { FormInput } from "@/components/form/input";
 import { FormLabel } from "@/components/form/label";
@@ -26,7 +22,7 @@ export const DeleteUserAccount = (props: Props) => {
   const [ConfirmDeleteDialog, confirmDelete] = useConfirm({
     title: "Delete Your Account",
     message:
-      "Lorem ipsum dolor sit amet consectetur. Pretium amet tellus sed feugiat pharetra. Habitant ornare a tempor dolor in enimut  pharetra ipsum dolor sit a",
+      "All your data, including posts, messages, and profile information, will be permanently deleted.",
     cancelText: "No, cancel",
     confirmText: "Yes, delete account",
   });
@@ -36,7 +32,7 @@ export const DeleteUserAccount = (props: Props) => {
   const [ConfirmDeactivateDialog, confirmDeactivate] = useConfirm({
     title: "Deactivate Your Account",
     message:
-      "Lorem ipsum dolor sit amet consectetur. Pretium amet tellus sed feugiat pharetra. Habitant ornare a tempor dolor in enimut  pharetra ipsum dolor sit a",
+      "Your account will be deactivate.If you change your mind, you'll need to create a activate your account.",
     cancelText: "No, cancel",
     confirmText: "Yes, deactivate account",
   });
@@ -65,9 +61,9 @@ export const DeleteUserAccount = (props: Props) => {
 
       <div className="space-y-6">
         <p className="text-base text-neutral-500">
-          Lorem ipsum dolor sit amet consectetur. Pretium amet tellus sed
-          feugiat pharetra. Habitant ornare a tempor dolor in enimut pharetra
-          ipsum dolor sit a
+          Deleting your account is permanent and erases all data, while
+          deactivating it is temporary and can be reversed. Both actions are
+          significant, so review the options carefully before proceeding.
         </p>
         <div className="flex items-center gap-x-6">
           <Button

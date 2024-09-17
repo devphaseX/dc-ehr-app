@@ -35,42 +35,30 @@ const ResetPassword = () => {
       <div className="flex-1 pt-32 pb-[422px]">
         <div className="space-y-8 max-w-[580px] w-full mx-auto">
           <div className="space-y-12">
-            <div
-              onClick={() => {
-                if (email === user?.email) {
-                  return router.push("/user-profile?tab=settings");
-                }
-                form.reset({ email: "" });
-              }}
-              className="text-primary-500 text-sm flex items-center gap-x-2"
-            >
-              <ChevronLeft className="size-5" />
-              Back
-            </div>
-            <div className="space-y-4">
+            <div className="space-y-4 text-center">
               <h3 className="text-[28px] text-neutral-800 font-bold">
                 Reset Method
               </h3>
               <p className="text-lg text-neutral-500">
-                Select the reset method you want to use
+                Please select your preferred method for resetting your account
               </p>
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-[246px] w-full mx-auto">
             <Button
               onClick={() => router.push(`/security-questions?email=${email}`)}
               className="w-full h-fit p-4 text-base text-white font-semibold
     rounded-[56px] bg-primary-500"
             >
-              security questions
+              Security Questions
             </Button>
             <Button
               onClick={() => router.push(`/reset-password-otp?email=${email}`)}
               className="w-full h-fit p-4 text-base text-white font-semibold
     rounded-[56px] bg-primary-500"
             >
-              otp
+              OTP (One-Time Password)
             </Button>
           </div>
         </div>

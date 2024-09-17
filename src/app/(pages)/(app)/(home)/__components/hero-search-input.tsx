@@ -8,7 +8,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ContentCategory } from "@/lib/response";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Check, ChevronDown, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { parseAsString, useQueryState } from "nuqs";
 import React, { useState } from "react";
@@ -17,15 +18,16 @@ type Props = {
 };
 
 export const HeroSearchInput = ({ categories }: Props) => {
-  const [category, setCategory] = useQueryState(
+  const [selectedCategory, setCategory] = useQueryState(
     "category",
-    parseAsString.withOptions({ throttleMs: 500 }),
+    parseAsString.withOptions({ throttleMs: 500 }).withDefault(""),
   );
 
   const [searchTerm, setSearch] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const [categoryBtnWidth, setCategoryBtnWidth] = useState(0);
 
   const handleSearch = async () => {
     if (!searchTerm.trim()) return;
@@ -43,15 +45,41 @@ export const HeroSearchInput = ({ categories }: Props) => {
               className="!bg-neutral-50 w-fit
             h-fit px-6 py-4 rounded-[56px]  flex items-center gap-x-4
             text-sm font-medium text-neutral-700"
+              ref={(el) => {
+                if (el) {
+                  setCategoryBtnWidth(el.getBoundingClientRect().width);
+                } else {
+                  setCategoryBtnWidth(0);
+                }
+              }}
             >
-              {category ?? "All category"}
+              {selectedCategory || "All category"}
               <ChevronDown className="size-5" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent side="bottom" align={"start"}>
-            <ul>
+          <PopoverContent
+            side="bottom"
+            align={"start"}
+            className="p-2 w-fit"
+            style={{
+              minWidth: `${categoryBtnWidth}px`,
+            }}
+          >
+            <ul className="space-y-1">
               {categories.map((category) => (
-                <li key={category.id}>{category.name}</li>
+                <li
+                  key={category.id}
+                  onClick={() => setCategory(category.name)}
+                  className="cursor-pointer hover:bg-neutral-50 px-2 flex justify-between items-center"
+                >
+                  {category.name}{" "}
+                  <Check
+                    className={cn(
+                      "size-4 invisible",
+                      category?.name === selectedCategory && "visible",
+                    )}
+                  />
+                </li>
               ))}
             </ul>
           </PopoverContent>

@@ -198,10 +198,10 @@ export const getResourceResSchema = createResponseSchema({
 export const getResourcesResSchema = createResponseSchema({
   sucessSchema: z.object({
     data: z.array(resourcePayload),
-    totalRecords: z.number().int().positive(),
-    pageNumber: z.number().int().positive(),
-    pageSize: z.number().int(),
-    totalPages: z.number().int(),
+    totalRecords: z.number().int().min(0),
+    pageNumber: z.number().int().min(0),
+    pageSize: z.number().int().min(0),
+    totalPages: z.number().int().min(0),
   }),
 });
 

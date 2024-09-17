@@ -1,6 +1,5 @@
 "use client";
 
-import { logout } from "@/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -100,6 +99,8 @@ export const AuthorProfile = ({ user }: { user: User }) => {
           </CardTitle>
         </CardHeader>
 
+        {/*
+
         <CardContent className="p-0 psace-y-2">
           <h3 className="font-medium text-base text-neutral-900">Biography</h3>
           <CardDescription className="text-sm text-neutral-400">
@@ -122,6 +123,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
             </li>
           </ul>
         </CardFooter>
+          */}
       </Card>
     </div>
   );

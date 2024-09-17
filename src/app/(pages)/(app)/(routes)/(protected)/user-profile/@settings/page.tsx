@@ -114,6 +114,8 @@ const SettingPage = () => {
               </Button>
             </div>
           </div>
+
+          {/*
           <div className="p-0 space-y-2">
             <h3 className="font-medium text-base text-neutral-900">
               Biography
@@ -126,6 +128,8 @@ const SettingPage = () => {
               </p>
             </div>
           </div>
+
+            */}
 
           <div className="!mt-10 space-y-16">
             <ProfileForm preview user={user} />

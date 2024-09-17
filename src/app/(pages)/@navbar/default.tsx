@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { AuthNav } from "./auth-nav";
 import { useAuth } from "@/providers/auth";
+import { TempLogo } from "@/components/temp-logo";
 
 const MainNavbar = () => {
   const { user } = useAuth();
@@ -11,7 +12,9 @@ const MainNavbar = () => {
       <div className="px-10 py-6 w-full border-b border-neutral-200">
         <div className="max-w-[1360px] mx-auto">
           <div className="w-full flex items-center justify-between">
-            <div></div>
+            <div className="text-black">
+              <TempLogo />
+            </div>
             <div className="flex items-center gap-x-2">
               <Link
                 href="/sign-in"

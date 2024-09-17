@@ -11,7 +11,7 @@ import { ContentCategory } from "@/lib/response";
 export default async function Results({
   searchParams,
 }: {
-  searchParams: { q: string };
+  searchParams: { q: string; categeory: string };
 }) {
   const query = searchParams.q;
 

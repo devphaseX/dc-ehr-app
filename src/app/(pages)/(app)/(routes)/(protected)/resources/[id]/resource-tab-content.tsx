@@ -8,7 +8,9 @@ import { useGetResourceFiles } from "@/features/api/query/use-resource-files";
 export const ResourceTabContent = ({ resourceId }: { resourceId: string }) => {
   const [selectedTab, setSelectedTab] = useQueryState(
     "tab",
-    parseAsStringEnum(["resources", "descriptions"]).withDefault("resources"),
+    parseAsStringEnum(["resources", "descriptions"]).withDefault(
+      "descriptions",
+    ),
   );
 
   const { data, isLoading } = useGetResourceFiles(resourceId);

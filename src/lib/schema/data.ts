@@ -26,3 +26,8 @@ export const securityQuestionSchema = z.object({
   dateModified: z.date({ coerce: true }),
   isDeleted: z.boolean().default(false),
 });
+
+export const paginateQuerySchema = z.object({
+  perPage: z.number().int().positive().default(20),
+  page: z.number().int().positive().default(1),
+});
