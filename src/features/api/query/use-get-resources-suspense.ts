@@ -101,12 +101,12 @@ export const useSuspenseGetResources = (
   >,
 ) => {
   const api = useApi();
-
+  console.log({ query });
   return useSuspenseInfiniteQuery({
     queryKey: ["resources", query],
     initialPageParam: {
       pageNumber: query.pageNumber,
-      pageSize: query.pageNumber,
+      pageSize: query.pageSize,
     },
     queryFn: async ({ pageParam }) => {
       const pageURL = new URL(location.href);

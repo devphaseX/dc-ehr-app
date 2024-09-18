@@ -8,6 +8,9 @@ import { ContentFilters } from "../../../__components/content-filters";
 import { serverGetCategories } from "@/features/query/get-categories";
 import { ContentCategory } from "@/lib/response";
 import { createServerQuery } from "./schema";
+import ErrorBoundary, {
+  DefaultErrorComponent,
+} from "@/components/error-boundary";
 
 export default async function Results({
   searchParams,
@@ -32,9 +35,11 @@ export default async function Results({
           {serverQuery.title && (
             <h3 className="text-2xl font-semibold">{serverQuery.title}</h3>
           )}
-          <Suspense fallback={<ResultsSkeleton />}>
-            <SearchResults query={serverQuery} categories={categories} />
-          </Suspense>
+          <ErrorBoundary fallback={DefaultErrorComponent}>
+            <Suspense fallback={<ResultsSkeleton />}>
+              <SearchResults query={serverQuery} categories={categories} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </Container>
     </div>

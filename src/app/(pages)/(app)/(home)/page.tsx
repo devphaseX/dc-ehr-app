@@ -14,6 +14,10 @@ import SearchResults, {
   ResultsSkeleton,
 } from "../(routes)/(protected)/results/search-results";
 import { createServerQuery } from "../(routes)/(protected)/results/schema";
+import { Container } from "@/components/container";
+import ErrorBoundary, {
+  DefaultErrorComponent,
+} from "@/components/error-boundary";
 
 const Home = async ({
   searchParams,
@@ -23,14 +27,18 @@ const Home = async ({
   const { data } = await serverGetCategories();
   const categories = (data?.responseData! ?? []) as ContentCategory[];
   const serverQuery = createServerQuery(searchParams);
-
+  console.log({ serverQuery });
   return (
     <>
       <Heroes />
       <ChooseCategory categories={categories} />
-      <Suspense fallback={<ResultsSkeleton />}>
-        <SearchResults query={serverQuery} categories={categories} />
-      </Suspense>
+      <Container className="mb-16">
+        <ErrorBoundary fallback={DefaultErrorComponent}>
+          <Suspense fallback={<ResultsSkeleton />}>
+            <SearchResults query={serverQuery} categories={categories} />
+          </Suspense>
+        </ErrorBoundary>
+      </Container>
       <QuickSignUp />
     </>
   );

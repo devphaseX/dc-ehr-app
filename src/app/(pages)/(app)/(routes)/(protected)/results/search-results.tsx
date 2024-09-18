@@ -19,7 +19,7 @@ import { serverQuerySchema } from "./schema";
 
 export type SearchResultsProps = {
   query: TypeOf<typeof serverQuerySchema>;
-  categories: Array<>;
+  categories: Array<ContentCategory>;
 };
 
 export default function SearchResults({
