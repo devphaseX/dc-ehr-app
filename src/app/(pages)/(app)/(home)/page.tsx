@@ -19,7 +19,6 @@ import ErrorBoundary, {
   DefaultErrorComponent,
 } from "@/components/error-boundary";
 import { useResourcesDebug } from "@/features/api/query/debug";
-import { Sample } from "./__components/sample";
 
 const Home = async ({
   searchParams,
