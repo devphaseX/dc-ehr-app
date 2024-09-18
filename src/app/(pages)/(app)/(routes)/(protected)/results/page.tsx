@@ -7,16 +7,17 @@ import { ChevronLeft } from "lucide-react";
 import { ContentFilters } from "../../../__components/content-filters";
 import { serverGetCategories } from "@/features/query/get-categories";
 import { ContentCategory } from "@/lib/response";
+import { createServerQuery } from "./schema";
 
 export default async function Results({
   searchParams,
 }: {
   searchParams: { q: string; categeory: string };
 }) {
-  const query = searchParams.q;
-
   const { data } = await serverGetCategories();
   const categories = (data?.responseData! ?? []) as ContentCategory[];
+
+  const serverQuery = createServerQuery(searchParams);
   return (
     <div className="bg-white pt-14 pb-[111px] min-h-full">
       <Container>
@@ -28,14 +29,11 @@ export default async function Results({
           Back
         </Link>
         <div className="space-y-8">
-          <h3 className="text-2xl font-semibold">{query}</h3>
+          {serverQuery.title && (
+            <h3 className="text-2xl font-semibold">{serverQuery.title}</h3>
+          )}
           <Suspense fallback={<ResultsSkeleton />}>
-            <SearchResults
-              query={query}
-              pageNumber={1}
-              pageSize={10}
-              categories={categories}
-            />
+            <SearchResults query={serverQuery} categories={categories} />
           </Suspense>
         </div>
       </Container>

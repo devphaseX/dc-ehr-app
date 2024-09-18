@@ -1,4 +1,8 @@
-import { createServerQuery } from "@/app/(pages)/(app)/(routes)/(protected)/results/schema";
+import {
+  createServerQuery,
+  serverQuerySchema,
+} from "@/app/(pages)/(app)/(routes)/(protected)/results/schema";
+import { SearchResultsProps } from "@/app/(pages)/(app)/(routes)/(protected)/results/search-results";
 import {
   getCategoriesResSchema,
   getResourceResSchema,
@@ -14,6 +18,7 @@ import {
   useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+import { TypeOf } from "zod";
 
 interface ResourceData {
   id: string;
@@ -84,8 +89,7 @@ interface PageParam {
 }
 
 export const useSuspenseGetResources = (
-  initialPageParam: PageParam = { pageNumber: 1, pageSize: 10 },
-  query: Partial<{ q: string }>,
+  query: SearchResultsProps["query"],
   options?: Omit<
     UseInfiniteQueryOptions<
       PaginatedResponse,
@@ -98,21 +102,18 @@ export const useSuspenseGetResources = (
 ) => {
   const api = useApi();
 
-  const searchParams = Object.fromEntries(useSearchParams());
-
   return useSuspenseInfiniteQuery({
-    queryKey: ["resources", searchParams],
-    initialPageParam: initialPageParam,
+    queryKey: ["resources", query],
+    initialPageParam: {
+      pageNumber: query.pageNumber,
+      pageSize: query.pageNumber,
+    },
     queryFn: async ({ pageParam }) => {
       const pageURL = new URL(location.href);
-
-      console.log({ a: createServerQuery(searchParams), searchParams });
       const { data } = await api.get(`/Resource/GetAllResource`, {
-        params: createServerQuery(searchParams),
+        params: { ...query, ...(pageParam as Record<string, string>) },
         validateResponse: (data) => getResourcesResSchema.parse(data),
       });
-
-      console.log({ data });
 
       if (!data) {
         throw new Error("An error occurred fetching resources");

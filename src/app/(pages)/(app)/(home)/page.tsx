@@ -9,15 +9,28 @@ import {
   getResourcesResSchema,
 } from "@/lib/response";
 import { serverGetCategories } from "@/features/query/get-categories";
+import { Suspense } from "react";
+import SearchResults, {
+  ResultsSkeleton,
+} from "../(routes)/(protected)/results/search-results";
+import { createServerQuery } from "../(routes)/(protected)/results/schema";
 
-const Home = async () => {
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: Record<string, string>;
+}) => {
   const { data } = await serverGetCategories();
   const categories = (data?.responseData! ?? []) as ContentCategory[];
+  const serverQuery = createServerQuery(searchParams);
+
   return (
     <>
       <Heroes />
       <ChooseCategory categories={categories} />
-      <Contents categories={categories} />
+      <Suspense fallback={<ResultsSkeleton />}>
+        <SearchResults query={serverQuery} categories={categories} />
+      </Suspense>
       <QuickSignUp />
     </>
   );

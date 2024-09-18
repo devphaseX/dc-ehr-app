@@ -46,7 +46,8 @@ export type QueryValue =
   | string
   | number
   | boolean
-  | Array<string | number | boolean>;
+  | Array<string | number | boolean>
+  | undefined;
 
 export interface QueryObject {
   [key: string]: QueryValue;

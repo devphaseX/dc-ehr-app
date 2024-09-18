@@ -14,26 +14,24 @@ import {
 import { PagePagination } from "@/components/pagination";
 import NoSearchResult from "./no-search-results";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { TypeOf } from "zod";
+import { serverQuerySchema } from "./schema";
+
+export type SearchResultsProps = {
+  query: TypeOf<typeof serverQuerySchema>;
+  categories: Array<>;
+};
 
 export default function SearchResults({
   query,
-  pageSize,
-  pageNumber,
   categories,
-}: Partial<{ query: string }> & {
-  pageSize: number;
-  pageNumber: number;
-  categories: Array<ContentCategory>;
-}) {
-  const { data: dataResult } = useSuspenseGetResources(
-    { pageSize, pageNumber },
-    { q: query },
-  );
+}: SearchResultsProps) {
+  const { data: dataResult } = useSuspenseGetResources(query);
 
   const payload = (
     dataResult as any as InfiniteData<NonNullable<typeof dataResult>>
-  ).pages[pageNumber - 1];
-  const data = payload.data;
+  ).pages?.[query.pageNumber - 1];
+  const data = payload?.data;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -79,7 +77,11 @@ export default function SearchResults({
               totalPages: payload.totalPages,
               totalRecords: payload.totalRecords,
             }}
-            onPageChange={(nextPage) => {}}
+            onPageChange={(nextPage) => {
+              const url = new URL(pathname, location.origin);
+              url.searchParams.set("page", String(nextPage));
+              router.push(url.toString());
+            }}
           />
         </>
       ) : (

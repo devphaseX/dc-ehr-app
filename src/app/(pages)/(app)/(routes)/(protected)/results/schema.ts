@@ -1,5 +1,5 @@
 import { paginateQuerySchema } from "@/lib/schema/data";
-import { z } from "zod";
+import { TypeOf, z } from "zod";
 
 export type ResourceFilterQuery = {
   q: string;
@@ -16,10 +16,12 @@ export const clientQuerySchema = z
   .and(paginateQuerySchema);
 
 export const serverQuerySchema = clientQuerySchema.transform(
-  ({ q, category, tags }) => ({
+  ({ q, category, tags, page, perPage }) => ({
     title: q,
     category,
     tags,
+    pageNumber: page,
+    pageSize: perPage,
   }),
 );
 
@@ -27,6 +29,7 @@ export function createServerQuery(
   query: Record<string, unknown> | URLSearchParams,
 ) {
   query = query instanceof URLSearchParams ? Object.fromEntries(query) : query;
-  console.log(serverQuerySchema.safeParse(query));
-  return serverQuerySchema.safeParse(query).data ?? {};
+  return (serverQuerySchema.safeParse(query).data ?? {}) as TypeOf<
+    typeof serverQuerySchema
+  >;
 }

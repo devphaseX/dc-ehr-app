@@ -1,12 +1,12 @@
 import { createServerQuery } from "@/app/(pages)/(app)/(routes)/(protected)/results/schema";
 import { FetchError } from "./error";
-import { objectToURLParams } from "./utils";
+import { QueryObject, objectToURLParams } from "./utils";
 
 // api.ts
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface RequestOptions<T = unknown> extends Omit<RequestInit, "method"> {
-  params?: Record<string, string>;
+  params?: Record<string, string | string[] | number | undefined>;
   middleware?: MiddlewareFunction[];
   formData?: FormData;
   ignoreJwt?: boolean;
@@ -153,7 +153,10 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         ...requestOptions
       } = options;
 
-      const fullUrl = `${baseUrl ? baseUrl : "/api/v1"}${url}?${params ? objectToURLParams(params) : ""}`;
+      const fullUrl = `${
+        baseUrl ? baseUrl : "/api/v1"
+      }${url}?${params ? objectToURLParams(params as unknown as QueryObject) : ""}`;
+
       let requestInit: RequestInit = { ...requestOptions, method };
       if (requestOptions.body && !(requestOptions.body instanceof FormData)) {
         requestInit.body = JSON.stringify(requestOptions.body);

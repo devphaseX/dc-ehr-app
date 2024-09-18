@@ -9,19 +9,22 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetCategories } from "@/features/api/query/use-get-categories";
 import { ContentCategory } from "@/lib/response";
-import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Check, ChevronDown } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
+import { useState } from "react";
 
 export const ContentFilters = ({
   categories,
 }: {
   categories: Array<ContentCategory>;
 }) => {
-  const [category, setCategory] = useQueryState(
+  const [selectedCategory, setCategory] = useQueryState(
     "category",
-    parseAsString.withOptions({ throttleMs: 500 }),
+    parseAsString.withOptions({ throttleMs: 300 }),
   );
 
+  const [categoryBtnWidth, setCategoryBtnWidth] = useState(0);
   const { data } = useGetCategories();
   return (
     <div className="space-y-8">
@@ -33,15 +36,41 @@ export const ContentFilters = ({
                 className="!bg-neutral-50 w-fit
               h-fit px-6 py-4 rounded-[56px]  flex items-center gap-x-4
               text-sm font-medium text-neutral-700"
+                ref={(el) => {
+                  if (el) {
+                    setCategoryBtnWidth(el.getBoundingClientRect().width);
+                  } else {
+                    setCategoryBtnWidth(0);
+                  }
+                }}
               >
-                {category ?? "All category"}
+                {selectedCategory || "All category"}
                 <ChevronDown className="size-5" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent side="bottom" align={"start"}>
-              <ul>
+            <PopoverContent
+              side="bottom"
+              align={"start"}
+              className="p-2 w-fit"
+              style={{
+                minWidth: `${categoryBtnWidth}px`,
+              }}
+            >
+              <ul className="space-y-1">
                 {categories.map((category) => (
-                  <li key={category.id}>{category.name}</li>
+                  <li
+                    key={category.id}
+                    onClick={() => setCategory(category.name)}
+                    className="cursor-pointer hover:bg-neutral-50 px-2 flex justify-between items-center"
+                  >
+                    {category.name}{" "}
+                    <Check
+                      className={cn(
+                        "size-4 invisible",
+                        category?.name === selectedCategory && "visible",
+                      )}
+                    />
+                  </li>
                 ))}
               </ul>
             </PopoverContent>
