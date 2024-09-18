@@ -6,7 +6,7 @@ import { ContentCategory, ResourcePayload } from "@/lib/response";
 import { Author, ContentResource } from "@/lib/schema/data";
 import { addBase64Prefix } from "@/lib/utils";
 import { InfiniteData, useSuspenseQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import {
   ContentFilters,
   ContentFiltersSkeleton,
@@ -26,15 +26,20 @@ export default function SearchResults({
   query,
   categories,
 }: SearchResultsProps) {
-  const { data: dataResult } = useSuspenseGetResources(query);
+  const [isPending, startTransition] = useTransition();
+  const [serverQuery, setServerQuery] = useState(query);
+  const { data: payload } = useSuspenseGetResources(serverQuery);
 
-  const payload = (
-    dataResult as any as InfiniteData<NonNullable<typeof dataResult>>
-  ).pages?.[query.pageNumber - 1];
   const data = payload?.data;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    startTransition(() => {
+      setServerQuery(query);
+    });
+  }, [JSON.stringify(query)]);
 
   const items = useMemo(() => {
     return (data || []).map<[ContentResource, Author]>((resource) => [
@@ -58,10 +63,13 @@ export default function SearchResults({
     ]);
   }, [data]);
 
+  if (isPending) {
+    return <ResultsSkeleton />;
+  }
+
   return (
     <div className="space-y-8">
       <ContentFilters categories={categories} />
-
       {items.length ? (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

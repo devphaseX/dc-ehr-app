@@ -1,6 +1,6 @@
 import { ChooseCategory } from "./__components/category-section";
 import { Heroes } from "./heroes";
-import { Contents } from "./contents";
+import { Contents, ResourceContentList } from "./contents";
 import { QuickSignUp } from "./quick-sign-up";
 import { serverApi } from "@/features/server-api";
 import {
@@ -18,6 +18,8 @@ import { Container } from "@/components/container";
 import ErrorBoundary, {
   DefaultErrorComponent,
 } from "@/components/error-boundary";
+import { useResourcesDebug } from "@/features/api/query/debug";
+import { Sample } from "./__components/sample";
 
 const Home = async ({
   searchParams,
@@ -28,16 +30,16 @@ const Home = async ({
   const categories = (data?.responseData! ?? []) as ContentCategory[];
   const serverQuery = createServerQuery(searchParams);
   console.log({ serverQuery });
+
   return (
     <>
       <Heroes />
       <ChooseCategory categories={categories} />
       <Container className="mb-16">
-        <ErrorBoundary fallback={DefaultErrorComponent}>
-          <Suspense fallback={<ResultsSkeleton />}>
-            <SearchResults query={serverQuery} categories={categories} />
-          </Suspense>
-        </ErrorBoundary>
+        <ResourceContentList
+          categories={categories}
+          serverQuery={serverQuery}
+        />
       </Container>
       <QuickSignUp />
     </>

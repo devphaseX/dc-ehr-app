@@ -21,7 +21,7 @@ export const ContentFilters = ({
 }) => {
   const [selectedCategory, setCategory] = useQueryState(
     "category",
-    parseAsString.withOptions({ throttleMs: 300 }),
+    parseAsString.withOptions({ throttleMs: 300, shallow: false }),
   );
 
   const [categoryBtnWidth, setCategoryBtnWidth] = useState(0);

@@ -13,11 +13,14 @@ import {
   QueryFunctionContext,
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
+  UseSuspenseQueryOptions,
   useInfiniteQuery,
   useQuery,
   useSuspenseInfiniteQuery,
+  useSuspenseQuery,
 } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { TypeOf } from "zod";
 
 interface ResourceData {
@@ -91,29 +94,23 @@ interface PageParam {
 export const useSuspenseGetResources = (
   query: SearchResultsProps["query"],
   options?: Omit<
-    UseInfiniteQueryOptions<
-      PaginatedResponse,
-      Error,
-      PaginatedResponse,
-      PaginatedResponse
-    >,
+    UseSuspenseQueryOptions<PaginatedResponse, Error, PaginatedResponse>,
     "queryKey" | "queryFn" | "getNextPageParam" | "getPreviousPageParam"
   >,
 ) => {
   const api = useApi();
-  console.log({ query });
-  return useSuspenseInfiniteQuery({
-    queryKey: ["resources", query],
-    initialPageParam: {
-      pageNumber: query.pageNumber,
-      pageSize: query.pageSize,
-    },
-    queryFn: async ({ pageParam }) => {
+
+  return useSuspenseQuery({
+    queryKey: ["resources", JSON.stringify(query)],
+
+    queryFn: async () => {
       const pageURL = new URL(location.href);
-      const { data } = await api.get(`/Resource/GetAllResource`, {
-        params: { ...query, ...(pageParam as Record<string, string>) },
+      const { data, status } = await api.get(`/Resource/GetAllResource`, {
+        params: { ...query },
         validateResponse: (data) => getResourcesResSchema.parse(data),
       });
+
+      console.log({ data, status });
 
       if (!data) {
         throw new Error("An error occurred fetching resources");
@@ -129,24 +126,25 @@ export const useSuspenseGetResources = (
 
       return data.responseData;
     },
-    getNextPageParam: (lastPage) => {
-      if (lastPage.pageNumber < lastPage.totalPages) {
-        return {
-          pageNumber: lastPage.pageNumber + 1,
-          pageSize: lastPage.pageSize,
-        };
-      }
-      return undefined;
-    },
-    getPreviousPageParam: (firstPage) => {
-      if (firstPage.pageNumber > 1) {
-        return {
-          pageNumber: firstPage.pageNumber - 1,
-          pageSize: firstPage.pageSize,
-        };
-      }
-      return undefined;
-    },
+    // getNextPageParam: (lastPage) => {
+    //   if (lastPage.pageNumber < lastPage.totalPages) {
+    //     return {
+    //       pageNumber: lastPage.pageNumber + 1,
+    //       pageSize: lastPage.pageSize,
+    //     };
+    //   }
+    //   return undefined;
+    // },
+    // getPreviousPageParam: (firstPage) => {
+    //   if (firstPage.pageNumber > 1) {
+    //     return {
+    //       pageNumber: firstPage.pageNumber - 1,
+    //       pageSize: firstPage.pageSize,
+    //     };
+    //   }
+    //   return undefined;
+    // },
+
     ...options,
   });
 };
