@@ -1,6 +1,6 @@
 import { ChooseCategory } from "./__components/category-section";
 import { Heroes } from "./heroes";
-import { Contents, ResourceContentList } from "./contents";
+import { ResourceContentList } from "./contents";
 import { QuickSignUp } from "./quick-sign-up";
 import { serverApi } from "@/features/server-api";
 import {
@@ -29,7 +29,6 @@ const Home = async ({
   const { data } = await serverGetCategories();
   const categories = (data?.responseData! ?? []) as ContentCategory[];
   const serverQuery = createServerQuery(searchParams);
-  console.log({ serverQuery });
 
   return (
     <>

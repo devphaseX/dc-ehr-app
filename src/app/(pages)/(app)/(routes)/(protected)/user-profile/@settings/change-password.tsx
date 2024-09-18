@@ -4,11 +4,6 @@ import {
   changePasswordSchema,
   ChangePasswordForm,
 } from "@/app/(pages)/(auth)/(recover-password)/reset-password/schema";
-
-import {
-  UpdateProfileForm,
-  updateProfileSchema,
-} from "@/app/(pages)/(auth)/sign-up/schema";
 import { FormPasswordInput } from "@/components/form/form-password-input";
 import { FormInput } from "@/components/form/input";
 import { FormLabel } from "@/components/form/label";
