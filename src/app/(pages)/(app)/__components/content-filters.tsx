@@ -78,6 +78,7 @@ export const ContentFilters = ({
         </div>
 
         <div>
+          {/*
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -90,6 +91,7 @@ export const ContentFilters = ({
               </Button>
             </PopoverTrigger>
           </Popover>
+          */}
         </div>
       </div>
       <div></div>
@@ -106,7 +108,9 @@ export function ContentFiltersSkeleton() {
         </div>
 
         <div>
+          {/*
           <Skeleton className="w-32 h-12 rounded-[80px]" />
+          */}
         </div>
       </div>
     </div>

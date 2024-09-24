@@ -26,7 +26,7 @@ import { toast } from "sonner";
 export const AuthorProfile = ({ user }: { user: User }) => {
   const { data, isLoading } = useGetAuthorPublishCount(user.id);
   return (
-    <div className="flex flex-col gap-y-6 max-w-[320px]">
+    <div className="flex flex-col gap-y-6 max-w-[320px] w-full">
       <Card
         className="rounded-[24px] border border-neutral-100 p-0
       overflow-hidden shadow-none border-none drop-shadow-none"
@@ -68,7 +68,9 @@ export const AuthorProfile = ({ user }: { user: User }) => {
             <h4 className="font-bold text-base text-black">{`${user.firstName} ${user.lastName}`}</h4>
             <p className="text-sm text-neutral-500">{`@${user.userName}`}</p>
           </div>
+          {/*
 
+*/}
           <div className="border border-neutral-100 rounded-[12px] p-6">
             <div className="w-full flex items-center gap-x-4">
               <div className="space-y-[6px] flex items-center flex-col w-[50%] flex-1">
@@ -77,6 +79,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
                 </p>
                 <p className="text-sm text-neutral-500">Publication</p>
               </div>
+
               {/*
               <div className="self-stretch  relative">
                 <Separator
@@ -88,12 +91,15 @@ export const AuthorProfile = ({ user }: { user: User }) => {
                 <p className="text-neutral-700 font-semibold text-base">9</p>
                 <p className="text-sm text-neutral-500">Collections</p>
               </div>
+
+
                 */}
             </div>
           </div>
         </CardContent>
       </Card>
 
+      {/*
       <Card className="p-6 rounded-[12px] space-y-6 shadow-none border-none drop-shadow-none">
         <CardHeader className="p-0">
           <CardTitle className="font-semibold text-xl font-josefin">
@@ -101,7 +107,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
           </CardTitle>
         </CardHeader>
 
-        {/*
+
 
         <CardContent className="p-0 psace-y-2">
           <h3 className="font-medium text-base text-neutral-900">Biography</h3>
@@ -125,8 +131,8 @@ export const AuthorProfile = ({ user }: { user: User }) => {
             </li>
           </ul>
         </CardFooter>
-          */}
       </Card>
+          */}
     </div>
   );
 };

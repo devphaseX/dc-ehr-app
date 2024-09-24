@@ -25,7 +25,7 @@ export default async function Results({
     <div className="bg-white pt-14 pb-[111px] min-h-full">
       <Container>
         <Link
-          href="/security-questions"
+          href="/"
           className="text-primary-500 text-sm flex items-center gap-x-2 mb-12"
         >
           <ChevronLeft className="size-5" />
