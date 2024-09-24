@@ -79,7 +79,7 @@ export const ResourceContent = ({
           <div>
             <div className="h-[486px] w-full bg-neutral-50 relative">
               <Image
-                src={addBase64Prefix(resource.resourceThumbnail)}
+                src={addBase64Prefix(resource.resourceImage)}
                 alt="photo"
                 fill
               />
@@ -165,7 +165,7 @@ export const ResourceContent = ({
 
           <div>
             <ResourceActionTab />
-            {!!selectedTab || selectedTab === "descriptions" ? (
+            {selectedTab === "descriptions" ? (
               <div>
                 <p>{resource.description}</p>
               </div>

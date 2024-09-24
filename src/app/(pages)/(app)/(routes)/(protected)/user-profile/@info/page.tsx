@@ -14,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useUploadCoverBg } from "@/features/api/mutation/use-upload-cover-bg";
 import { useUploadProfileImg } from "@/features/api/mutation/use-upload-profile-img";
+import { useGetAuthorPublishCount } from "@/features/api/query/use-get-publications-count";
 import { useBase64Encoder } from "@/hooks/use-base64";
 import tryit from "@/lib/tryit";
 import { addBase64Prefix } from "@/lib/utils";
@@ -26,18 +27,19 @@ const Info = () => {
     mutation: { mutate, status },
   } = useUploadProfileImg();
 
+  const { user } = useAuth();
+  const { data, isLoading } = useGetAuthorPublishCount(user?.id);
+
   const {
     mutation: { mutate: uploadCoverBg },
   } = useUploadCoverBg();
-
-  const { user } = useAuth();
 
   if (!user) {
     return null;
   }
 
   return (
-    <div className="flex flex-col gap-y-6 max-w-[320px] w-full">
+    <div className="flex flex-col gap-y-6 max-w-[320px] w-full min-h-full">
       <Card
         className="rounded-[24px] border border-neutral-100 p-0
       overflow-hidden shadow-none border-none drop-shadow-none"
@@ -144,9 +146,14 @@ const Info = () => {
           <div className="border border-neutral-100 rounded-[12px] p-6">
             <div className="w-full flex items-center gap-x-4">
               <div className="space-y-[6px] flex items-center flex-col w-[50%] flex-1">
-                <p className="text-neutral-700 font-semibold text-base">56</p>
+                <p className="text-neutral-700 font-semibold text-base">
+                  {" "}
+                  {isLoading ? "-" : (data ?? "-")}
+                </p>
                 <p className="text-sm text-neutral-500">Publication</p>
               </div>
+              {/*
+
               <div className="self-stretch  relative">
                 <Separator
                   orientation="vertical"
@@ -157,6 +164,7 @@ const Info = () => {
                 <p className="text-neutral-700 font-semibold text-base">9</p>
                 <p className="text-sm text-neutral-500">Collections</p>
               </div>
+                */}
             </div>
           </div>
           <Button

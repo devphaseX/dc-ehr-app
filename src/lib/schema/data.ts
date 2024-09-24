@@ -3,6 +3,7 @@ import { TypeOf, z } from "zod";
 const authorSchema = z.object({
   userId: z.string().min(1),
   fullName: z.string().min(1),
+  username: z.string().min(1),
   email: z.string().email(),
   avatarUrl: z.string().url(),
 });

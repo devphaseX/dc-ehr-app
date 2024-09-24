@@ -18,8 +18,8 @@ const Layout = ({ info, children, settings, editProfile }: Props) => {
   };
 
   return (
-    <div className="bg-neutral-50 pt-14 pb-[111px] min-h-full">
-      <Container>
+    <div className="bg-neutral-50 pt-14 pb-[111px] min-h-screen">
+      <Container className="min-h-full">
         <div>
           <Link
             href="/security-questions"

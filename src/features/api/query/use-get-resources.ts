@@ -103,7 +103,7 @@ export const useGetResources = (
     initialPageParam: initialPageParam,
     queryFn: async ({ pageParam }) => {
       const { data } = await api.get("/Resource/GetAllResource", {
-        params: createServerQuery(searchParams),
+        // params: createServerQuery(searchParams),
         validateResponse: (data) => getResourcesResSchema.parse(data),
       });
 

@@ -105,8 +105,8 @@ export const useSuspenseGetResources = (
 
     queryFn: async () => {
       const pageURL = new URL(location.href);
-      const { data, status } = await api.get(`/Resource/GetAllResource`, {
-        params: { ...query },
+      const { data, status } = await api.get(`/Resource/GetAllResource?`, {
+        // params: { ...query },
         validateResponse: (data) => getResourcesResSchema.parse(data),
       });
 

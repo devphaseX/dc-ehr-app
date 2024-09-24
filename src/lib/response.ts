@@ -149,17 +149,18 @@ export const resourcePayload = z
     userId: z.string().min(1),
     email: z.string().email(),
     username: z.string().min(1),
-    resourceThumbnail: z.string().min(1),
+    resourceImage: z.string().min(1),
     profilePicture: z.string().min(1).nullable(),
     description: z.string().min(1),
     tags: z.array(z.string().nullable()),
     isBookmarked: z.boolean().default(false),
+    createdDate: z.date({ coerce: true }),
   })
   .transform(
     ({
       resourceId,
       resourceName,
-      resourceThumbnail,
+      resourceImage,
       userId,
       username,
       profilePicture,
@@ -170,6 +171,7 @@ export const resourcePayload = z
       description,
       isBookmarked,
       tags,
+      createdDate,
     }) => {
       return {
         id: resourceId,
@@ -181,12 +183,13 @@ export const resourcePayload = z
         categoryId,
         category,
         subject,
-        resourceThumbnail,
+        resourceImage,
         tags:
           tags?.filter((data): data is string => typeof data === "string") ??
           [],
         isBookmarked,
         description,
+        createdAt: createdDate,
       };
     },
   );

@@ -153,9 +153,11 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         ...requestOptions
       } = options;
 
-      const fullUrl = `${
+      let fullUrl = `${
         baseUrl ? baseUrl : "/api/v1"
       }${url}?${params ? objectToURLParams(params as unknown as QueryObject) : ""}`;
+
+      fullUrl = fullUrl.endsWith("?") ? fullUrl.replace(/\?+$/, "") : fullUrl;
 
       let requestInit: RequestInit = { ...requestOptions, method };
       if (requestOptions.body && !(requestOptions.body instanceof FormData)) {
@@ -168,7 +170,6 @@ const createApi = ({ getToken, baseUrl, hooks }: ApiOptions) => {
         requestInit.body = requestOptions.formData;
       }
 
-      console.log({ requestURL: fullUrl.toString() });
       req = new Request(fullUrl, requestInit);
     }
 

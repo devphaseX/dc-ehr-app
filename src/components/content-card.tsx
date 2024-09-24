@@ -22,7 +22,7 @@ type Props = {
 
 export const ContentCard = ({
   data: { id, title, bannerImgUrl, isBookmarked: bookmarked, href },
-  author: { fullName, email, avatarUrl },
+  author: { fullName, email, avatarUrl, username },
 }: Props) => {
   const { mutate: bookmarkResource } = useBookmarkResource();
   const { mutate: unbookmarkResource } = useUnbookmarkResource();
@@ -47,10 +47,15 @@ export const ContentCard = ({
               </AvatarFallback>
             </Avatar>
             <p className="text-sm text-neutral-900 font-josefin">
-              by <span className="capitalize font-bold">{fullName}</span>
+              by{" "}
+              <Link
+                href={`/author-profile/${username}`}
+                className="capitalize font-bold"
+              >
+                {fullName}
+              </Link>
             </p>
           </div>
-
           {user && (
             <Button
               className={cn(

@@ -26,15 +26,6 @@ export const AuthNav = ({ user }: Props) => {
             <div className="text-black">
               <TempLogo />
             </div>
-            <div className="self-stretch">
-              <Separator orientation="vertical" />
-            </div>
-            <div
-              className="text-sm text-neutral-900
-            font-josefin min-w-fit py-[14px]"
-            >
-              All Categories
-            </div>
           </div>
 
           <div className="flex items-center gap-x-4">

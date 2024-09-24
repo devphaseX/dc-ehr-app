@@ -37,12 +37,14 @@ export const ProfileActionTab = ({ userId }: { userId: string }) => {
     {
       label: "Favourite",
       tab: "favourite",
-      tagCount: 20,
+      tagCount: "-",
+      disabled: true,
     },
     {
       label: "Deleted",
       tab: "deleted",
-      tagCount: 20,
+      tagCount: "-",
+      disabled: true,
     },
   ];
 

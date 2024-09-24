@@ -19,7 +19,7 @@ export const BookPublicationContent = (props: BookPublicationContentProps) => {
         id: resource.id,
         isBookmarked: resource.isBookmarked,
         title: resource.fileName,
-        bannerImgUrl: addBase64Prefix(resource.resourceThumbnail),
+        bannerImgUrl: addBase64Prefix(resource.resourceImage),
         href: `/resources/${resource.id}`,
       },
       {
@@ -29,6 +29,7 @@ export const BookPublicationContent = (props: BookPublicationContentProps) => {
           : "",
         email: resource.email,
         fullName: resource.username,
+        username: resource.username,
       },
     ]);
   }, [data]);

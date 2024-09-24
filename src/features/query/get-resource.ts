@@ -4,7 +4,7 @@ import { getResourceResSchema } from "@/lib/response";
 import { getJwt } from "@/auth";
 
 export const getServerResource = cache(async (id: string) => {
-  const { data } = await serverApi.get(`/Resource/GetResource/${id}`, {
+  const { data } = await serverApi.get(`/Resource/GetResource/${id}/false`, {
     validateResponse: (data) => getResourceResSchema.parse(data),
   });
 

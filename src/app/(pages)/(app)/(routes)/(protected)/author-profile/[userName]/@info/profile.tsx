@@ -77,6 +77,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
                 </p>
                 <p className="text-sm text-neutral-500">Publication</p>
               </div>
+              {/*
               <div className="self-stretch  relative">
                 <Separator
                   orientation="vertical"
@@ -87,6 +88,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
                 <p className="text-neutral-700 font-semibold text-base">9</p>
                 <p className="text-sm text-neutral-500">Collections</p>
               </div>
+                */}
             </div>
           </div>
         </CardContent>

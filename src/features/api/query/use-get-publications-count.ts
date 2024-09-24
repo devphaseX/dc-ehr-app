@@ -5,7 +5,7 @@ import {
 import { useApi, useAuth } from "@/providers/auth";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetAuthorPublishCount = (userId: string) => {
+export const useGetAuthorPublishCount = (userId?: string) => {
   const api = useApi();
   return useQuery({
     queryKey: ["get_author_publication_counts", userId],
@@ -30,5 +30,7 @@ export const useGetAuthorPublishCount = (userId: string) => {
 
       return data?.responseData!;
     },
+
+    enabled: typeof userId === "string",
   });
 };

@@ -30,6 +30,7 @@ import { ResourceCard } from "@/components/resource-card";
 import { addMinutes, isWithinInterval } from "date-fns";
 import { getUser } from "@/features/query/get-user";
 import { ContentCard } from "@/components/content-card";
+import { addBase64Prefix } from "@/lib/utils";
 
 const CompleteResourcePage = async ({
   searchParams,
@@ -64,15 +65,15 @@ const CompleteResourcePage = async ({
   const resource = data.responseData!;
 
   const resourceUrl = `/resources/${resource.id}`;
-  // if (
-  //   !isWithinInterval(resource.createdAt, {
-  //     start: resource.createdAt,
-  //     end: addMinutes(Date.now(), 10),
-  //   })
-  // ) {
-  //   return redirect(resourceUrl);
-  // }
-  //
+
+  if (
+    !isWithinInterval(resource.createdAt, {
+      start: resource.createdAt,
+      end: addMinutes(Date.now(), 10),
+    })
+  ) {
+    return redirect(resourceUrl);
+  }
 
   return (
     <div className="bg-neutral-50 min-h-full pt-14 pb-[97px]">
@@ -87,12 +88,13 @@ const CompleteResourcePage = async ({
                     fullName: `${user.firstName} ${user.lastName}`,
                     email: user.email,
                     avatarUrl: user.profilePicture ?? "",
+                    username: user.userName,
                   }}
                   data={{
                     id: resource.id,
                     title: resource.fileName,
                     href: resourceUrl,
-                    bannerImgUrl: "/",
+                    bannerImgUrl: addBase64Prefix(resource.resourceImage),
                     isBookmarked: false,
                   }}
                 />

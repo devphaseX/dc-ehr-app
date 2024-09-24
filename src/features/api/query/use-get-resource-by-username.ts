@@ -11,7 +11,7 @@ export const useGetResourcesByUsername = (username: string) => {
     queryKey: ["get_resources_by_username", username],
     queryFn: async () => {
       const { data, status } = await api.get(
-        `/Resource/GetResourceForUser/${username}`,
+        `/Resource/GetResourceForUser/${username}/false`,
         {
           validateResponse: (data) =>
             getResourcesByUsernameResSchema.parse(data),

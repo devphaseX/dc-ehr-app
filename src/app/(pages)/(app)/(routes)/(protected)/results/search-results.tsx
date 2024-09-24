@@ -48,7 +48,7 @@ export default function SearchResults({
         isBookmarked: resource.isBookmarked,
         title: resource.fileName,
         bannerImgUrl: addBase64Prefix(
-          (resource as ResourcePayload).resourceThumbnail,
+          (resource as ResourcePayload).resourceImage,
         ),
         href: `/resources/${resource.id}`,
       },
@@ -59,6 +59,7 @@ export default function SearchResults({
           : "",
         email: resource.email,
         fullName: resource.username,
+        username: resource.username,
       },
     ]);
   }, [data]);
