@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { AuthNav } from "./auth-nav";
 import { useAuth } from "@/providers/auth";
-import { TempLogo } from "@/components/temp-logo";
+import { TextBrandLogo } from "@/components/temp-logo";
 
 const MainNavbar = () => {
   const { user } = useAuth();
@@ -13,7 +13,7 @@ const MainNavbar = () => {
         <div className="max-w-[1360px] mx-auto">
           <div className="w-full flex items-center justify-between">
             <div className="text-black">
-              <TempLogo />
+              <TextBrandLogo />
             </div>
             <div className="flex items-center gap-x-2">
               <Link

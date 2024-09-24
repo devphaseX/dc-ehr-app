@@ -1,5 +1,5 @@
 import { Container } from "@/components/container";
-import { TempLogo } from "@/components/temp-logo";
+import { TextBrandLogo } from "@/components/temp-logo";
 import Link from "next/link";
 import React from "react";
 

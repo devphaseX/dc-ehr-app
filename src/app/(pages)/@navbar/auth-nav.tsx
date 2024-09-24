@@ -1,7 +1,7 @@
 "use client";
 
 import { SearchInput } from "@/components/search";
-import { TempLogo } from "@/components/temp-logo";
+import { TextBrandLogo } from "@/components/temp-logo";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { UserProfileDropDown } from "@/components/user-profile-dropdown";
@@ -24,7 +24,7 @@ export const AuthNav = ({ user }: Props) => {
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center gap-x-6">
             <div className="text-black">
-              <TempLogo />
+              <TextBrandLogo />
             </div>
           </div>
 

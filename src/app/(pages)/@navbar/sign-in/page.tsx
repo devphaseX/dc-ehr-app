@@ -1,4 +1,4 @@
-import { TempLogo } from "@/components/temp-logo";
+import { TextBrandLogo } from "@/components/temp-logo";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
@@ -9,7 +9,7 @@ const SignInNavbar = () => {
         <div className="flex items-center w-full justify-between">
           <div className="flex items-center gap-x-6">
             <div className="text-black">
-              <TempLogo />
+              <TextBrandLogo />
             </div>
           </div>
           <div className="flex items-center gap-x-2">
