@@ -11,7 +11,7 @@ const Layout = ({ navbar, children }: LayoutProps) => {
   const [navBarHeight, setNavBarHeight] = useState(0);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen h-1">
       <div
         className="fixed w-full inset-x-0 bg-white z-50"
         ref={(el) => {

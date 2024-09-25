@@ -40,7 +40,7 @@ const SignIn = () => {
   const router = useRouter();
 
   return (
-    <div className="w-full h-full flex items-center justify-center my-[148px]">
+    <div className="w-full h-full flex items-center justify-center mt-[56px] mb-[118px]">
       <div className="space-y-10 max-w-[580px] w-full mx-auto">
         <div className="space-y-3">
           <h3 className="text-[28px] text-neutral-800 font-bold">
