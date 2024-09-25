@@ -3,12 +3,12 @@ import { Footer } from "./(home)/__components/footer";
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const copyRightYear = new Date().getFullYear();
   return (
-    <>
-      {children}
+    <div className="flex flex-col min-h-full">
+      <div className="flex-1 h-1">{children}</div>
       <div className="justify-items-end">
         <Footer copyRightYear={copyRightYear} />
       </div>
-    </>
+    </div>
   );
 };
 
