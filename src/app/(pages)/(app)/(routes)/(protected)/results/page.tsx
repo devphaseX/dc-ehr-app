@@ -12,12 +12,19 @@ import ErrorBoundary, {
   DefaultErrorComponent,
 } from "@/components/error-boundary";
 import { ResourceContentList } from "../../../(home)/contents";
+import { getUser } from "@/features/query/get-user";
+import { redirect } from "next/navigation";
 
 export default async function Results({
   searchParams,
 }: {
   searchParams: { q: string; category: string };
 }) {
+  const user = await getUser();
+  if (!user) {
+    return redirect("/");
+  }
+
   const { data } = await serverGetCategories();
   const categories = (data?.responseData! ?? []) as ContentCategory[];
   const serverQuery = createServerQuery(searchParams);
