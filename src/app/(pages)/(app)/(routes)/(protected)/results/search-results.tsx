@@ -35,6 +35,7 @@ export default function SearchResults({
   const router = useRouter();
   const pathname = usePathname();
 
+  console.log({ query });
   useEffect(() => {
     startTransition(() => {
       setServerQuery(query);

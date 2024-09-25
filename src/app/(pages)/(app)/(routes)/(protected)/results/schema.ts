@@ -9,7 +9,7 @@ export type ResourceFilterQuery = {
 
 export const clientQuerySchema = z
   .object({
-    q: z.string().min(1).optional(),
+    q: z.string().optional(),
     category: z.string().min(1).optional(),
     tags: z.string().array().optional(),
   })
@@ -29,7 +29,7 @@ export function createServerQuery(
   query: Record<string, unknown> | URLSearchParams,
 ) {
   query = query instanceof URLSearchParams ? Object.fromEntries(query) : query;
-  return (serverQuerySchema.safeParse(query).data ?? {}) as TypeOf<
+  return (serverQuerySchema.parse(query) ?? {}) as TypeOf<
     typeof serverQuerySchema
   >;
 }

@@ -11,15 +11,15 @@ import { createServerQuery } from "./schema";
 import ErrorBoundary, {
   DefaultErrorComponent,
 } from "@/components/error-boundary";
+import { ResourceContentList } from "../../../(home)/contents";
 
 export default async function Results({
   searchParams,
 }: {
-  searchParams: { q: string; categeory: string };
+  searchParams: { q: string; category: string };
 }) {
   const { data } = await serverGetCategories();
   const categories = (data?.responseData! ?? []) as ContentCategory[];
-
   const serverQuery = createServerQuery(searchParams);
   return (
     <div className="bg-white pt-14 pb-[111px] min-h-full">
@@ -35,11 +35,10 @@ export default async function Results({
           {serverQuery.title && (
             <h3 className="text-2xl font-semibold">{serverQuery.title}</h3>
           )}
-          <ErrorBoundary fallback={DefaultErrorComponent}>
-            <Suspense fallback={<ResultsSkeleton />}>
-              <SearchResults query={serverQuery} categories={categories} />
-            </Suspense>
-          </ErrorBoundary>
+          <ResourceContentList
+            serverQuery={serverQuery}
+            categories={categories}
+          />
         </div>
       </Container>
     </div>
