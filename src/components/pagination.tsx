@@ -8,6 +8,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Define the type for the server response
 type PaginationData = {
@@ -27,7 +29,15 @@ export function PagePagination({
   onPageChange,
 }: PaginationProps) {
   const { pageNumber, totalPages } = paginationData;
+  console.log({ pageNumber, totalPages });
 
+  function buildPaginateUrl(page: number) {
+    const url = new URL(location.href);
+
+    url.searchParams.set("page", page.toString());
+
+    return `${url.pathname}${url.search}`;
+  }
   // Function to generate page numbers to display
   const getPageNumbers = () => {
     const delta = 2; // Number of pages to show on each side of the current page
@@ -57,16 +67,23 @@ export function PagePagination({
 
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="gap-x-4">
         <PaginationItem>
-          <PaginationPrevious
-            href="#"
+          <PaginationLink
+            href={pageNumber >= 1 ? buildPaginateUrl(pageNumber - 1) : "#"}
             onClick={(e) => {
               e.preventDefault();
               if (pageNumber > 1) onPageChange(pageNumber - 1);
             }}
-            className={pageNumber <= 1 ? "pointer-events-none opacity-50" : ""}
-          />
+            className={cn(
+              "rounded-full text-neutral-400 border border-neutral-100 size-12",
+              pageNumber <= 1
+                ? "pointer-events-none opacity-50"
+                : "bg-primary-500 text-white",
+            )}
+          >
+            <ChevronLeft className="size-5" />
+          </PaginationLink>
         </PaginationItem>
 
         {getPageNumbers().map((page, index) => (
@@ -75,12 +92,17 @@ export function PagePagination({
               <PaginationEllipsis />
             ) : (
               <PaginationLink
-                href="#"
+                href={buildPaginateUrl(pageNumber)}
                 isActive={page === pageNumber}
                 onClick={(e) => {
                   e.preventDefault();
                   onPageChange(page as number);
                 }}
+                className={cn(
+                  "rounded-full text-neutral-400 size-12 border border-neutral-100",
+                  page === pageNumber &&
+                    "bg-primary-500 text-white border-primary-500",
+                )}
               >
                 {page}
               </PaginationLink>
@@ -89,16 +111,23 @@ export function PagePagination({
         ))}
 
         <PaginationItem>
-          <PaginationNext
-            href="#"
+          <PaginationLink
+            href={
+              pageNumber < totalPages ? buildPaginateUrl(pageNumber + 1) : "#"
+            }
             onClick={(e) => {
               e.preventDefault();
               if (pageNumber < totalPages) onPageChange(pageNumber + 1);
             }}
-            className={
-              pageNumber >= totalPages ? "pointer-events-none opacity-50" : ""
-            }
-          />
+            className={cn(
+              "rounded-full text-neutral-400 border border-neutral-100 size-12",
+              pageNumber >= totalPages
+                ? "pointer-events-none opacity-50"
+                : "bg-primary-500 text-white",
+            )}
+          >
+            <ChevronRight className="size-5" />
+          </PaginationLink>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

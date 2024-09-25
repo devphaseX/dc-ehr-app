@@ -35,6 +35,7 @@ export default async function Results({
           {serverQuery.title && (
             <h3 className="text-2xl font-semibold">{serverQuery.title}</h3>
           )}
+
           <ResourceContentList
             serverQuery={serverQuery}
             categories={categories}
