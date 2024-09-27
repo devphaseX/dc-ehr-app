@@ -19,8 +19,8 @@ export default function ErrorPage() {
                 Page not found
               </h3>
               <p className="text-lg text-neutral-400">
-                Welcome James, You can now share and download alot of free
-                resources from your resources page
+                Oops! The page you're looking for doesn't exist. It might have
+                been moved or deleted.
               </p>
             </div>
             <Link

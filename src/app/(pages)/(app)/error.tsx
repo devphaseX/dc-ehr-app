@@ -18,11 +18,13 @@ export default function ErrorPage() {
           <div className="space-y-9">
             <div className="space-y-3 text-center">
               <h3 className="font-bold text-[28px] leading-[37px] text-neutral-800">
-                Ooopp!
+                Oops! Something went wrong
               </h3>
               <p className="text-lg text-neutral-400">
-                Don’t worry it is not you, We seems to ran into an error while
-                processing your request. Try refreshing page or continue to home
+                We're sorry, but it seems we've encountered an unexpected issue.
+                Our team has been notified and we're working to resolve it as
+                quickly as possible. Please try again later or contact our
+                support team if the problem persists.
               </p>
             </div>
             <div className="space-y-4">
