@@ -4,7 +4,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const copyRightYear = new Date().getFullYear();
   return (
     <div className="flex flex-col min-h-full">
-      <div className="flex-1 h-1">{children}</div>
+      <div className="flex-1 flex flex-col">{children}</div>
       <div className="justify-items-end">
         <Footer copyRightYear={copyRightYear} />
       </div>

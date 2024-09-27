@@ -98,14 +98,12 @@ const CompleteResourcePage = async ({
                 </h3>
                 <div>
                   <p className="mb-8">{`Your ${user.firstName} resource has successfully been published.`}</p>
-                  <Link href={resourceUrl}>
-                    <Button
-                      type="submit"
-                      className="flex items-center justify-center px-8 py-4 w-full
-                  rounded-[48px] bg-primary-500 text-white font-semibold text-base font-josefin full h-fit"
-                    >
-                      view resource
-                    </Button>
+                  <Link
+                    href={resourceUrl}
+                    className="flex items-center justify-center px-8 py-4 w-full
+              rounded-[48px] bg-primary-500 text-white font-semibold text-base font-josefin full h-fit"
+                  >
+                    view resource
                   </Link>
                 </div>
               </div>
