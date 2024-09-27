@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies, headers } from "next/headers";
 import { TimeSpan } from "oslo";
 const JWT_NAME = "jwt";
@@ -19,13 +20,17 @@ export const logout = async () => {
   return cookies().delete(JWT_NAME);
 };
 
-export const setJwt = async (token: string, maxAge?: number) => {
+export const setJwt = async (
+  token: string,
+  option?: Partial<ResponseCookie>,
+) => {
   cookies().set({
     name: JWT_NAME,
     value: token,
     httpOnly: true,
     path: "/",
-    maxAge: maxAge ?? new TimeSpan(1, "h").milliseconds(),
+    maxAge: new TimeSpan(1, "h").milliseconds(),
+    ...option,
   });
 };
 

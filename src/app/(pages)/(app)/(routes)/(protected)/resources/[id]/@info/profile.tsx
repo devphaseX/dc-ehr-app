@@ -20,9 +20,16 @@ import { getAuthorProfile } from "@/features/query/get-author-profile";
 import Link from "next/link";
 import { useGetAuthorPublishCount } from "@/features/api/query/use-get-publications-count";
 import { User } from "@/lib/response";
+import { useEffect, useState } from "react";
 
 export const AuthorProfile = ({ user }: { user: User }) => {
   const { data } = useGetAuthorPublishCount(user.id);
+  const [currentPath, setCurrentPath] = useState("");
+
+  useEffect(() => {
+    setCurrentPath(location.href);
+  }, []);
+
   return (
     <div className="flex flex-col gap-y-6 max-w-[320px] w-full">
       <Card
@@ -77,7 +84,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
             </div>
           </div>
           <Link
-            href={`/author-profile/${user.userName}`}
+            href={`/author-profile/${user.userName}?prevUrl=${currentPath}`}
             className="w-full h-fit flex items-center justify-center px-6 py-[14px] text-base text-white font-semibold
     rounded-[48px] bg-primary-500 text-center"
           >

@@ -37,12 +37,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export const NewResourceForm = () => {
   const { data: categories } = useGetCategories();
-  const { data: subjectsPayload } = useGetSubjects();
+  // const { data: subjectsPayload } = useGetSubjects();
   const { resourceId } = Object.fromEntries(useSearchParams()) as {
     resourceId: string;
   };
 
-  const subjects = Array.from(new Set(subjectsPayload));
+  // const subjects = Array.from(new Set(subjectsPayload));
   const form = useForm<NewResource & { tag?: string }>({
     resolver: zodResolver(
       createNewResourceSchema.extend({
@@ -157,25 +157,10 @@ export const NewResourceForm = () => {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel text="Subject" />
-                              <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                              >
-                                <SelectTrigger
-                                  id="area"
-                                  className={`py-4 px-6 w-full h-fit  text-base text-neutral-900
-                                placeholder:text-neutral-300 bg-[#FAFBFB] rounded-[8px] border-none !ring-0 !ring-offset-0 !ring-transparent`}
-                                >
-                                  <SelectValue placeholder="Select your subject" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {(subjects ?? []).map((subject) => (
-                                    <SelectItem key={subject} value={subject}>
-                                      {subject}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
+                              <FormInput
+                                {...field}
+                                placeholder="Type your Subject"
+                              />
                               <FormMessage />
                             </FormItem>
                           )}

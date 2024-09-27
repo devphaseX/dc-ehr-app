@@ -14,19 +14,43 @@ import { addBase64Prefix, cn } from "@/lib/utils";
 import { useUnbookmarkResource } from "@/features/api/mutation/use-resource-unbookmark";
 import { ResourceFile } from "@/lib/response";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useJwtToken } from "@/providers/auth";
 
 type Props = {
   data: ResourceFile;
 };
 
 export const ResourceFileCard = ({ data }: Props) => {
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = `/api/v1/Resource/DownloadResourceFile/${data.fileId}`;
-    link.download = data.fileName || "download";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const { jwt } = useJwtToken();
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(
+        `/api/v1/Resource/DownloadResourceFile/${data.fileId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        toast.error("failed to download file");
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = data.fileName || "download";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
   };
 
   return (
