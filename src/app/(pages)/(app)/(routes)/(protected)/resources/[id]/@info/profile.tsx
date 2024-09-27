@@ -84,7 +84,7 @@ export const AuthorProfile = ({ user }: { user: User }) => {
             </div>
           </div>
           <Link
-            href={`/author-profile/${user.userName}?prevUrl=${currentPath}`}
+            href={`/author-profile/${user.userName}`}
             className="w-full h-fit flex items-center justify-center px-6 py-[14px] text-base text-white font-semibold
     rounded-[48px] bg-primary-500 text-center"
           >

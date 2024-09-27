@@ -28,6 +28,11 @@ const Info = async ({ params }: { params: { id: string } }) => {
   }
 
   const user = await getAuthorProfile(resource.username);
+
+  if (!user) {
+    return redirect("/");
+  }
+
   return <AuthorProfile user={user} />;
 };
 
