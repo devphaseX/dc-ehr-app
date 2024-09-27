@@ -2,7 +2,7 @@ import { Container } from "@/components/container";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ErrorPage() {
+export default function NotFoundPage() {
   return (
     <div className="bg-neutral-50 flex-1 py-[68px] pb-[145px] px-[120px] flex flex-col">
       <Container className="bg-white rounded-[12px] py-[145px] px-[310px]  flex-1  flex flex-col items-center justify-center">
