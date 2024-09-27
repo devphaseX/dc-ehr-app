@@ -30,7 +30,6 @@ export const useGetAuthorPublishCount = (userId?: string) => {
 
       return data?.responseData!;
     },
-
     enabled: typeof userId === "string",
   });
 };

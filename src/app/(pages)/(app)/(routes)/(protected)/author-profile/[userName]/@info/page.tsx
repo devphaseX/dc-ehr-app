@@ -8,6 +8,10 @@ const Info = async ({ params }: { params: { userName: string } }) => {
 
   const author = await getAuthorProfile(userName);
 
+  if (!author) {
+    return redirect("/");
+  }
+
   return <AuthorProfile user={author} />;
 };
 

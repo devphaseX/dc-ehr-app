@@ -27,6 +27,7 @@ export const ProfileActionTab = ({ userId }: { userId: string }) => {
     ]).withDefault("publications"),
   );
 
+  console.log({ userId });
   const { data, isLoading } = useGetAuthorPublishCount(userId);
 
   const items: Array<TabItem> = [

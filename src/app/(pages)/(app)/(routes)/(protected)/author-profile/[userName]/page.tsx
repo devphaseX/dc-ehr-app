@@ -1,6 +1,7 @@
 import { BookPublicationContent } from "@/app/(pages)/(app)/__components/book-publication-content";
 import { ProfileActionTab } from "./tab-meta";
 import { getAuthorProfile } from "@/features/query/get-author-profile";
+import { redirect } from "next/navigation";
 
 const BookPublications = async ({
   params,
@@ -9,7 +10,9 @@ const BookPublications = async ({
 }) => {
   const { userName } = params;
   const author = await getAuthorProfile(userName);
-
+  if (!author) {
+    return redirect("/");
+  }
   return (
     <div className="max-w-[855px] w-full bg-white rounded-[24px] min-h-full">
       <div className="p-8 h-full">
