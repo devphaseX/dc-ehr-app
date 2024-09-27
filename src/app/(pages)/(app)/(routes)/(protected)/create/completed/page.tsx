@@ -31,6 +31,8 @@ import { addMinutes, isWithinInterval } from "date-fns";
 import { getUser } from "@/features/query/get-user";
 import { ContentCard } from "@/components/content-card";
 import { addBase64Prefix } from "@/lib/utils";
+import { getServerResource } from "@/features/query/get-resource";
+import tryit from "@/lib/tryit";
 
 const CompleteResourcePage = async ({
   searchParams,
@@ -47,22 +49,13 @@ const CompleteResourcePage = async ({
     return redirect("/sign-in");
   }
 
-  const { data } = await serverApi.get(
-    `/Resource/GetResource/${searchParams.resourceId}`,
-    {
-      validateResponse: (data) => getResourceResSchema.parse(data),
-    },
+  const [resource, err] = await tryit(
+    getServerResource(searchParams.resourceId),
   );
 
-  if (!data) {
-    throw new Error("failed to fetch");
+  if (err) {
+    return redirect("/");
   }
-
-  if (data.responseCode !== 200) {
-    throw new Error("failed to fetch");
-  }
-
-  const resource = data.responseData!;
 
   const resourceUrl = `/resources/${resource.id}`;
 

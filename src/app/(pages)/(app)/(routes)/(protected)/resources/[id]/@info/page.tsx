@@ -18,11 +18,12 @@ import { getServerResource } from "@/features/query/get-resource";
 import { getAuthorProfile } from "@/features/query/get-author-profile";
 import Link from "next/link";
 import { AuthorProfile } from "./profile";
+import tryit from "@/lib/tryit";
 
 const Info = async ({ params }: { params: { id: string } }) => {
-  const resource = await getServerResource(params.id);
+  const [resource, err] = await tryit(getServerResource(params.id));
 
-  if (!resource) {
+  if (!(resource || err)) {
     return redirect("/");
   }
 

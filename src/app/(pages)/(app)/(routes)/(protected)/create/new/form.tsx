@@ -46,7 +46,7 @@ export const NewResourceForm = () => {
   const form = useForm<NewResource & { tag?: string }>({
     resolver: zodResolver(
       createNewResourceSchema.extend({
-        tag: z.string().min(3).optional(),
+        tag: z.string(),
       }),
     ),
     defaultValues: { fileName: "", files: [], tags: [] },
@@ -191,7 +191,7 @@ export const NewResourceForm = () => {
                                       tag: field.value!,
                                     });
 
-                                    form.setValue("tag", undefined);
+                                    form.setValue("tag", "");
                                   }
                                 }}
                               />
@@ -278,21 +278,6 @@ export const NewResourceForm = () => {
                                 placeholder="Type your text here"
                               />
 
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          name="licenses"
-                          control={form.control}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel text="Licenses" />
-                              <FormInput
-                                {...field}
-                                placeholder="Select your education categories"
-                              />
                               <FormMessage />
                             </FormItem>
                           )}
