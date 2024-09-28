@@ -42,6 +42,8 @@ export const NewResourceForm = () => {
     resourceId: string;
   };
 
+  const { setPost, post } = useNewResourceStore();
+
   // const subjects = Array.from(new Set(subjectsPayload));
   const form = useForm<NewResource & { tag?: string }>({
     resolver: zodResolver(
@@ -49,7 +51,7 @@ export const NewResourceForm = () => {
         tag: z.string(),
       }),
     ),
-    defaultValues: { fileName: "", files: [], tags: [] },
+    defaultValues: { fileName: "", files: [], tags: [], ...post },
   });
 
   const router = useRouter();
@@ -76,18 +78,19 @@ export const NewResourceForm = () => {
     form.setValue("files", nextState);
   };
 
-  const { setPost } = useNewResourceStore();
   return (
     <div className="bg-neutral-50 min-h-full pt-14 pb-[445px]">
       <Container>
         <div>
-          <Link
-            href="/security-questions"
+          <Button
+            onClick={() => {
+              router.back();
+            }}
             className="text-primary-500 text-sm flex items-center gap-x-2 mb-8"
           >
             <ChevronLeft className="size-5" />
             Back
-          </Link>
+          </Button>
 
           <div className="bg-white rounded-[12px] p-[48px]">
             <div className="max-w-[789px] w-full mx-auto space-y-[48px]">
