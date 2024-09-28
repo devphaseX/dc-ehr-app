@@ -32,7 +32,7 @@ const Layout = ({ info, children, settings, editProfile }: Props) => {
 
         <div className="flex gap-x-6">
           {info}
-          <div className="flex-1 relative">
+          <div className="flex-1 relative flex flex-col">
             {tab === "settings"
               ? settings
               : tab === "edit-profile"

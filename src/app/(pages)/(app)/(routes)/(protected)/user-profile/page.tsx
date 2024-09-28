@@ -24,14 +24,14 @@ const BookPublications = async () => {
   }
 
   return (
-    <div className="max-w-[855px] w-full bg-white rounded-[24px]">
+    <div className="max-w-[855px] w-full bg-white rounded-[24px] flex-1">
       <div className="p-8 h-full">
         <div className="space-y-8">
           <h3 className="font-semibold text-[40px] leading-[54px] text-neutral-800">
             Profile
           </h3>
           <ProfileActionTab userId={user.id} />
-          <BookPublicationContent username={user.userName} />
+          <BookPublicationContent username={user.userName} isOwner />
         </div>
       </div>
     </div>

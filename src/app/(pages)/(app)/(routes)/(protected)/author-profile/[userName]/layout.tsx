@@ -42,7 +42,7 @@ const Layout = (props: Props) => {
 
         <div className="flex gap-x-6">
           {info}
-          <div className="flex-1 relative">{children}</div>
+          <div className="flex-1 relative flex flex-col">{children}</div>
         </div>
       </Container>
     </div>

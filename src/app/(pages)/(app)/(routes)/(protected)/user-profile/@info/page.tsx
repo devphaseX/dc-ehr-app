@@ -39,7 +39,7 @@ const Info = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-6 max-w-[320px] w-full min-h-full">
+    <div className="flex flex-col gap-y-6 max-w-[320px] w-full flex-1">
       <Card
         className="rounded-[24px] border border-neutral-100 p-0
       overflow-hidden shadow-none border-none drop-shadow-none"

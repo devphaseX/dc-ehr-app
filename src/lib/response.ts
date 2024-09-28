@@ -149,7 +149,8 @@ export const resourcePayload = z
     userId: z.string().min(1),
     email: z.string().email(),
     username: z.string().min(1),
-    resourceImage: z.string().min(1),
+    resourceImage: z.string().min(1).optional(),
+    resourceThumbnail: z.string().min(1).optional(),
     profilePicture: z.string().min(1).nullable(),
     description: z.string().min(1),
     tags: z.array(z.string().nullable()),
@@ -161,6 +162,7 @@ export const resourcePayload = z
       resourceId,
       resourceName,
       resourceImage,
+      resourceThumbnail,
       userId,
       username,
       profilePicture,
@@ -183,7 +185,7 @@ export const resourcePayload = z
         categoryId,
         category,
         subject,
-        resourceImage,
+        resourceImage: (resourceImage ?? resourceThumbnail)!,
         tags:
           tags?.filter((data): data is string => typeof data === "string") ??
           [],
