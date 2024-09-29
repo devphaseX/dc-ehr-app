@@ -9,6 +9,7 @@ import { getUser } from "@/features/query/get-user";
 import Link from "next/link";
 import { Footer } from "../../(app)/(home)/__components/footer";
 import { setJwt } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 const ConfirmEmailVerify = async ({
   searchParams: { token, userId },
@@ -56,6 +57,7 @@ const ConfirmEmailVerify = async ({
                   setToken={async () => {
                     "use server";
                     setJwt(token);
+                    revalidatePath("/verify-email");
                   }}
                 />
               )}
