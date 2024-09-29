@@ -21,7 +21,7 @@ const Layout = ({ navbar, children }: LayoutProps) => {
         {navbar}
       </div>
       <div
-        className="relative h-1 flex-1"
+        className="relative h-1 flex-1 flex flex-col"
         style={{
           paddingTop: `${navBarHeight}px`,
         }}

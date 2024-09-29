@@ -26,7 +26,7 @@ const ConfirmEmailVerify = async ({
   }
 
   return (
-    <div className="absolute inset-0">
+    <div className="flex-1">
       <div className="flex flex-col justify-between h-full">
         <div className="w-full flex justify-center pt-24">
           <div className="space-y-8 max-w-[506px]">

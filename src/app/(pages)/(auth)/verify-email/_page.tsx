@@ -9,15 +9,15 @@ const CompleteAccountPage = async ({
 }: {
   searchParams: { token: string; userId: string };
 }) => {
-  if (!(token && userId)) {
-    return redirect("/");
-  }
+  // if (!(token && userId)) {
+  //   return redirect("/");
+  // }
 
   let user = await getUser();
 
-  if (user && user.isVerified) {
-    return redirect("/");
-  }
+  // if (user && user.isVerified) {
+  //   return redirect("/");
+  // }
 
   const result = await verifyEmailAction({ userId, token });
 

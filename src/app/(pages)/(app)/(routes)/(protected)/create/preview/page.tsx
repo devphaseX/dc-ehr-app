@@ -52,15 +52,15 @@ const PreviewNewResourcePage = () => {
     <div className="bg-neutral-50 min-h-full pt-14 pb-[445px]">
       <Container>
         <div>
-          <Button
+          <div
             onClick={() => {
               router.back();
             }}
-            className="text-primary-500 text-sm flex items-center gap-x-2 mb-8"
+            className="text-primary-500 text-sm flex items-center gap-x-2 mb-8 cursor-pointer"
           >
             <ChevronLeft className="size-5" />
             Back
-          </Button>
+          </div>
 
           <div className="bg-white rounded-[12px] p-[48px]">
             <div className="max-w-[789px] w-full mx-auto space-y-[48px]">
